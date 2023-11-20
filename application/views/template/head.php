@@ -5,20 +5,20 @@
     <link rel="icon" type="image/png" href="<?= base_url() ?>argon/assets/img/favicon.png">
     <title><?= $judul ?></title>
     <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" /> -->
     <!-- Nucleo Icons -->
     <link href="<?= base_url() ?>argon/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="<?= base_url() ?>argon/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> -->
     <link href="<?= base_url() ?>argon/assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- CSS Files -->
-    <link id="pagestyle" href="<?= base_url() ?>argon/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
     <!-- jQuery -->
-    <script src="http://localhost/uang/AdminLTE_3/plugins/jquery/jquery.min.js"></script>
+    <script src="<?= base_url() ?>extra-libs/jquery/jquery.min.js"></script>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= base_url() ?>extra-libs/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>extra-libs/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>extra-libs/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="<?= base_url() ?>argon/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
     <link rel="stylesheet" href="<?= base_url() ?>extra-libs/mystyle.css">
 </head>

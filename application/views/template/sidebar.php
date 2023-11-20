@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="<?= base_url('argon')?>pages/tables.html">
+                <a class="nav-link " href="<?= base_url('karyawan')?>">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
@@ -32,7 +32,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " href="<?= base_url('argon')?>pages/billing.html">
+                <a class="nav-link " href="<?= base_url('absensi')?>">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
@@ -44,7 +44,7 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Admin</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="<?= base_url('argon')?>pages/profile.html">
+                <a class="nav-link " href="<?= base_url('argon')?>">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
