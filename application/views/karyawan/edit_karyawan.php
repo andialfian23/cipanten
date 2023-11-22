@@ -2,18 +2,19 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                Tambah Data Karyawan Baru
+                Edit Data Karyawan Baru
             </div>
             <div class="card-body">
 
-                <form action="<?= base_url('karyawan/create') ?>" method="POST" enctype="multipart/form-data">
+                <form action="<?= base_url('karyawan/update/'.$karyawan->id_karyawan) ?>" method="POST"
+                    enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-6 p-4 border">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="id_karyawan" class="form-control-label">ID Karyawan</label>
-                                        <input class="form-control" type="text" value="<?= set_value('id_karyawan') ?>"
+                                        <input class="form-control" type="text" value="<?= $karyawan->id_karyawan ?>"
                                             name="id_karyawan" id="id_karyawan" placeholder="010101">
                                         <?= form_error('id_karyawan', '<small class="text-danger">', '</small>') ?>
                                     </div>
@@ -23,7 +24,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="nama" class="form-control-label">Nama Karyawan</label>
-                                        <input class="form-control" type="text" value="<?= set_value('nama') ?>"
+                                        <input class="form-control" type="text" value="<?= $karyawan->nama ?>"
                                             name="nama" id="nama">
                                         <?= form_error('nama', '<small class="text-danger">', '</small>') ?>
                                     </div>
@@ -34,7 +35,8 @@
                                     <div class="form-group">
                                         <label for="jk" class="form-control-label">Jenis Kelamin</label>
                                         <select class="form-control" name="jk" id="jk">
-                                            <option value="" hidden>-- Pilih Jenis Kelamin --</option>
+                                            <option value="<?= $karyawan->jk ?>" hidden>
+                                                <?= ($karyawan->jk=='L')?'Laki-laki':'Perempuan' ?></option>
                                             <option value="L">Laki Laki</option>
                                             <option value="P">Perempuan</option>
                                         </select>
@@ -46,7 +48,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="tgl_lahir" class="form-control-label">Tanggal Lahir</label>
-                                        <input class="form-control" type="date" value="<?= set_value('tgl_lahir') ?>"
+                                        <input class="form-control" type="date" value="<?= $karyawan->tgl_lahir ?>"
                                             name="tgl_lahir" id="tgl_lahir">
                                     </div>
                                 </div>
@@ -55,7 +57,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="alamat" class="form-control-label">Alamat</label>
-                                        <input class="form-control" type="text" value="<?= set_value('alamat') ?>"
+                                        <input class="form-control" type="text" value="<?= $karyawan->alamat ?>"
                                             name="alamat" id="alamat" placeholder="Desa .... Kec ... Kab ....">
                                         <?= form_error('alamat', '<small class="text-danger">', '</small>') ?>
                                     </div>
@@ -65,7 +67,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="no_hp" class="form-control-label">No. HP</label>
-                                        <input class="form-control" type="text" value="<?= set_value('no_hp') ?>"
+                                        <input class="form-control" type="text" value="<?= $karyawan->no_hp ?>"
                                             name="no_hp" id="no_hp" placeholder="085XXXXXXXXX">
                                         <?= form_error('no_hp', '<small class="text-danger">', '</small>') ?>
                                     </div>
@@ -87,7 +89,8 @@
                                     <div class="form-group">
                                         <label for="jabatan" class="form-control-label">Jabatan</label>
                                         <select class="form-control" name="jabatan" id="jabatan">
-                                            <option value="" hidden>-- Pilih Jabatan --</option>
+                                            <option value="<?= $karyawan->id_jabatan ?>" hidden>
+                                                <?= $karyawan->nama_jabatan ?></option>
                                             <option value="1">STAFF</option>
                                             <option value="2">SUPERVISOR</option>
                                             <option value="3">ASSISTEN CHIEF</option>
@@ -101,7 +104,8 @@
                                     <div class="form-group">
                                         <label for="departemen" class="form-control-label">Departemen</label>
                                         <select class="form-control" name="departemen" id="departemen">
-                                            <option value="" hidden>-- Pilih Departemen --</option>
+                                            <option value="<?= $karyawan->id_dept ?>" hidden><?= $karyawan->nama_dept ?>
+                                            </option>
                                             <option value="1">IT</option>
                                         </select>
                                         <?= form_error('departemen', '<small class="text-danger">', '</small>') ?>
@@ -112,7 +116,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="join_at" class="form-control-label">Gabung Sejak</label>
-                                        <input class="form-control" type="date" value="<?= set_value('join_at') ?>"
+                                        <input class="form-control" type="date" value="<?= $karyawan->join_at ?>"
                                             name="join_at" id="join_at">
                                         <?= form_error('join_at', '<small class="text-danger">', '</small>') ?>
                                     </div>

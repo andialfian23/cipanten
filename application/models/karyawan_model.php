@@ -4,11 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class karyawan_model extends CI_Model {
     
     public function get_karyawan($id=null){
-        if($id==null){
-            return $this->db->get('t_karyawan');
-        }else{
-            return $this->db->get_where('t_karyawan',['id_karyawan'=>$id]);
+        $this->db->select('k.*, nama_jabatan, nama_dept')
+                ->from('t_karyawan k')
+                ->join('t_jabatan j','k.id_jabatan=j.id_jabatan','LEFT')
+                ->join('t_dept d','k.id_dept=d.id_dept','LEFT');
+        if($id!=null){
+            $this->db->where(['id_karyawan'=>$id]);
         }
+        
+        return $this->db->get();
     }
 }
 

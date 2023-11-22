@@ -9,9 +9,6 @@
     <!-- Nucleo Icons -->
     <link href="<?= base_url() ?>argon/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="<?= base_url() ?>argon/assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <!-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> -->
-    <link href="<?= base_url() ?>argon/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- jQuery -->
     <script src="<?= base_url() ?>extra-libs/jquery/jquery.min.js"></script>
     <!-- DataTables -->

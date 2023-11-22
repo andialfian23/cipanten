@@ -43,6 +43,7 @@ class karyawan extends CI_Controller {
                 'tgl_lahir' => $this->input->post('tgl_lahir',true),
                 'alamat' => $this->input->post('alamat',true),
                 'no_hp' => $this->input->post('no_hp',true),
+                'foto' => null,
                 'join_at' => $this->input->post('join_at',true),
                 'id_jabatan' => $this->input->post('jabatan',true),
                 'id_dept' => $this->input->post('departemen',true),
@@ -59,10 +60,12 @@ class karyawan extends CI_Controller {
         if($id==null){
             redirect(base_url('karyawan'));
         }
+        
         $notif = ['required'=> "{field} Harus di isi"];
         $this->form_validation->set_rules('id_karyawan', 'ID Karyawan', 'trim|required', $notif);
         $this->form_validation->set_rules('nama', 'Nama', 'trim|required', $notif);
         $this->form_validation->set_rules('jk', 'Jenis Kelamin', 'trim|required',$notif);
+        $this->form_validation->set_rules('foto', 'Foto', 'trim');
         $this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir', 'trim');
         $this->form_validation->set_rules('alamat', 'Alamat', 'trim|required', $notif);
         $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required', $notif);
@@ -77,7 +80,7 @@ class karyawan extends CI_Controller {
             $data['view'] = 'karyawan/edit_karyawan';
             $this->load->view('index',$data);
         }else{
-            $values = [
+            $set = [
                 'id_karyawan' => $this->input->post('id_karyawan',true),
                 'nama' => $this->input->post('nama',true),
                 'jk' => $this->input->post('jk',true),
@@ -85,12 +88,13 @@ class karyawan extends CI_Controller {
                 'alamat' => $this->input->post('alamat',true),
                 'no_hp' => $this->input->post('no_hp',true),
                 'join_at' => $this->input->post('join_at',true),
-                'id_jabatan' => $this->input->post('id_jabatan',true),
-                'id_dept' => $this->input->post('id_dept',true),
+                'id_jabatan' => $this->input->post('jabatan',true),
+                'id_dept' => $this->input->post('departemen',true),
                 'status' => 'Aktif',
                 'updated_at' => date('Y-m-d'),
             ];
-            $this->global_model->insert_data('t_karyawan',$values);
+            $where = ['id_karyawan'=>$id];
+            $this->global_model->update_data('t_karyawan',$set,$where);
             redirect(base_url('karyawan'));
         }
         

@@ -1,3 +1,7 @@
+* {
+	font-family: Arial !important;
+}
+
 .dataTables_info,
 .dataTables_length label,
 .dataTables_filter label {
@@ -7,6 +11,7 @@
 table td {
 	padding-top: 1px;
 	vertical-align: middle !important;
+	border: 1px solid gray !important;
 }
 
 .pagination .page-item .page-link {
@@ -33,6 +38,12 @@ table td {
 }
 
 .btn {
-	margin: 2px !important;
-	padding: 6px 10px !important;
+	margin: 1px !important;
+	padding: 2px 5px !important;
+}
+
+.navbar-vertical.navbar-expand-xs .navbar-collapse {
+	display: block;
+	overflow: auto;
+	height: 100% !important;
 }
