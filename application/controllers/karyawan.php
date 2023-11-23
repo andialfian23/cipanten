@@ -108,4 +108,28 @@ class karyawan extends CI_Controller {
         $this->global_model->delete_data('t_karyawan',$where);
         redirect(base_url('karyawan'));
     }
+
+    public function detail(){
+        $id_karyawan = $_POST['nik'];
+        $karyawan = $this->karyawan->get_karyawan($id_karyawan)->row();
+        $output = [];
+        $detail = [
+            'nik' => $karyawan->id_karyawan,
+            'nama' => $karyawan->nama,
+            'foto' => $karyawan->foto,
+            'jk' => ($karyawan->jk=='L')?'Laki - laki':'Perempuan',
+            'tgl_lahir' => date('d M Y',strtotime($karyawan->tgl_lahir)),
+            'alamat' => $karyawan->alamat,
+            'no_hp' => $karyawan->no_hp,
+            'jabatan' => $karyawan->nama_jabatan,
+            'join_at' => date('d M Y',strtotime($karyawan->join_at)),
+            'status' => $karyawan->status,
+        ];
+        
+        $output = [
+            'status' =>1,
+            'data' => $detail
+        ];
+        echo json_encode($output);
+    }
 }

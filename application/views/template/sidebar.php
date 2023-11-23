@@ -40,7 +40,7 @@
 
                  <li class="nav-item">
                      <a href="<?= base_url('absensi') ?>" class="nav-link text-white">
-                         <i class="nav-icon fas fa-users"></i>
+                         <i class="nav-icon fas fa-file"></i>
                          <p>Data Absensi</p>
                      </a>
                  </li>

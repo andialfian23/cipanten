@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <div class="card">
+        <div class="card card-primary card-outline">
             <div class="card-header">
                 Tambah Data Karyawan Baru
             </div>
