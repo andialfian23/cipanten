@@ -69,9 +69,4 @@ class scan_qr extends CI_Controller {
 
         echo json_encode($output);
     }
-
-    public function test(){
-        $output = $this->global_model->buat_qrcode(160099);
-        echo json_encode($output);
-    }
 }

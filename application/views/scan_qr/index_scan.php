@@ -25,6 +25,28 @@
 
                     </div>
                 </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive p-2">
+                            <table class="table table-bordered table-striped table-hover table-sm" border="2"
+                                id="tbl-absensi">
+                                <thead class="bg-dark text-white">
+                                    <tr>
+                                        <th class="font-weight-bolder">No</th>
+                                        <th class="font-weight-bolder">NIK</th>
+                                        <th class="font-weight-bolder">Nama</th>
+                                        <th class="font-weight-bolder">Jabatan</th>
+                                        <th class="font-weight-bolder">Tanggal</th>
+                                        <th class="font-weight-bolder">Masuk</th>
+                                        <th class="font-weight-bolder">Pulang</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -35,7 +57,7 @@
 <script type="text/javascript">
 var arg = {
     resultFunction: function(result) {
-        var redirect = '<?= base_url("Admin/scan") ?>';
+        var redirect = '<?= base_url("scan_qr/proses_scan") ?>';
         $.redirectPost(redirect, {
             no_qr: result.code //no_qr
         });
@@ -63,4 +85,39 @@ $.extend({
 //CONFIGURASI CAMERA
 decoder.options.zoom = 0;
 decoder.options.flipHorizontal = true;
+
+function load_data() {
+    $.ajax({
+        url: '<?= base_url('json/absensi') ?>',
+        type: 'GET',
+        dataType: 'json',
+        success: function(res) {
+            $('#tbl-absensi tbody').empty();
+            let no = 1;
+            let tbody = [];
+            $.each(res.data, function(i, row) {
+                tbody[i] = `
+                            <tr>
+                                <td>` + no + `</td>
+                                <td>` + row.id_karyawan + `</td>
+                                <td>` + row.nama + `</td>
+                                <td>` + row.nama_jabatan + `</td>
+                                <td>` + row.tanggal + `</td>
+                                <td>` + row.waktu_masuk + `</td>
+                                <td>` + row.waktu_pulang + `</td>
+                            </tr>
+                            `;
+                no++;
+            });
+            $('#tbl-absensi tbody').append(tbody.join(''));
+        },
+        complete: function() {
+            $('#tbl-absensi').DataTable();
+        }
+    });
+}
+
+$(function() {
+    load_data();
+});
 </script>
