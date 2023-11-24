@@ -46,6 +46,13 @@
                  </li>
 
                  <li class="nav-item">
+                     <a href="<?= base_url('gaji') ?>" class="nav-link text-white">
+                         <i class="nav-icon fas fa-file"></i>
+                         <p>Data Penggajian</p>
+                     </a>
+                 </li>
+
+                 <li class="nav-item">
                      <a href="<?= base_url('users') ?>" class="nav-link text-white">
                          <i class="nav-icon fas fa-users"></i>
                          <p>Users</p>

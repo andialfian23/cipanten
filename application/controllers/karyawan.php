@@ -132,4 +132,19 @@ class karyawan extends CI_Controller {
         ];
         echo json_encode($output);
     }
+
+    public function buat_qr(){
+        $nik = $_POST['nik'];
+        $qrcode = $this->global_model->buat_qrcode($nik);
+        echo json_encode($qrcode);
+    }
+
+    public function id_card($nik=null){
+        if($nik==null){
+            redirect(base_url('karyawan'));
+        }
+
+        $data['karyawan'] = $this->karyawan->get_karyawan($nik)->row();
+        $this->load->view('karyawan/id_card',$data);
+    }
 }

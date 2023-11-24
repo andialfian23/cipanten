@@ -67,8 +67,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-4">
-                        <img src="#" alt="" class="img-thumbnail" />
-
+                        <img src="#" alt="" class="img-thumbnail" id="img-preview" />
                     </div>
                     <div class="col-lg-8">
                         <table class="table table-bordered table-sm" width="100%">
@@ -110,6 +109,8 @@
             </div>
             <div class="modal-footer  bg-gradient-navy">
                 <button type="submit" class="btn bg-gradient-primary" id="create-qr">Buat QRCode</button>
+                <a href="#" class="btn bg-gradient-success" id="btn-print-card">Cetak
+                    Kartu</a>
                 <button type="button" class="btn bg-gradient-danger" data-dismiss="modal">Keluar</button>
             </div>
         </div>
@@ -130,6 +131,9 @@ $(function() {
             },
             dataType: 'json',
             success: function(res) {
+                $('#img-preview').removeAttr('src');
+                $('#img-preview').attr('src', '<?= base_url('images/foto/') ?>' + res
+                    .data.foto);
                 $('#nik').html(res.data.nik);
                 $('#nama').html(res.data.nama);
                 $('#jk').html(res.data.jk);
@@ -139,6 +143,24 @@ $(function() {
                 $('#jabatan').html(res.data.jabatan);
                 $('#join_at').html(res.data.join_at);
                 $('#status').html(res.data.status);
+
+                $('#btn-print-card').removeAttr('href');
+                $('#btn-print-card').attr('href',
+                    '<?= base_url('karyawan/id_card/') ?>' + res.data.nik);
+            }
+        });
+    });
+
+    $(document).on('click', '#create-qr', function() {
+        $.ajax({
+            url: '<?= base_url('karyawan/buat_qr') ?>',
+            type: 'POST',
+            data: {
+                nik: $('#nik').text(),
+            },
+            dataType: 'json',
+            success: function(res) {
+                $('#img-preview').attr('src', '<?= base_url('images/qrcode/') ?>' + res);
             }
         });
     });
