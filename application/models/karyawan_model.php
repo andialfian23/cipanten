@@ -14,6 +14,10 @@ class karyawan_model extends CI_Model {
         
         return $this->db->get();
     }
+
+    public function get_jabatan(){
+        return $this->db->order_by('nama_jabatan','ASC')->get('t_jabatan');
+    }
 }
 
 ?>

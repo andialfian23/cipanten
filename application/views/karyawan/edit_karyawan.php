@@ -91,9 +91,10 @@
                                         <select class="form-control" name="jabatan" id="jabatan">
                                             <option value="<?= $karyawan->id_jabatan ?>" hidden>
                                                 <?= $karyawan->nama_jabatan ?></option>
-                                            <option value="1">STAFF</option>
-                                            <option value="2">SUPERVISOR</option>
-                                            <option value="3">ASSISTEN CHIEF</option>
+                                            <?php foreach($jabatan as $jb): ?>
+                                            <option value="<?= $jb->id_jabatan ?>">
+                                                <?= $jb->nama_jabatan ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                         <?= form_error('jabatan', '<small class="text-danger">', '</small>') ?>
                                     </div>

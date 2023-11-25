@@ -1,11 +1,17 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card card-primary card-outline">
-            <div class="card-header">
-                <h5>Data Karyawan</h5>
+            <div class="card-header d-flex justify-content-between">
+                <div class="">
+                    <h5>Data Karyawan</h5>
+                </div>
+                <div class="ml-auto">
+                    <a href="<?= base_url('karyawan/create') ?>" class="btn bg-gradient-primary">Tambah Data
+                        Karyawan</a>
+                </div>
             </div>
             <div class="card-body px-3 py-3 pb-2">
-                <a href="<?= base_url('karyawan/create') ?>" class="btn btn-primary">Tambah Data Karyawan</a>
+
                 <div class="table-responsive p-2">
                     <table class="table table-bordered table-striped table-hover table-sm" border="2" id="tbl-karyawan">
                         <thead class="bg-gradient-dark text-white">
@@ -41,9 +47,11 @@
                                 <td><?= $row->alamat ?></td>
                                 <td class="text-center align-middle">
                                     <a href="<?= base_url('karyawan/update/'.$row->id_karyawan) ?>"
-                                        class="btn btn-info btn-sm">Edit</a>
+                                        class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                     <a href="<?= base_url('karyawan/delete/'.$row->id_karyawan) ?>"
-                                        class="btn btn-danger btn-sm">Delete</a>
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
+                                            class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
                             <?php $no++; } ?>
@@ -66,8 +74,8 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-4">
-                        <img src="#" alt="" class="img-thumbnail" id="img-preview" />
+                    <div class="col-lg-4 text-center">
+                        <img src="#" alt="" class="img-thumbnail" id="img-preview" width="250px" />
                     </div>
                     <div class="col-lg-8">
                         <table class="table table-bordered table-sm" width="100%">
@@ -109,8 +117,7 @@
             </div>
             <div class="modal-footer  bg-gradient-navy">
                 <button type="submit" class="btn bg-gradient-primary" id="create-qr">Buat QRCode</button>
-                <a href="#" class="btn bg-gradient-success" id="btn-print-card">Cetak
-                    Kartu</a>
+                <a href="#" class="btn bg-gradient-success" id="btn-print-card" target="_blank">Cetak Kartu</a>
                 <button type="button" class="btn bg-gradient-danger" data-dismiss="modal">Keluar</button>
             </div>
         </div>
@@ -121,8 +128,11 @@
 $(function() {
     $('#tbl-karyawan').DataTable();
 
+    $('#btn-print-card').hide();
+
     $(document).on('click', '.btn-view', function() {
         let id = $(this).data('id');
+        $('#btn-print-card').hide();
         $.ajax({
             url: '<?= base_url('karyawan/detail') ?>',
             type: 'POST',
@@ -161,6 +171,7 @@ $(function() {
             dataType: 'json',
             success: function(res) {
                 $('#img-preview').attr('src', '<?= base_url('images/qrcode/') ?>' + res);
+                $('#btn-print-card').show();
             }
         });
     });

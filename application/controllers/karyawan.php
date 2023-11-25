@@ -33,12 +33,13 @@ class karyawan extends CI_Controller {
         if ($this->form_validation->run() == FALSE)
         {
             $data['judul'] = 'Tambah Data Karyawan';
+            $data['jabatan'] = $this->karyawan->get_jabatan()->result();
             $data['view'] = 'karyawan/tambah_karyawan';
             $this->load->view('index',$data);
         }else{
             $values = [
                 'id_karyawan' => $this->input->post('id_karyawan',true),
-                'nama' => $this->input->post('nama',true),
+                'nama' => strtoupper($this->input->post('nama',true)),
                 'jk' => $this->input->post('jk',true),
                 'tgl_lahir' => $this->input->post('tgl_lahir',true),
                 'alamat' => $this->input->post('alamat',true),
@@ -77,12 +78,13 @@ class karyawan extends CI_Controller {
         {
             $data['judul'] = 'Edit Data Karyawan';
             $data['karyawan'] = $this->karyawan->get_karyawan($id)->row();
+            $data['jabatan'] = $this->karyawan->get_jabatan()->result();
             $data['view'] = 'karyawan/edit_karyawan';
             $this->load->view('index',$data);
         }else{
             $set = [
                 'id_karyawan' => $this->input->post('id_karyawan',true),
-                'nama' => $this->input->post('nama',true),
+                'nama' => strtoupper($this->input->post('nama',true)),
                 'jk' => $this->input->post('jk',true),
                 'tgl_lahir' => $this->input->post('tgl_lahir',true),
                 'alamat' => $this->input->post('alamat',true),
@@ -135,7 +137,12 @@ class karyawan extends CI_Controller {
 
     public function buat_qr(){
         $nik = $_POST['nik'];
-        $qrcode = $this->global_model->buat_qrcode($nik);
+        $cek_qr = $this->global_model->cek_qrcode($nik);
+        if($cek_qr->num_rows() > 0){
+            $qrcode = $cek_qr->row()->qrcode;
+        }else{
+            $qrcode = $this->global_model->buat_qrcode($nik);
+        }
         echo json_encode($qrcode);
     }
 

@@ -59,7 +59,7 @@
                     <td>: <?= $karyawan->nama_jabatan ?></td>
                 </tr>
                 <tr>
-                    <td>Departemen</td>
+                    <td>Bagian</td>
                     <td>: <?= $karyawan->nama_dept ?></td>
                 </tr>
             </table>

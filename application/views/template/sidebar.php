@@ -37,27 +37,33 @@
                          <p>Data Karyawan</p>
                      </a>
                  </li>
+                 <li class="nav-item">
+                     <a href="<?= base_url('jabatan') ?>" class="nav-link text-white">
+                         <i class="nav-icon fas fa-crown"></i>
+                         <p>Data Jabatan</p>
+                     </a>
+                 </li>
 
                  <li class="nav-item">
                      <a href="<?= base_url('absensi') ?>" class="nav-link text-white">
-                         <i class="nav-icon fas fa-file"></i>
+                         <i class="nav-icon fas fa-calendar-check"></i>
                          <p>Data Absensi</p>
                      </a>
                  </li>
 
-                 <li class="nav-item">
+                 <!-- <li class="nav-item">
                      <a href="<?= base_url('gaji') ?>" class="nav-link text-white">
-                         <i class="nav-icon fas fa-file"></i>
+                         <i class="nav-icon fas fa-clipboard-list"></i>
                          <p>Data Penggajian</p>
                      </a>
-                 </li>
-
+                 </li> -->
+                 <!-- 
                  <li class="nav-item">
                      <a href="<?= base_url('users') ?>" class="nav-link text-white">
                          <i class="nav-icon fas fa-users"></i>
                          <p>Users</p>
                      </a>
-                 </li>
+                 </li> -->
 
              </ul>
          </nav>

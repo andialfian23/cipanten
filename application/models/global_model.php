@@ -75,6 +75,10 @@ class global_model extends CI_model {
       
         return $qrcode;
     }
+
+    public function cek_qrcode($nik){
+        return $this->db->get_where('t_qrcode',['nilai'=>$nik]);
+    }
 }
 
 ?>
