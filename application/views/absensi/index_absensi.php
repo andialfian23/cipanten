@@ -31,17 +31,15 @@
                                 ?>
                             <tr>
                                 <td class="text-center"><?= $no; ?></td>
-                                <td class="text-center"><?= $row->id_karyawan ?></td>
+                                <td><?= $row->nik ?></td>
                                 <td><?= $row->nama ?></td>
                                 <td><?= $row->nama_jabatan ?></td>
                                 <td><?= $row->tanggal ?></td>
-                                <td><?= $row->waktu_masuk ?></td>
-                                <td><?= $row->waktu_pulang ?></td>
+                                <td><?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_masuk)) ?></td>
+                                <td><?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_pulang)) ?></td>
                                 <td class="text-center align-middle">
-                                    <a href="<?= base_url('absensi/update/'.$row->id_absensi) ?>"
-                                        class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                                    <a href="<?= base_url('absensi/delete/'.$row->id_absensi) ?>"
-                                        class="btn btn-danger btn-sm"
+                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="#" class="btn btn-danger btn-sm"
                                         onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
                                             class="fas fa-trash-alt"></i></a>
                                 </td>

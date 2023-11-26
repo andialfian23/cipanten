@@ -6,7 +6,8 @@
                     <h5>Data Jabatan</h5>
                 </div>
                 <div class="ml-auto">
-                    <a href="<?= base_url('jabatan/create') ?>" class="btn btn-primary">Tambah Data jabatan</a>
+                    <a href="#modal-add" data-toggle="modal" class="btn btn-primary" id="btn-create">Tambah Data
+                        jabatan</a>
                 </div>
             </div>
             <div class="card-body px-3 py-3 pb-2">
@@ -49,8 +50,59 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-add" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title-modal">Tambah Data Jabatan</h5>
+                <button type="button" class="btn btn-close bg-gradient-danger " data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="nama_jabatan">Nama Jabatan</label>
+                    <input type="text" class="form-control" id="nama_jabatan" name="nama_jabatan">
+                    <small id="notif_nama_jabatan" class="text-danger"></small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="id_jabatan" id="id_jabatan">
+                <button type="submit" class="btn bg-gradient-primary" id="btn-save">Simpan</button>
+                <button type="submit" class="btn bg-gradient-primary" id="btn-save-edit">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 $(function() {
     $('#tbl-jabatan').DataTable();
+
+    $(document).on('click', '#btn-create', function() {
+        $(document).find('#btn-save-edit').hide();
+    });
+
+    $(document).on('click', '#btn-save', function() {
+
+        $.ajax({
+            url: '<?= base_url('jabatan/create') ?>',
+            type: 'POST',
+            data: {
+                nama_jabatan: $('#nama_jabatan').val(),
+            },
+            dataType: 'json',
+            success: function(res) {
+                if (res.status == 0) {
+                    console.log('GAGAL INPUT');
+
+                } else {
+                    console.log('BERHASIL INPUT');
+
+                    // window.location.replace('<?= base_url('jabatan') ?>');
+                }
+            }
+        });
+    });
 });
 </script>

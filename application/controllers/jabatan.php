@@ -14,4 +14,40 @@ class jabatan extends CI_Controller {
         $data['view'] = 'jabatan/index_jabatan';
 		$this->load->view('index',$data);
 	}
+
+    public function create(){
+        $this->form_validation->set_rules('nama_jabatan', 'Nama Jabatan', 
+        'trim|required|is_unique[t_jabatan.nama_jabatan]', 
+        ['required'=> "{field} Harus di isi",'is_unique'=> '{field} sudah ada.']);
+       
+        if ($this->form_validation->run() == FALSE)
+        {
+            $output = [
+                'status'=> 0,
+                'form_error' => form_error('nama_jabatan'),
+                'set_value' => set_value('nama_jabatan')
+            ];
+        }else{
+            $values = [
+                'nama_jabatan' => strtoupper($this->input->post('nama_jabatan',true)),
+                ];
+            $this->global_model->insert_data('t_jabatan',$values);
+            $output = [
+                'status'=> 1,
+                'post' => $_POST,
+                'pesan' => 'Berhasil Menyimpan Data Jabatan Baru'
+            ];
+        }
+
+        echo json_encode($output);
+    }
+
+    public function delete($id){
+        if($id==null){
+            redirect(base_url('jabatan'));
+        }
+        $where = ['id_jabatan'=>$id];
+        $this->global_model->delete_data('t_jabatan',$where);
+        redirect(base_url('jabatan'));
+    }
 }

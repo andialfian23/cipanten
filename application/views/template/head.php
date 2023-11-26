@@ -22,6 +22,10 @@
     <!-- jQuery -->
     <script src="<?= base_url() ?>AdminLTE_3/plugins/jquery/jquery.min.js"></script>
 
+    <!-- Toastr -->
+    <link rel="stylesheet" href="<?= base_url() ?>AdminLTE_3/plugins/toastr/toastr.min.css">
+    <script src="<?= base_url() ?>AdminLTE_3/plugins/toastr/toastr.min.js"></script>
+
     <!-- daterange picker -->
     <script src="<?= base_url() ?>AdminLTE_3/plugins/moment/moment.min.js"></script>
     <script src="<?= base_url() ?>AdminLTE_3/plugins/daterangepicker/daterangepicker.js"></script>

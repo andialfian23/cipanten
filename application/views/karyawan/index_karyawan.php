@@ -13,7 +13,8 @@
             <div class="card-body px-3 py-3 pb-2">
 
                 <div class="table-responsive p-2">
-                    <table class="table table-bordered table-striped table-hover table-sm" border="2" id="tbl-karyawan">
+                    <table class="table table-bordered table-striped table-hover table-sm" border="2" id="tbl-karyawan"
+                        width="100%">
                         <thead class="bg-gradient-dark text-white">
                             <tr>
                                 <th class="font-weight-bolder">
@@ -24,7 +25,8 @@
                                 </th>
                                 <th class="font-weight-bolder">Nama</th>
                                 <th class="font-weight-bolder">Jabatan</th>
-                                <th class="font-weight-bolder">Dept</th>
+                                <th class="font-weight-bolder">Bagian</th>
+                                <th class="font-weight-bolder">Gabung Sejak</th>
                                 <th class="font-weight-bolder">No HP</th>
                                 <th class="font-weight-bolder">Alamat</th>
                                 <th>--</th>
@@ -43,9 +45,10 @@
                                 </td>
                                 <td><?= $row->nama_jabatan ?></td>
                                 <td><?= $row->nama_dept ?></td>
+                                <td><?= $row->join_at ?></td>
                                 <td><?= $row->no_hp ?></td>
                                 <td><?= $row->alamat ?></td>
-                                <td class="text-center align-middle">
+                                <td class="text-center align-middle d-flex">
                                     <a href="<?= base_url('karyawan/update/'.$row->id_karyawan) ?>"
                                         class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                     <a href="<?= base_url('karyawan/delete/'.$row->id_karyawan) ?>"
@@ -126,7 +129,9 @@
 
 <script>
 $(function() {
-    $('#tbl-karyawan').DataTable();
+    $('#tbl-karyawan').DataTable({
+        responsive: true,
+    });
 
     $('#btn-print-card').hide();
 
