@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 25 Nov 2023 pada 15.41
+-- Waktu pembuatan: 29 Nov 2023 pada 16.15
 -- Versi server: 10.4.8-MariaDB
 -- Versi PHP: 7.3.11
 
@@ -32,9 +32,7 @@ CREATE TABLE `t_absensi` (
   `id_absensi` int(11) NOT NULL,
   `id_karyawan` varchar(6) NOT NULL,
   `tanggal` date NOT NULL,
-  `shift` int(1) NOT NULL DEFAULT 1,
-  `waktu_masuk` time NOT NULL,
-  `waktu_pulang` time DEFAULT NULL,
+  `waktu` time NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -43,8 +41,12 @@ CREATE TABLE `t_absensi` (
 -- Dumping data untuk tabel `t_absensi`
 --
 
-INSERT INTO `t_absensi` (`id_absensi`, `id_karyawan`, `tanggal`, `shift`, `waktu_masuk`, `waktu_pulang`, `created_at`, `updated_at`) VALUES
-(1, '160099', '2023-11-22', 1, '07:30:00', '17:00:00', '2023-11-22 07:30:00', '2023-11-22 17:00:00');
+INSERT INTO `t_absensi` (`id_absensi`, `id_karyawan`, `tanggal`, `waktu`, `created_at`, `updated_at`) VALUES
+(1, '160099', '2023-11-22', '07:30:00', '2023-11-22 07:30:00', '2023-11-22 07:30:00'),
+(2, '160099', '2023-11-22', '17:00:00', '2023-11-22 00:00:00', '2023-11-22 00:00:00'),
+(3, '160099', '2023-11-26', '21:27:51', '2023-11-26 21:27:51', '2023-11-26 21:27:51'),
+(29, '160099', '2023-11-26', '21:54:46', '2023-11-26 21:54:46', '2023-11-26 21:54:46'),
+(30, '164917', '2023-11-26', '21:59:32', '2023-11-26 21:59:32', '2023-11-26 21:59:32');
 
 -- --------------------------------------------------------
 
@@ -73,18 +75,17 @@ INSERT INTO `t_dept` (`id_dept`, `nama_dept`) VALUES
 CREATE TABLE `t_gaji` (
   `id_gaji` int(11) NOT NULL,
   `nama_gaji` varchar(50) NOT NULL,
-  `nominal` enum('1','0') DEFAULT '1'
+  `gaji_pokok` int(11) NOT NULL,
+  `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `t_gaji`
 --
 
-INSERT INTO `t_gaji` (`id_gaji`, `nama_gaji`, `nominal`) VALUES
-(1, 'Gaji Pokok', '1'),
-(2, 'Intensif', '1'),
-(3, 'Prestasi', '1'),
-(4, 'Uang Shiff', '1');
+INSERT INTO `t_gaji` (`id_gaji`, `nama_gaji`, `gaji_pokok`, `keterangan`) VALUES
+(1, 'Gaji Kantor', 2600000, 'Gaji Bulanan'),
+(2, 'Gaji 40perday', 40000, 'Gaji Harian');
 
 -- --------------------------------------------------------
 
@@ -95,15 +96,16 @@ INSERT INTO `t_gaji` (`id_gaji`, `nama_gaji`, `nominal`) VALUES
 CREATE TABLE `t_gaji_karyawan` (
   `id_gk` int(11) NOT NULL,
   `id_jabatan` int(11) NOT NULL,
-  `id_dept` int(11) NOT NULL
+  `id_dept` int(11) NOT NULL,
+  `id_gaji` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `t_gaji_karyawan`
 --
 
-INSERT INTO `t_gaji_karyawan` (`id_gk`, `id_jabatan`, `id_dept`) VALUES
-(1, 1, 1);
+INSERT INTO `t_gaji_karyawan` (`id_gk`, `id_jabatan`, `id_dept`, `id_gaji`) VALUES
+(1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -122,7 +124,11 @@ CREATE TABLE `t_jabatan` (
 
 INSERT INTO `t_jabatan` (`id_jabatan`, `nama_jabatan`) VALUES
 (1, 'STAFF'),
-(2, 'ADMINISTRATION');
+(2, 'ADMINISTRATION'),
+(3, 'ASISTEN MANAGER'),
+(4, 'MANAGER'),
+(5, 'KETUA'),
+(6, 'ASISTEN KETUA');
 
 -- --------------------------------------------------------
 
@@ -153,29 +159,19 @@ CREATE TABLE `t_karyawan` (
 
 INSERT INTO `t_karyawan` (`id`, `id_karyawan`, `nama`, `jk`, `tgl_lahir`, `alamat`, `no_hp`, `foto`, `id_jabatan`, `id_dept`, `join_at`, `status`, `created_at`, `updated_at`) VALUES
 (2, '167791', 'UNAN AGNAN', 'L', '1991-12-01', 'Kuningan', '08101011991', NULL, 1, 1, '2021-12-21', 'Aktif', '2023-11-21 00:00:00', '2023-11-25 00:00:00'),
-(3, '160092', 'PENDI ANGGA SUKMANA', 'L', '1992-02-02', 'Maja', '0822222222222', NULL, 1, 1, '2012-02-02', 'Aktif', '2023-11-23 00:00:00', '2023-11-25 00:00:00'),
+(3, '166184', 'PENDI ANGGA SUKMANA', 'L', '1992-04-29', 'Maja', '0822222222222', NULL, 1, 1, '2021-12-01', 'Aktif', '2023-11-23 00:00:00', '2023-11-26 00:00:00'),
 (4, '165007', 'JIMI MIKAIL ZAMZAMI', 'L', '1993-05-14', 'Kadipaten', '082170625938', NULL, 1, 1, '2021-11-11', 'Aktif', '2023-11-23 00:00:00', '2023-11-25 00:00:00'),
 (5, '160015', 'GUGUN GUNAWAN', 'L', '1994-05-25', 'Weragati', '08444444444444', NULL, 1, 1, '2022-08-11', 'Aktif', '2023-11-24 00:00:00', '2023-11-25 00:00:00'),
 (6, '160011', 'AJI ARADEA MINTAPRADJA', 'L', '1995-03-20', 'Sumedang', '08555555555555', NULL, 1, 1, '2022-08-04', 'Aktif', '2023-11-24 00:00:00', '2023-11-25 00:00:00'),
 (7, '160096', 'ASEP NURDIANA', 'L', '1996-06-06', 'Simpeureum', '0866666666666', NULL, 1, 1, '2016-06-06', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00'),
-(8, '160099', 'ANDI ALFIAN', 'L', '1999-10-23', 'Sindang', '0882000560334', NULL, 1, 1, '2023-11-19', 'Aktif', '2023-11-19 00:00:00', '2023-11-25 00:00:00'),
+(8, '160099', 'ANDI ALFIAN', 'L', '1999-10-23', 'Sindang', '0882000560334', NULL, 1, 1, '2023-06-05', 'Aktif', '2023-11-19 00:00:00', '2023-11-26 00:00:00'),
 (9, '169000', 'ZAINAL ARIFIN', 'L', '1983-02-04', 'Kadipaten', '088333333333', NULL, 1, 1, '2015-09-04', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00'),
 (10, '168050', 'DENI RISMAYA', 'L', '2002-10-17', 'Majalengka', '08111711100022', NULL, 1, 1, '2021-09-07', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00'),
 (11, '168529', 'MUHAMAD RIZKIYA', 'L', '2003-08-08', 'KADIPATEN', '088880808823', NULL, 1, 1, '2021-12-17', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00'),
-(12, '162497', 'TITIN PRATIWI', 'P', '1987-11-07', 'MAJALENGKA', '08871111987', NULL, 1, 1, '2019-01-14', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `t_potongan_gaji`
---
-
-CREATE TABLE `t_potongan_gaji` (
-  `id_pg` int(11) NOT NULL,
-  `nama_potongan` varchar(50) NOT NULL,
-  `nominal` int(11) NOT NULL,
-  `is_active` enum('1','0') NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+(12, '162497', 'TITIN PRATIWI', 'P', '1987-11-07', 'MAJALENGKA', '08871111987', NULL, 1, 1, '2019-01-14', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00'),
+(13, '164917', 'ABDURRAHMAN SYARIF', 'L', '0000-00-00', 'Kadipaten', '089021319283', NULL, 1, 1, '2014-02-24', 'Aktif', '2023-11-26 00:00:00', '2023-11-26 00:00:00'),
+(14, '160149', 'MUHAMMAD YUSUF IKHSYAN MAULANA HIDAYATULLOH', 'L', '2004-04-24', 'Marongge', '0823874385434', NULL, 1, 1, '2023-10-10', 'Aktif', '2023-11-26 00:00:00', '2023-11-26 00:00:00'),
+(15, '165457', 'DANNY IBRAHIM', 'L', '1987-06-01', 'Cirebon', '08237463278468', NULL, 3, 1, '2021-12-01', 'Aktif', '2023-11-26 00:00:00', '2023-11-26 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -198,40 +194,8 @@ INSERT INTO `t_qrcode` (`id`, `qrcode`, `nilai`, `expired`) VALUES
 (1, '160099.png', '160099', 1700663688),
 (2, '160094.png', '160094', 1700920432),
 (3, '160090.png', '160090', 1700920534),
-(4, '160095.png', '160095', 1700921151);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `t_slip_gaji`
---
-
-CREATE TABLE `t_slip_gaji` (
-  `id_slip_gaji` int(11) NOT NULL,
-  `id_gk` int(11) NOT NULL,
-  `id_gaji` int(11) NOT NULL,
-  `nominal` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `t_slip_gaji`
---
-
-INSERT INTO `t_slip_gaji` (`id_slip_gaji`, `id_gk`, `id_gaji`, `nominal`) VALUES
-(1, 1, 1, 40000);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `t_slip_potongan`
---
-
-CREATE TABLE `t_slip_potongan` (
-  `id_spt` int(11) NOT NULL,
-  `id_gk` int(11) NOT NULL,
-  `id_pg` int(11) NOT NULL,
-  `nominal` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+(4, '160095.png', '160095', 1700921151),
+(5, '164917.png', '164917', 1701097148);
 
 -- --------------------------------------------------------
 
@@ -296,28 +260,10 @@ ALTER TABLE `t_karyawan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `t_potongan_gaji`
---
-ALTER TABLE `t_potongan_gaji`
-  ADD PRIMARY KEY (`id_pg`);
-
---
 -- Indeks untuk tabel `t_qrcode`
 --
 ALTER TABLE `t_qrcode`
   ADD PRIMARY KEY (`id`);
-
---
--- Indeks untuk tabel `t_slip_gaji`
---
-ALTER TABLE `t_slip_gaji`
-  ADD PRIMARY KEY (`id_slip_gaji`);
-
---
--- Indeks untuk tabel `t_slip_potongan`
---
-ALTER TABLE `t_slip_potongan`
-  ADD PRIMARY KEY (`id_spt`);
 
 --
 -- Indeks untuk tabel `t_user`
@@ -333,7 +279,7 @@ ALTER TABLE `t_user`
 -- AUTO_INCREMENT untuk tabel `t_absensi`
 --
 ALTER TABLE `t_absensi`
-  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_dept`
@@ -345,7 +291,7 @@ ALTER TABLE `t_dept`
 -- AUTO_INCREMENT untuk tabel `t_gaji`
 --
 ALTER TABLE `t_gaji`
-  MODIFY `id_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_gaji_karyawan`
@@ -357,37 +303,19 @@ ALTER TABLE `t_gaji_karyawan`
 -- AUTO_INCREMENT untuk tabel `t_jabatan`
 --
 ALTER TABLE `t_jabatan`
-  MODIFY `id_jabatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_jabatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_karyawan`
 --
 ALTER TABLE `t_karyawan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT untuk tabel `t_potongan_gaji`
---
-ALTER TABLE `t_potongan_gaji`
-  MODIFY `id_pg` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_qrcode`
 --
 ALTER TABLE `t_qrcode`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT untuk tabel `t_slip_gaji`
---
-ALTER TABLE `t_slip_gaji`
-  MODIFY `id_slip_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT untuk tabel `t_slip_potongan`
---
-ALTER TABLE `t_slip_potongan`
-  MODIFY `id_spt` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_user`

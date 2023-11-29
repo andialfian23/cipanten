@@ -84,6 +84,8 @@ $(function() {
     });
 
     $(document).on('click', '#btn-save', function() {
+        $('#modal-add input').removeClass('is-invalid');
+        $('#modal-add small').html('');
 
         $.ajax({
             url: '<?= base_url('jabatan/create') ?>',
@@ -94,12 +96,18 @@ $(function() {
             dataType: 'json',
             success: function(res) {
                 if (res.status == 0) {
-                    console.log('GAGAL INPUT');
-
+                    if (res.form_error != null) {
+                        toastr.error(res.pesan);
+                        $('#nama_jabatan').addClass('is-invalid');
+                        $('#nama_jabatan').val(res.set_value);
+                        $('#notif_nama_jabatan').html(res.form_error);
+                        return false;
+                    }
                 } else {
-                    console.log('BERHASIL INPUT');
-
-                    // window.location.replace('<?= base_url('jabatan') ?>');
+                    toastr.success(res.pesan);
+                    setTimeout(() => {
+                        window.location.replace('<?= base_url('jabatan') ?>');
+                    }, 2000);
                 }
             }
         });

@@ -1,4 +1,10 @@
-.nav-link:hover {
+.sidebar .nav-link:hover {
 	background-color: yellow !important;
 	color: navy !important;
+	font-weight: bolder;
+	scale: 1.1;
+}
+
+.nav-link {
+	color: #fff !important;
 }

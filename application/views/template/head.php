@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="<?= base_url() ?>AdminLTE_3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url() ?>AdminLTE_3/dist/css/adminlte.min.css" />
-    <link href="<?= base_url() ?>extra-libs/mystyle.css" />
     <!-- Daterange picker -->
     <link rel="stylesheet" href="<?= base_url() ?>AdminLTE_3/plugins/daterangepicker/daterangepicker.css" />
 
@@ -29,4 +28,6 @@
     <!-- daterange picker -->
     <script src="<?= base_url() ?>AdminLTE_3/plugins/moment/moment.min.js"></script>
     <script src="<?= base_url() ?>AdminLTE_3/plugins/daterangepicker/daterangepicker.js"></script>
+
+    <link rel="stylesheet" href="<?= base_url() ?>extra-libs/mystyle.css" />
 </head>

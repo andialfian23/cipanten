@@ -24,6 +24,7 @@ class jabatan extends CI_Controller {
         {
             $output = [
                 'status'=> 0,
+                'pesan' => 'Gagal menyimpan data jabatan',
                 'form_error' => form_error('nama_jabatan'),
                 'set_value' => set_value('nama_jabatan')
             ];
@@ -34,8 +35,7 @@ class jabatan extends CI_Controller {
             $this->global_model->insert_data('t_jabatan',$values);
             $output = [
                 'status'=> 1,
-                'post' => $_POST,
-                'pesan' => 'Berhasil Menyimpan Data Jabatan Baru'
+                'pesan' => 'Berhasil Menyimpan Data Jabatan'
             ];
         }
 

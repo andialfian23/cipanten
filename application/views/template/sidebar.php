@@ -25,45 +25,54 @@
              <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                  data-accordion="false">
                  <li class="nav-item">
-                     <a href="<?= base_url() ?>" class="nav-link text-white">
+                     <a href="<?= base_url() ?>" class="nav-link ">
                          <i class="nav-icon fas fa-tachometer-alt"></i>
                          <p>Dashboard</p>
                      </a>
                  </li>
 
                  <li class="nav-item">
-                     <a href="<?= base_url('karyawan') ?>" class="nav-link text-white">
+                     <a href="<?= base_url('karyawan') ?>" class="nav-link ">
                          <i class="nav-icon fas fa-users"></i>
                          <p>Data Karyawan</p>
                      </a>
                  </li>
                  <li class="nav-item">
-                     <a href="<?= base_url('jabatan') ?>" class="nav-link text-white">
+                     <a href="<?= base_url('jabatan') ?>" class="nav-link ">
                          <i class="nav-icon fas fa-crown"></i>
                          <p>Data Jabatan</p>
                      </a>
                  </li>
 
                  <li class="nav-item">
-                     <a href="<?= base_url('absensi') ?>" class="nav-link text-white">
+                     <a href="<?= base_url('absensi') ?>" class="nav-link ">
                          <i class="nav-icon fas fa-calendar-check"></i>
                          <p>Data Absensi</p>
                      </a>
                  </li>
-
-                 <!-- <li class="nav-item">
-                     <a href="<?= base_url('gaji') ?>" class="nav-link text-white">
-                         <i class="nav-icon fas fa-clipboard-list"></i>
-                         <p>Data Penggajian</p>
+                 <li class="nav-item menu-open">
+                     <a href="#" class="nav-link">
+                         <i class="nav-icon fas fa-book"></i>
+                         <p>
+                             Data Penggajian
+                             <i class="right fas fa-angle-left"></i>
+                         </p>
                      </a>
-                 </li> -->
-                 <!-- 
-                 <li class="nav-item">
-                     <a href="<?= base_url('users') ?>" class="nav-link text-white">
-                         <i class="nav-icon fas fa-users"></i>
-                         <p>Users</p>
-                     </a>
-                 </li> -->
+                     <ul class="nav nav-treeview">
+                         <li class="nav-item">
+                             <a href="<?= base_url('gaji') ?>" class="nav-link">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Slip Gaji</p>
+                             </a>
+                         </li>
+                         <!-- <li class="nav-item">
+                             <a href="<?= base_url('histori_gaji') ?>" class="nav-link">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Histori Penggajian</p>
+                             </a>
+                         </li> -->
+                     </ul>
+                 </li>
 
              </ul>
          </nav>
