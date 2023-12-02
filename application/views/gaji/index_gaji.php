@@ -3,7 +3,7 @@
         <div class="card card-success card-outline mb-4">
             <div class="card-header d-flex justify-content-between">
                 <div class="">
-                    <h5>Data Slip Gaji</h5>
+                    <h5>Data Gaji</h5>
                 </div>
                 <div class="ml-auto">
                     <a href="#modal-add" data-toggle="modal" class="btn btn-primary" id="btn-create">Tambah Data
@@ -16,6 +16,8 @@
                         <thead class="bg-dark text-white">
                             <tr>
                                 <th class="font-weight-bolder">No</th>
+                                <th class="font-weight-bolder">Bagian</th>
+                                <th class="font-weight-bolder">Jabatan</th>
                                 <th class="font-weight-bolder">Nama Gaji</th>
                                 <th class="font-weight-bolder">Gaji Pokok</th>
                                 <th class="font-weight-bolder">Keterangan</th>
@@ -26,12 +28,9 @@
                             <?php $no=1; foreach($gaji as $row){ ?>
                             <tr>
                                 <td class="text-center"><?= $no; ?></td>
-                                <td>
-                                    <a href="#preview" data-id="<?= $row->id_gaji ?>" data-toggle="modal"
-                                        class="btn-view">
-                                        <?= $row->nama_gaji ?>
-                                    </a>
-                                </td>
+                                <td><?= $row->nama_dept ?></td>
+                                <td><?= $row->nama_jabatan ?></td>
+                                <td><?= $row->nama_gaji ?></td>
                                 <td><?= number_format($row->gaji_pokok) ?></td>
                                 <td><?= $row->keterangan ?></td>
                                 <td class="text-center align-middle">
@@ -64,14 +63,55 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
+                    <label for="nama_dept">Bagian</label>
+                    <select name="nama_dept" id="nama_dept" class="form-control form-control-sm">
+                        <option value="">-- Pilih Bagian --</option>
+                        <?php foreach($dept as $d){ ?>
+                        <option value="<?= $d->id_dept ?>"><?= $d->nama_dept ?></option>
+                        <?php } ?>
+                    </select>
+                    <small id="notif_nama_dept" class="text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="nama_jabatan">Jabatan</label>
+                    <select name="nama_jabatan" id="nama_jabatan" class="form-control form-control-sm">
+                        <option value="">-- Pilih Jabatan --</option>
+                        <?php foreach($jabatan as $d){ ?>
+                        <option value="<?= $d->id_jabatan ?>"><?= $d->nama_jabatan ?></option>
+                        <?php } ?>
+                    </select>
+                    <small id="notif_nama_jabatan" class="text-danger"></small>
+                </div>
+                <div class="form-group">
                     <label for="nama_gaji">Nama Gaji</label>
-                    <input type="text" class="form-control" id="nama_gaji" name="nama_gaji">
+                    <input type="text" class="form-control form-control-sm" id="nama_gaji" name="nama_gaji">
                     <small id="notif_nama_gaji" class="text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label for="gaji_pokok">Gaji Pokok</label>
-                    <input type="number" class="form-control" id="gaji_pokok" name="gaji_pokok">
+                    <div class="input-group input-group-sm">
+                        <input type="number" class="form-control form-control-sm" id="gaji_pokok" name="gaji_pokok">
+                        <span class="input-group-append">
+                            <select name="hitungan_kerja" id="hitungan_kerja" class="form-control form-control-sm">
+                                <option value="Harian">Harian</option>
+                                <option value="Bulanan">Bulanan</option>
+                            </select>
+                        </span>
+                    </div>
                     <small id="notif_gaji_pokok" class="text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="potongan">Potongan</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" class="form-control form-control-sm" id="potongan" name="potongan">
+                        <span class="input-group-append">
+                            <select name="potongan_per" id="potongan_per" class="form-control form-control-sm">
+                                <option value="jam">Per Jam</option>
+                                <option value="hari">Per Hari</option>
+                            </select>
+                        </span>
+                    </div>
+                    <small id="notif_potongan" class="text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label for="keterangan">Keterangan</label>
@@ -88,41 +128,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="preview" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-gradient-navy">
-                <h5 class="modal-title" id="exampleModalLabel">Detail Slip Gaji</h5>
-                <button type="button" class="btn btn-close text-white" aria-label="Close" data-dismiss="modal">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12">
-
-                        <p id="nama_gj" class="text-center"></p>
-
-                        <table class="table table-bordered table-sm" width="100%">
-                            <tr>
-                                <td colspan="1" width="50%">GAJI POKOK</td>
-                                <th id="gj_pokok" width="50%"></th>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p id="ket"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer  bg-gradient-navy">
-                <button type="button" class="btn bg-gradient-danger" data-dismiss="modal">Keluar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
 $(function() {
@@ -133,15 +138,31 @@ $(function() {
     });
 
     $(document).on('click', '#btn-save', function() {
-        $('#modal-add input').removeClass('is-invalid');
+        $('#modal-add input, #modal-add select').removeClass('is-invalid');
         $('#modal-add small').html('');
+
+        if ($('#nama_dept').val() == '') {
+            $('#nama_dept').addClass('is-invalid');
+            $('#notif_nama_dept').html('Bagian Masih belum Dipilih');
+            return false;
+        }
+        if ($('#nama_jabatan').val() == '') {
+            $('#nama_jabatan').addClass('is-invalid');
+            $('#notif_nama_jabatan').html('Jabatan Masih belum Dipilih');
+            return false;
+        }
 
         $.ajax({
             url: '<?= base_url('gaji/create') ?>',
             type: 'POST',
             data: {
+                nama_jabatan: $('#nama_jabatan').val(),
+                nama_dept: $('#nama_dept').val(),
                 nama_gaji: $('#nama_gaji').val(),
                 gaji_pokok: $('#gaji_pokok').val(),
+                hitungan_kerja: $('#hitungan_kerja').val(),
+                potongan: $('#potongan').val(),
+                potongan_per: $('#potongan_per').val(),
                 keterangan: $('#keterangan').val(),
             },
             dataType: 'json',
@@ -159,6 +180,11 @@ $(function() {
                             $('#gaji_pokok').val(res.set_value.gaji_pokok);
                             $('#notif_gaji_pokok').html(res.form_error.gaji_pokok);
                         }
+                        if (res.form_error.potongan != '') {
+                            $('#potongan').addClass('is-invalid');
+                            $('#potongan').val(res.set_value.potongan);
+                            $('#notif_potongan').html(res.form_error.potongan);
+                        }
                         return false;
                     }
                 } else {
@@ -167,22 +193,6 @@ $(function() {
                         window.location.replace('<?= base_url('gaji') ?>');
                     }, 2000);
                 }
-            }
-        });
-    });
-
-    $(document).on('click', '.btn-view', function() {
-        $.ajax({
-            url: '<?= base_url('gaji/get_slip_gaji') ?>',
-            type: 'POST',
-            data: {
-                id: $(this).data('id'),
-            },
-            dataType: 'json',
-            success: function(res) {
-                $('#nama_gj').html(res.gaji.nama_gaji);
-                $('#gj_pokok').html(res.gaji.gaji_pokok);
-                $('#ket').html(res.gaji.keterangan);
             }
         });
     });

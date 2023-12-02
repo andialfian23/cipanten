@@ -62,15 +62,15 @@
                          <li class="nav-item">
                              <a href="<?= base_url('gaji') ?>" class="nav-link">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Slip Gaji</p>
+                                 <p>Data Gaji</p>
                              </a>
                          </li>
-                         <!-- <li class="nav-item">
-                             <a href="<?= base_url('histori_gaji') ?>" class="nav-link">
+                         <li class="nav-item">
+                             <a href="<?= base_url('gaji_karyawan') ?>" class="nav-link">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Histori Penggajian</p>
+                                 <p>Gaji Karyawan</p>
                              </a>
-                         </li> -->
+                         </li>
                      </ul>
                  </li>
 
