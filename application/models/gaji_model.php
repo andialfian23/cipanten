@@ -19,13 +19,20 @@ class gaji_model extends CI_Model {
         return $this->db->get();
     }
 
-    public function get_gaji_karyawan(){
-        return $this->db->select('k.id_karyawan as nik, nama, nama_jabatan, nama_dept, gk.*')
+    public function get_gaji_karyawan($id=null){
+        $this->db->select('k.id_karyawan as nik, nama, nama_jabatan, nama_dept, gk.*, DATE_FORMAT(tanggal,"%d %M %Y") as tgl_gaji, 
+            nama_gaji, gaji_pokok, hitungan_kerja, telat_masuk, tidak_hadir, keterangan')
             ->from('t_gaji_karyawan gk')
+            ->join('t_gaji g','gk.id_gaji=g.id_gaji','LEFT')
             ->join('t_karyawan k','gk.id_karyawan=k.id','LEFT')
             ->join('t_jabatan j','k.id_jabatan=j.id_jabatan','LEFT')
-            ->join('t_dept d','k.id_dept=d.id_dept','LEFT')
-            ->order_by('id_karyawan','ASC')
-            ->get();
+            ->join('t_dept d','k.id_dept=d.id_dept','LEFT');
+
+        if($id==null){
+            $this->db->order_by('id_karyawan','ASC');
+        }else{
+            $this->db->where('id_gk',$id);
+        }
+        return $this->db->get();
     }
 }

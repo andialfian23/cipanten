@@ -27,7 +27,8 @@ class gaji extends CI_Controller {
         ];
         $this->form_validation->set_rules('nama_gaji', 'Nama Gaji', 'trim|required', $notif);
         $this->form_validation->set_rules('gaji_pokok', 'Gaji Pokok', 'trim|required|numeric', $notif);
-        $this->form_validation->set_rules('potongan', 'Potongan', 'trim|required|numeric', $notif);
+        $this->form_validation->set_rules('telat_masuk', 'Potongan', 'trim|numeric', $notif);
+        $this->form_validation->set_rules('tidak_hadir', 'Potongan', 'trim|numeric', $notif);
         $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim',$notif);
         
         if ($this->form_validation->run() == FALSE){
@@ -37,13 +38,16 @@ class gaji extends CI_Controller {
                 'form_error' => [
                     'nama_gaji' => form_error('nama_gaji'),
                     'gaji_pokok' => form_error('gaji_pokok'),
-                    'potongan' => form_error('potongan'),
+                    'telat_masuk' => form_error('telat_masuk'),
+                    'tidak_hadir' => form_error('tidak_hadir'),
                     'keterangan' => form_error('keterangan'),
                 ],
                 'set_value' => [
                     'nama_gaji' => set_value('nama_gaji'),
                     'gaji_pokok' => set_value('gaji_pokok'),
-                    'potongan' => set_value('potongan'),
+                    'telat_masuk' => set_value('telat_masuk'),
+                    'telat_masuk' => set_value('telat_masuk'),
+                    'tidak_hadir' => set_value('tidak_hadir'),
                     'keterangan' => set_value('keterangan'),
                 ],
             ];
@@ -53,8 +57,8 @@ class gaji extends CI_Controller {
                 'id_jabatan' => $this->input->post('nama_jabatan',true),
                 'nama_gaji' => $this->input->post('nama_gaji',true),
                 'gaji_pokok' => $this->input->post('gaji_pokok',true),
-                'potongan' => $this->input->post('potongan',true),
-                'potongan_per' => $this->input->post('potongan_per',true),
+                'telat_masuk' => $this->input->post('telat_masuk',true),
+                'tidak_hadir' => $this->input->post('tidak_hadir',true),
                 'keterangan' => $this->input->post('keterangan',true),
                 ];
             $this->global_model->insert_data('t_gaji',$values);

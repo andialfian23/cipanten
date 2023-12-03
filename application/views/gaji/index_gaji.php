@@ -12,16 +12,22 @@
             </div>
             <div class="card-body px-3 py-3 pb-2">
                 <div class="table-responsive p-2">
-                    <table class="table table-bordered table-striped table-hover table-sm" border="2" id="tbl-gaji">
+                    <table class="table table-bordered table-striped table-hover table-sm w-100" border="2"
+                        id="tbl-gaji">
                         <thead class="bg-dark text-white">
                             <tr>
-                                <th class="font-weight-bolder">No</th>
-                                <th class="font-weight-bolder">Bagian</th>
-                                <th class="font-weight-bolder">Jabatan</th>
-                                <th class="font-weight-bolder">Nama Gaji</th>
-                                <th class="font-weight-bolder">Gaji Pokok</th>
-                                <th class="font-weight-bolder">Keterangan</th>
-                                <th>--</th>
+                                <th class="font-weight-bolder text-center" rowspan="2">No</th>
+                                <th class="font-weight-bolder text-center" rowspan="2">Bagian</th>
+                                <th class="font-weight-bolder text-center" rowspan="2">Jabatan</th>
+                                <th class="font-weight-bolder text-center" rowspan="2">Nama Gaji</th>
+                                <th class="font-weight-bolder text-center" rowspan="2">Gaji Pokok</th>
+                                <th class="font-weight-bolder text-center" colspan="2">Potongan Gaji</th>
+                                <th class="font-weight-bolder text-center" rowspan="2">Keterangan</th>
+                                <th class="font-weight-bolder text-center" rowspan="2">--</th>
+                            </tr>
+                            <tr>
+                                <th class="font-weight-bolder text-center">Telat Masuk</th>
+                                <th class="font-weight-bolder text-center">Tidak Hadir</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,7 +37,9 @@
                                 <td><?= $row->nama_dept ?></td>
                                 <td><?= $row->nama_jabatan ?></td>
                                 <td><?= $row->nama_gaji ?></td>
-                                <td><?= number_format($row->gaji_pokok) ?></td>
+                                <td class="text-right"><?= number_format($row->gaji_pokok) ?></td>
+                                <td class="text-right"><?= number_format($row->telat_masuk) ?></td>
+                                <td class="text-right"><?= number_format($row->tidak_hadir) ?></td>
                                 <td><?= $row->keterangan ?></td>
                                 <td class="text-center align-middle">
                                     <!-- <a href="#modal-add" class="btn btn-info btn-sm btn-edit"
@@ -101,17 +109,26 @@
                     <small id="notif_gaji_pokok" class="text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label for="potongan">Potongan</label>
-                    <div class="input-group input-group-sm">
-                        <input type="number" class="form-control form-control-sm" id="potongan" name="potongan">
-                        <span class="input-group-append">
-                            <select name="potongan_per" id="potongan_per" class="form-control form-control-sm">
-                                <option value="jam">Per Jam</option>
-                                <option value="hari">Per Hari</option>
-                            </select>
-                        </span>
+                    <label for="potongan">Potongan Gaji</label>
+                    <div class="d-flex justify-content-between">
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="number" class="form-control form-control-sm" id="telat_masuk"
+                                name="telat_masuk" placeholder="Telat Masuk">
+                            <div class="input-group-append">
+                                <span class="input-group-text">per jam</span>
+                            </div>
+                            <small id="notif_telat_masuk" class="text-danger"></small>
+                        </div>
+                        &nbsp;
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="number" class="form-control form-control-sm" id="tidak_hadir"
+                                name="tidak_hadir" placeholder="Tidak Hadir">
+                            <div class="input-group-append">
+                                <span class="input-group-text">per hari</span>
+                            </div>
+                        </div>
+                        <small id="notif_tidak_hadir" class="text-danger"></small>
                     </div>
-                    <small id="notif_potongan" class="text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label for="keterangan">Keterangan</label>
@@ -131,7 +148,9 @@
 
 <script>
 $(function() {
-    $('#tbl-gaji').DataTable();
+    $('#tbl-gaji').DataTable({
+        responsive: true,
+    });
 
     $(document).on('click', '#btn-create', function() {
         $(document).find('#btn-save-edit').hide();
@@ -161,8 +180,8 @@ $(function() {
                 nama_gaji: $('#nama_gaji').val(),
                 gaji_pokok: $('#gaji_pokok').val(),
                 hitungan_kerja: $('#hitungan_kerja').val(),
-                potongan: $('#potongan').val(),
-                potongan_per: $('#potongan_per').val(),
+                telat_masuk: $('#telat_masuk').val(),
+                tidak_hadir: $('#tidak_hadir').val(),
                 keterangan: $('#keterangan').val(),
             },
             dataType: 'json',
@@ -180,10 +199,15 @@ $(function() {
                             $('#gaji_pokok').val(res.set_value.gaji_pokok);
                             $('#notif_gaji_pokok').html(res.form_error.gaji_pokok);
                         }
-                        if (res.form_error.potongan != '') {
-                            $('#potongan').addClass('is-invalid');
-                            $('#potongan').val(res.set_value.potongan);
-                            $('#notif_potongan').html(res.form_error.potongan);
+                        if (res.form_error.telat_masuk != '') {
+                            $('#telat_masuk').addClass('is-invalid');
+                            $('#telat_masuk').val(res.set_value.telat_masuk);
+                            $('#notif_telat_masuk').html(res.form_error.telat_masuk);
+                        }
+                        if (res.form_error.tidak_hadir != '') {
+                            $('#tidak_hadir').addClass('is-invalid');
+                            $('#tidak_hadir').val(res.set_value.tidak_hadir);
+                            $('#notif_tidak_hadir').html(res.form_error.tidak_hadir);
                         }
                         return false;
                     }

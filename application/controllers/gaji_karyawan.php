@@ -17,4 +17,6 @@ class gaji_karyawan extends CI_Controller {
         $data['view'] = 'gaji/index_gaji_karyawan';
         $this->load->view('index',$data);
     }
+
+    
 }

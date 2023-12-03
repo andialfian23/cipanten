@@ -39,7 +39,7 @@
                                 </td>
                                 <td><?= $row->nama_jabatan ?></td>
                                 <td><?= $row->nama_dept ?></td>
-                                <td><?= number_format($row->total) ?></td>
+                                <td><?= number_format($row->total_terima) ?></td>
                                 <td class="text-center align-middle d-flex">
                                     <!-- <a href="<?= base_url('gaji_karyawan/update/'.$row->id_gk) ?>"
                                         class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a> -->
@@ -90,65 +90,61 @@
                                     <td class="text-center">Jabatan</td>
                                 </tr>
                                 <tr>
-                                    <th class="text-center" id="nik">160099</th>
-                                    <th class="text-center" id="nama">Andi Alfian</th>
-                                    <th class="text-center" id="jabatan">STAFF</th>
+                                    <th class="text-center" id="nik">000000</th>
+                                    <th class="text-center" id="nama">.......</th>
+                                    <th class="text-center" id="jabatan">.......</th>
                                 </tr>
                             </tbody>
                         </table>
 
-
                         <hr />
 
-                        <table class="table table-bordered table-sm mb-2 border-1" width="100%" id="tbl-item-gaji">
+                        <table class="table table-bordered table-sm mb-2 border-1 border-success" width="100%"
+                            id="tbl-item-gaji">
                             <tbody>
                                 <tr>
                                     <th colspan="4">Gaji</td>
                                 </tr>
                                 <tr>
                                     <td colspan="1" width="50%">Gaji Pokok</td>
-                                    <td id="gaji_pokok" class="text-right">2,600,000</td>
-                                    <td id="jml_hadir" class="text-center">x 1</td>
-                                    <td id="ttl_gaji" class="text-right">2,600,000</td>
+                                    <td id="gaji_pokok" class="text-right"></td>
+                                    <td id="jml_hadir" class="text-center"></td>
+                                    <td id="ttl_gaji_pokok" class="text-right"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="3" width="50%">Bonus</td>
-                                    <td id="ttl_bonus" class="text-right">190,000</td>
+                                    <td id="ttl_bonus" class="text-right"></td>
                                 </tr>
                                 <tr>
                                     <th colspan="3" class="text-center">Total Gaji</th>
-                                    <th id="total_gaji" class="text-right">2,790,000</th>
+                                    <th id="ttl_gaji" class="text-right"></th>
                                 </tr>
                                 <tr>
                                     <th colspan="4">Potongan</td>
                                 </tr>
                                 <tr>
                                     <td colspan="1" width="50%">Tidak Hadir</td>
-                                    <td id="potongan" class="text-right">86,667</td>
-                                    <td class="text-center">x 4</td>
-                                    <td id="ttl_potongan" class="text-right">346,668</td>
+                                    <td id="tidak_hadir" class="text-right"></td>
+                                    <td id="jml_tidak_hadir" class="text-center"></td>
+                                    <td id="ttl_tidak_hadir" class="text-right"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="1" width="50%">Telat Masuk</td>
-                                    <td id="telat_masuk" class="text-right">5,000</td>
-                                    <td class="text-center"></td>
-                                    <td id="ttl_telat_masuk" class="text-right">0</td>
+                                    <td id="telat_masuk" class="text-right"></td>
+                                    <td id="jml_telat_masuk" class="text-center"></td>
+                                    <td id="ttl_telat_masuk" class="text-right"></td>
                                 </tr>
                                 <tr>
                                     <th colspan="3" class="text-center">Total Potongan</th>
-                                    <th id="ttl" class="text-right">346,668</th>
-                                </tr>
-                                <tr>
-                                    <th colspan="3" class="text-center">Total Terima</th>
-                                    <th id="total_gaji" class="text-right">2,443,332</th>
+                                    <th id="ttl_potongan" class="text-right"></th>
                                 </tr>
                             </tbody>
+                            <tr>
+                                <th colspan="3" class="text-center">Total Terima</th>
+                                <th id="ttl_terima" class="text-right"></th>
+                            </tr>
+                            </tbody>
                         </table>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p id="ket"></p>
                     </div>
                 </div>
             </div>
@@ -164,5 +160,42 @@
 <script>
 $(function() {
     $('#tbl-gaji-karyawan').DataTable();
+
+    $(document).on('click', '.btn-view', function() {
+        $.ajax({
+            url: '<?= base_url('json/get_slip_gaji') ?>',
+            type: 'POST',
+            data: {
+                id: $(this).data('id')
+            },
+            dataType: 'json',
+            success: function(res) {
+
+                $('#nama_gaji').html(res.data.nama_gaji);
+                $('#nik').html(res.data.nik);
+                $('#nama').html(res.data.nama);
+                $('#jabatan').html(res.data.nama_jabatan);
+                $('#bagian').html(res.data.nama_dept);
+
+                $('#gaji_pokok').html(res.data.gaji_pokok);
+                $('#telat_masuk').html(res.data.telat_masuk);
+                $('#tidak_hadir').html(res.data.tidak_hadir);
+
+                $('#jml_hadir').html(res.data.jml_hadir);
+                $('#jml_tidak_hadir').html(res.data.jml_tidak_hadir);
+                $('#jml_telat_masuk').html(res.data.jml_telat_masuk);
+
+                $('#ttl_gaji_pokok').html(res.data.ttl_gaji_pokok);
+                $('#ttl_bonus').html(res.data.ttl_bonus);
+                $('#ttl_gaji').html(res.data.ttl_gaji);
+                $('#ttl_tidak_hadir').html(res.data.ttl_tidak_hadir);
+                $('#ttl_telat_masuk').html(res.data.ttl_telat_masuk);
+                $('#ttl_potongan').html(res.data.ttl_potongan);
+                $('#ttl_terima').html(res.data.total_terima);
+
+                $('#tgl_gaji').html(res.data.tgl_gaji);
+            }
+        });
+    })
 });
 </script>
