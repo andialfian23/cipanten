@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 29 Nov 2023 pada 16.15
+-- Waktu pembuatan: 03 Des 2023 pada 07.29
 -- Versi server: 10.4.8-MariaDB
 -- Versi PHP: 7.3.11
 
@@ -64,7 +64,8 @@ CREATE TABLE `t_dept` (
 --
 
 INSERT INTO `t_dept` (`id_dept`, `nama_dept`) VALUES
-(1, 'IT');
+(1, 'IT'),
+(2, 'Bebek Gowes');
 
 -- --------------------------------------------------------
 
@@ -74,8 +75,13 @@ INSERT INTO `t_dept` (`id_dept`, `nama_dept`) VALUES
 
 CREATE TABLE `t_gaji` (
   `id_gaji` int(11) NOT NULL,
+  `id_jabatan` int(11) NOT NULL,
+  `id_dept` int(11) NOT NULL,
   `nama_gaji` varchar(50) NOT NULL,
   `gaji_pokok` int(11) NOT NULL,
+  `hitungan_kerja` enum('Harian','Mingguan','Bulanan') NOT NULL,
+  `potongan` int(11) NOT NULL,
+  `potongan_per` enum('jam','hari') NOT NULL DEFAULT 'jam',
   `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -83,9 +89,9 @@ CREATE TABLE `t_gaji` (
 -- Dumping data untuk tabel `t_gaji`
 --
 
-INSERT INTO `t_gaji` (`id_gaji`, `nama_gaji`, `gaji_pokok`, `keterangan`) VALUES
-(1, 'Gaji Kantor', 2600000, 'Gaji Bulanan'),
-(2, 'Gaji 40perday', 40000, 'Gaji Harian');
+INSERT INTO `t_gaji` (`id_gaji`, `id_jabatan`, `id_dept`, `nama_gaji`, `gaji_pokok`, `hitungan_kerja`, `potongan`, `potongan_per`, `keterangan`) VALUES
+(1, 1, 1, 'Gaji Kantor', 2600000, 'Bulanan', 85666, 'hari', 'Gaji Bulanan'),
+(6, 2, 2, 'Gaji Karyawan Bebek Gowes', 40000, 'Harian', 5000, 'jam', '-');
 
 -- --------------------------------------------------------
 
@@ -95,17 +101,45 @@ INSERT INTO `t_gaji` (`id_gaji`, `nama_gaji`, `gaji_pokok`, `keterangan`) VALUES
 
 CREATE TABLE `t_gaji_karyawan` (
   `id_gk` int(11) NOT NULL,
-  `id_jabatan` int(11) NOT NULL,
-  `id_dept` int(11) NOT NULL,
-  `id_gaji` int(11) NOT NULL
+  `tanggal` datetime NOT NULL,
+  `id_gaji` int(11) NOT NULL,
+  `id_karyawan` int(11) NOT NULL,
+  `jml_hadir` int(11) NOT NULL,
+  `jml_potongan` int(11) NOT NULL,
+  `ttl_gaji` int(11) NOT NULL,
+  `ttl_potongan` int(11) NOT NULL,
+  `ttl_bonus` int(11) NOT NULL,
+  `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `t_gaji_karyawan`
 --
 
-INSERT INTO `t_gaji_karyawan` (`id_gk`, `id_jabatan`, `id_dept`, `id_gaji`) VALUES
-(1, 1, 1, 1);
+INSERT INTO `t_gaji_karyawan` (`id_gk`, `tanggal`, `id_gaji`, `id_karyawan`, `jml_hadir`, `jml_potongan`, `ttl_gaji`, `ttl_potongan`, `ttl_bonus`, `total`) VALUES
+(1, '2023-11-07 00:00:00', 1, 8, 19, 4, 2600000, 346668, 190000, 2443332);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `t_item_gaji`
+--
+
+CREATE TABLE `t_item_gaji` (
+  `id_igj` int(11) NOT NULL,
+  `id_gaji` int(11) NOT NULL,
+  `jenis` enum('bonus','potongan') NOT NULL,
+  `m_id` int(11) NOT NULL,
+  `nominal` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `t_item_gaji`
+--
+
+INSERT INTO `t_item_gaji` (`id_igj`, `id_gaji`, `jenis`, `m_id`, `nominal`) VALUES
+(1, 1, 'bonus', 1, 190000),
+(2, 1, 'potongan', 1, 87666);
 
 -- --------------------------------------------------------
 
@@ -248,6 +282,12 @@ ALTER TABLE `t_gaji_karyawan`
   ADD PRIMARY KEY (`id_gk`);
 
 --
+-- Indeks untuk tabel `t_item_gaji`
+--
+ALTER TABLE `t_item_gaji`
+  ADD PRIMARY KEY (`id_igj`);
+
+--
 -- Indeks untuk tabel `t_jabatan`
 --
 ALTER TABLE `t_jabatan`
@@ -285,19 +325,25 @@ ALTER TABLE `t_absensi`
 -- AUTO_INCREMENT untuk tabel `t_dept`
 --
 ALTER TABLE `t_dept`
-  MODIFY `id_dept` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_dept` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_gaji`
 --
 ALTER TABLE `t_gaji`
-  MODIFY `id_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_gaji_karyawan`
 --
 ALTER TABLE `t_gaji_karyawan`
   MODIFY `id_gk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `t_item_gaji`
+--
+ALTER TABLE `t_item_gaji`
+  MODIFY `id_igj` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_jabatan`
