@@ -34,6 +34,7 @@ class karyawan extends CI_Controller {
         {
             $data['judul'] = 'Tambah Data Karyawan';
             $data['jabatan'] = $this->karyawan->get_jabatan()->result();
+            $data['dept'] = $this->karyawan->get_dept()->result();
             $data['view'] = 'karyawan/tambah_karyawan';
             $this->load->view('index',$data);
         }else{

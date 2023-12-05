@@ -26,6 +26,8 @@ class json extends CI_Controller {
         $gaji_karyawan = $this->gaji->get_gaji_karyawan($id_gk);
         if($gaji_karyawan->num_rows() > 0){
             $key = $gaji_karyawan->row();
+            $total_gaji = $key->ttl_gaji_pokok + $key->ttl_bonus;
+            $total_potongan = $key->ttl_telat_masuk + $key->ttl_tidak_hadir;
             $data = [
                 'nik'           => $key->nik,
                 'nama'          => $key->nama,
@@ -46,8 +48,8 @@ class json extends CI_Controller {
                 'ttl_bonus'         => number_format($key->ttl_bonus),
                 'ttl_telat_masuk'   => number_format($key->ttl_telat_masuk),
                 'ttl_tidak_hadir'   => number_format($key->ttl_tidak_hadir),
-                'ttl_gaji'          => number_format($key->ttl_gaji_pokok + $key->ttl_bonus),
-                'ttl_potongan'      => number_format($key->ttl_telat_masuk + $key->ttl_tidak_hadir),
+                'ttl_gaji'          => number_format($total_gaji),
+                'ttl_potongan'      => number_format($total_potongan),
                 'total_terima'      => number_format($key->total_terima),
             ];
             $output = [
@@ -60,6 +62,34 @@ class json extends CI_Controller {
                 'pesan' => 'Data Tidak Ditemukan'
             ];
         }
+        echo json_encode($output);
+    }
+
+    public function get_hitung_gaji_karyawan(){
+        $xBegin = $this->input->post('xBegin',TRUE);
+        $xEnd = $this->input->post('xEnd',TRUE);
+        $id_dept = $this->input->post('dept',TRUE);
+
+
+//         SELECT count(jml_scan) as total_hadir,
+// 	k.id_karyawan as nik, nama, nama_jabatan, nama_dept, 
+// 	gaji_pokok, hitungan_kerja,telat_masuk,tidak_hadir
+// FROM `t_karyawan` k
+// INNER JOIN  (SELECT tanggal, id_karyawan, count(id_absensi)as jml_scan FROM t_absensi GROUP BY tanggal,id_karyawan) a ON a.id_karyawan = k.id_karyawan
+// INNER JOIN t_gaji g ON k.id_jabatan = g.id_jabatan AND k.id_dept=g.id_dept
+// INNER JOIN t_jabatan j ON k.id_jabatan=j.id_jabatan
+// INNER JOIN t_dept d ON k.id_dept=d.id_dept
+// GROUP BY a.id_karyawan
+// ORDER BY a.id_karyawan
+        
+
+        $data = $this->gaji->get_gaji_karyawan($xBegin,$xEnd,$id_dept)->result();
+        
+        $output = [
+            'status'=>1,
+            'data' => $data
+        ];
+        
         echo json_encode($output);
     }
 }

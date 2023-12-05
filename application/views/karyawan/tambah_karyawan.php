@@ -99,10 +99,12 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="departemen" class="form-control-label">Departemen</label>
+                                        <label for="departemen" class="form-control-label">Bagian</label>
                                         <select class="form-control" name="departemen" id="departemen">
-                                            <option value="" hidden>-- Pilih Departemen --</option>
-                                            <option value="1">IT</option>
+                                            <option value="" hidden>-- Pilih Bagian --</option>
+                                            <?php foreach($dept as $jb): ?>
+                                            <option value="<?= $jb->id_dept ?>"><?= $jb->nama_dept ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                         <?= form_error('departemen', '<small class="text-danger">', '</small>') ?>
                                     </div>

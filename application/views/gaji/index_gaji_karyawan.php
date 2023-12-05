@@ -6,7 +6,8 @@
                     <h5>Data Gaji Karyawan</h5>
                 </div>
                 <div class="ml-auto">
-                    <a href="#" class="btn bg-gradient-primary">Tambah Gaji
+                    <a href="<?= base_url('gaji_karyawan/proses_penggajian') ?>" class="btn bg-gradient-primary">Proses
+                        Penggajian
                         Karyawan</a>
                 </div>
             </div>
@@ -57,7 +58,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="preview" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -138,11 +138,10 @@
                                     <th colspan="3" class="text-center">Total Potongan</th>
                                     <th id="ttl_potongan" class="text-right"></th>
                                 </tr>
-                            </tbody>
-                            <tr>
-                                <th colspan="3" class="text-center">Total Terima</th>
-                                <th id="ttl_terima" class="text-right"></th>
-                            </tr>
+                                <tr>
+                                    <th colspan="3" class="text-center">Total Terima</th>
+                                    <th id="ttl_terima" class="text-right"></th>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

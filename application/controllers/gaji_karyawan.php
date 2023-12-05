@@ -18,5 +18,10 @@ class gaji_karyawan extends CI_Controller {
         $this->load->view('index',$data);
     }
 
-    
+    public function proses_penggajian(){
+        $data['judul'] = 'Proses Penggajian Karyawan';
+        $data['dept'] = $this->karyawan->get_dept()->result();
+        $data['view'] = 'gaji/proses_penggajian';
+        $this->load->view('index',$data);
+    }
 }
