@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Des 2023 pada 07.29
+-- Waktu pembuatan: 06 Des 2023 pada 23.42
 -- Versi server: 10.4.8-MariaDB
 -- Versi PHP: 7.3.11
 
@@ -80,8 +80,8 @@ CREATE TABLE `t_gaji` (
   `nama_gaji` varchar(50) NOT NULL,
   `gaji_pokok` int(11) NOT NULL,
   `hitungan_kerja` enum('Harian','Mingguan','Bulanan') NOT NULL,
-  `potongan` int(11) NOT NULL,
-  `potongan_per` enum('jam','hari') NOT NULL DEFAULT 'jam',
+  `telat_masuk` int(11) DEFAULT NULL,
+  `tidak_hadir` int(11) DEFAULT NULL,
   `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -89,9 +89,10 @@ CREATE TABLE `t_gaji` (
 -- Dumping data untuk tabel `t_gaji`
 --
 
-INSERT INTO `t_gaji` (`id_gaji`, `id_jabatan`, `id_dept`, `nama_gaji`, `gaji_pokok`, `hitungan_kerja`, `potongan`, `potongan_per`, `keterangan`) VALUES
-(1, 1, 1, 'Gaji Kantor', 2600000, 'Bulanan', 85666, 'hari', 'Gaji Bulanan'),
-(6, 2, 2, 'Gaji Karyawan Bebek Gowes', 40000, 'Harian', 5000, 'jam', '-');
+INSERT INTO `t_gaji` (`id_gaji`, `id_jabatan`, `id_dept`, `nama_gaji`, `gaji_pokok`, `hitungan_kerja`, `telat_masuk`, `tidak_hadir`, `keterangan`) VALUES
+(1, 1, 1, 'Gaji Kantor', 2600000, 'Bulanan', NULL, 85666, 'Gaji Bulanan'),
+(6, 2, 2, 'Gaji Karyawan Bebek Gowes', 40000, 'Harian', 5000, 0, '-'),
+(7, 3, 1, 'Gaji Asisten Manager IT', 2600000, 'Harian', 0, 87666, 'Gaji Asisten Manager IT');
 
 -- --------------------------------------------------------
 
@@ -105,19 +106,21 @@ CREATE TABLE `t_gaji_karyawan` (
   `id_gaji` int(11) NOT NULL,
   `id_karyawan` int(11) NOT NULL,
   `jml_hadir` int(11) NOT NULL,
-  `jml_potongan` int(11) NOT NULL,
-  `ttl_gaji` int(11) NOT NULL,
-  `ttl_potongan` int(11) NOT NULL,
+  `jml_tidak_hadir` int(11) NOT NULL,
+  `jml_telat_masuk` int(11) NOT NULL,
+  `ttl_gaji_pokok` int(11) NOT NULL,
   `ttl_bonus` int(11) NOT NULL,
-  `total` int(11) NOT NULL
+  `ttl_tidak_hadir` int(11) NOT NULL,
+  `ttl_telat_masuk` int(11) DEFAULT NULL,
+  `total_terima` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `t_gaji_karyawan`
 --
 
-INSERT INTO `t_gaji_karyawan` (`id_gk`, `tanggal`, `id_gaji`, `id_karyawan`, `jml_hadir`, `jml_potongan`, `ttl_gaji`, `ttl_potongan`, `ttl_bonus`, `total`) VALUES
-(1, '2023-11-07 00:00:00', 1, 8, 19, 4, 2600000, 346668, 190000, 2443332);
+INSERT INTO `t_gaji_karyawan` (`id_gk`, `tanggal`, `id_gaji`, `id_karyawan`, `jml_hadir`, `jml_tidak_hadir`, `jml_telat_masuk`, `ttl_gaji_pokok`, `ttl_bonus`, `ttl_tidak_hadir`, `ttl_telat_masuk`, `total_terima`) VALUES
+(1, '2023-11-07 00:00:00', 1, 8, 19, 4, 0, 2600000, 190000, 346668, 0, 2443332);
 
 -- --------------------------------------------------------
 
@@ -204,7 +207,6 @@ INSERT INTO `t_karyawan` (`id`, `id_karyawan`, `nama`, `jk`, `tgl_lahir`, `alama
 (11, '168529', 'MUHAMAD RIZKIYA', 'L', '2003-08-08', 'KADIPATEN', '088880808823', NULL, 1, 1, '2021-12-17', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00'),
 (12, '162497', 'TITIN PRATIWI', 'P', '1987-11-07', 'MAJALENGKA', '08871111987', NULL, 1, 1, '2019-01-14', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00'),
 (13, '164917', 'ABDURRAHMAN SYARIF', 'L', '0000-00-00', 'Kadipaten', '089021319283', NULL, 1, 1, '2014-02-24', 'Aktif', '2023-11-26 00:00:00', '2023-11-26 00:00:00'),
-(14, '160149', 'MUHAMMAD YUSUF IKHSYAN MAULANA HIDAYATULLOH', 'L', '2004-04-24', 'Marongge', '0823874385434', NULL, 1, 1, '2023-10-10', 'Aktif', '2023-11-26 00:00:00', '2023-11-26 00:00:00'),
 (15, '165457', 'DANNY IBRAHIM', 'L', '1987-06-01', 'Cirebon', '08237463278468', NULL, 3, 1, '2021-12-01', 'Aktif', '2023-11-26 00:00:00', '2023-11-26 00:00:00');
 
 -- --------------------------------------------------------
@@ -331,7 +333,7 @@ ALTER TABLE `t_dept`
 -- AUTO_INCREMENT untuk tabel `t_gaji`
 --
 ALTER TABLE `t_gaji`
-  MODIFY `id_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_gaji_karyawan`
