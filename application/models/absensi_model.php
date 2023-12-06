@@ -32,6 +32,23 @@ class absensi_model extends CI_Model {
         
         return $this->db->get();
     }
+
+    public function get_absensi_karyawan($xBegin,$xEnd,$id_dept){
+
+        $this->db->select("k.id_karyawan as nik, nama, nama_jabatan, nama_dept, count(jml_scan) as jml_hadir,
+                        gaji_pokok, hitungan_kerja, telat_masuk, tidak_hadir")
+        ->from('t_karyawan k')
+        ->join('(SELECT tanggal, id_karyawan, count(id_absensi)as jml_scan FROM t_absensi GROUP BY tanggal,id_karyawan) a',
+        'k.id_karyawan = a.id_karyawan','LEFT')
+        ->join('t_gaji g','k.id_jabatan = g.id_jabatan AND k.id_dept=g.id_dept','INNER')
+        ->join('t_jabatan j','k.id_jabatan=j.id_jabatan','INNER')
+        ->join('t_dept d','k.id_dept=d.id_dept','INNER')
+        ->group_by('k.id_karyawan')
+        ->order_by('k.id_karyawan')
+        ;
+
+        return $this->db->get();
+    }
 }
 
 ?>

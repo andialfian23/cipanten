@@ -39,32 +39,34 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <table class="table table-bordered table-sm mb-2 border-1 border-success" width="100%"
-                            id="tbl-karyawan">
-                            <thead class="bg-gradient-danger">
-                                <tr>
-                                    <th rowspan="2">No</th>
-                                    <th rowspan="2">NIK</th>
-                                    <th rowspan="2">Nama</th>
-                                    <th rowspan="2">Jabatan</th>
-                                    <th rowspan="2">Bagian</th>
-                                    <th colspan="3">Absensi</th>
-                                    <th colspan="2">Gaji</th>
-                                    <th colspan="2">Potongan</th>
-                                    <th rowspan="2">Total Gaji<br>di Terima</th>
-                                </tr>
-                                <tr>
-                                    <th>Hadir</th>
-                                    <th>Tidak Hadir</th>
-                                    <th>Telat Masuk</th>
-                                    <th>Pokok</th>
-                                    <th>Bonus</th>
-                                    <th>Tidak Hadir</th>
-                                    <th>Telat Masuk</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm mb-2 border-1 border-success" width="100%"
+                                id="tbl-karyawan">
+                                <thead class="bg-gradient-danger">
+                                    <tr>
+                                        <th rowspan="2">No</th>
+                                        <th rowspan="2">NIK</th>
+                                        <th rowspan="2">Nama</th>
+                                        <th rowspan="2">Jabatan</th>
+                                        <th rowspan="2">Bagian</th>
+                                        <th colspan="3">Absensi</th>
+                                        <th colspan="2">Gaji</th>
+                                        <th colspan="2">Potongan</th>
+                                        <th rowspan="2">Total Gaji<br>di Terima</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Hadir</th>
+                                        <th>Tidak Hadir</th>
+                                        <th>Telat Masuk</th>
+                                        <th>Pokok</th>
+                                        <th>Bonus</th>
+                                        <th>Tidak Hadir</th>
+                                        <th>Telat Masuk</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,7 +76,21 @@
 
 <script>
 $(function() {
-    $(document).on('click', 'btn-qry', function() {
+    $(document).on('click', '#btn-qry', function() {
+        $('input, select').removeClass('border-danger');
+        if ($('#nama_dept').val() == '') {
+            $('#nama_dept').addClass('border-danger');
+            return false;
+        }
+        if ($('#xbegin').val() == '') {
+            $('#xbegin').addClass('border-danger');
+            return false;
+        }
+        if ($('#xend').val() == '') {
+            $('#xend').addClass('border-danger');
+            return false;
+        }
+
         $.ajax({
             url: '<?= base_url('json') ?>/get_hitung_gaji_karyawan',
             type: 'POST',
@@ -87,25 +103,30 @@ $(function() {
             success: function(res) {
                 $('#tbl-karyawan tbody').empty();
                 let isi_tabel = [];
+                let no = 1;
                 $.each(res.data_karyawan, function(i, row) {
+
                     isi_tabel[i] = `
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>` + no + `</td>
+                            <td>` + row.nik + `</td>
+                            <td>` + row.nama + `</td>
+                            <td>` + row.nama_jabatan + `</td>
+                            <td>` + row.nama_dept + `</td>
+                            <td class="text-right">` + row.jml_hadir + `</td>
+                            <td class="text-right">` + row.jml_tidak_hadir + `</td>
+                            <td class="text-right">` + row.jml_telat_masuk + `</td>
+                            <td class="text-right">` + row.gaji_pokok + `</td>
+                            <td class="text-right"><input type="text" style="width:90px !important;" /></td>
+                            <td class="text-right">` + row.tidak_hadir + `</td>
+                            <td class="text-right">` + row.telat_masuk + `</td>
+                            <td class="text-right">` + row.terima_gaji + `</td>
                         </tr>
                     `;
+                    no++;
                 });
+
+                $('#tbl-karyawan tbody').html(isi_tabel.join(''));
             }
         });
     });

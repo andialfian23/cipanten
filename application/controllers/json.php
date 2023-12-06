@@ -70,24 +70,63 @@ class json extends CI_Controller {
         $xEnd = $this->input->post('xEnd',TRUE);
         $id_dept = $this->input->post('dept',TRUE);
 
-
-//         SELECT count(jml_scan) as total_hadir,
-// 	k.id_karyawan as nik, nama, nama_jabatan, nama_dept, 
-// 	gaji_pokok, hitungan_kerja,telat_masuk,tidak_hadir
-// FROM `t_karyawan` k
-// INNER JOIN  (SELECT tanggal, id_karyawan, count(id_absensi)as jml_scan FROM t_absensi GROUP BY tanggal,id_karyawan) a ON a.id_karyawan = k.id_karyawan
-// INNER JOIN t_gaji g ON k.id_jabatan = g.id_jabatan AND k.id_dept=g.id_dept
-// INNER JOIN t_jabatan j ON k.id_jabatan=j.id_jabatan
-// INNER JOIN t_dept d ON k.id_dept=d.id_dept
-// GROUP BY a.id_karyawan
-// ORDER BY a.id_karyawan
+        $timestamp1 = strtotime($xBegin);
+        $timestamp2 = strtotime($xEnd);
+        // Menghitung selisih waktu dalam detik
+        $selisih_detik = $timestamp2 - $timestamp1;
+        // Menghitung jumlah hari dari selisih waktu
+        $jumlah_hari = $selisih_detik / (60 * 60 * 24);
         
+        $total_row = 0;
+        $array_karyawan = [];
+        $data = $this->absensi->get_absensi_karyawan($xBegin,$xEnd,$id_dept);
+        if($data){
+            $total_row = $data->num_rows();
 
-        $data = $this->gaji->get_gaji_karyawan($xBegin,$xEnd,$id_dept)->result();
+            $array_karyawan = [];
+            foreach($data->result() as $key){
+                if($key->hitungan_kerja =='Harian'){
+                    $total_gaji = ($key->gaji_pokok * $key->jml_hadir);
+                }else{
+                    $total_gaji = $key->gaji_pokok;
+                }
+
+                $tidak_hadir = $jumlah_hari - $key->jml_hadir;
+
+                $pot_tidak_hadir = $tidak_hadir * $key->tidak_hadir;
+
+                $terima_gaji = $total_gaji - $pot_tidak_hadir;
+
+                //jika kehadiran 0  maka terima_gaji 0
+                if($key->jml_hadir == 0){
+                    $terima_gaji = '';
+                }else{
+                    $terima_gaji = number_format($terima_gaji);
+                }
+
+                $array_karyawan[] = [
+                    'nik' => $key->nik,
+                    'nama' => $key->nama,
+                    'nama_jabatan' => $key->nama_jabatan,
+                    'nama_dept' => $key->nama_dept,
+                    'jml_hadir' => $key->jml_hadir,
+                    'jml_tidak_hadir' => $tidak_hadir,
+                    'jml_telat_masuk' => '',
+                    'gaji_pokok' => number_format($key->gaji_pokok),
+                    'tidak_hadir' => ($key->tidak_hadir)?number_format($key->tidak_hadir):'',
+                    'telat_masuk' => ($key->telat_masuk)?number_format($key->telat_masuk):'',
+                    'terima_gaji' => $terima_gaji
+                ]; 
+            }
+        }
         
         $output = [
             'status'=>1,
-            'data' => $data
+            'total_data' => $total_row,
+            'data_karyawan' => $array_karyawan,
+            'xBegin' =>  $xBegin,
+            'xEnd' => $xEnd,
+            'jumlah_hari' => $jumlah_hari
         ];
         
         echo json_encode($output);
