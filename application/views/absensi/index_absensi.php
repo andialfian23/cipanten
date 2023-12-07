@@ -23,6 +23,7 @@
                                 <th>Tanggal</th>
                                 <th>Masuk</th>
                                 <th>Pulang</th>
+                                <th>Kerja</th>
                                 <th>--</th>
                             </tr>
                         </thead>
@@ -37,6 +38,7 @@
                                 <td><?= $row->tanggal ?></td>
                                 <td><?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_masuk)) ?></td>
                                 <td><?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_pulang)) ?></td>
+                                <td><?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_kerja)) ?></td>
                                 <td class="text-center align-middle">
                                     <a href="#" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                     <a href="#" class="btn btn-danger btn-sm"

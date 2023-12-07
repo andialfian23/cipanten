@@ -22,7 +22,7 @@
                                 <th class="font-weight-bolder text-center" rowspan="2">Nama Gaji</th>
                                 <th class="font-weight-bolder text-center" rowspan="2">Gaji Pokok</th>
                                 <th class="font-weight-bolder text-center" colspan="2">Potongan Gaji</th>
-                                <th class="font-weight-bolder text-center" rowspan="2">Keterangan</th>
+                                <!-- <th class="font-weight-bolder text-center" rowspan="2">Keterangan</th> -->
                                 <th class="font-weight-bolder text-center" rowspan="2">--</th>
                             </tr>
                             <tr>
@@ -40,7 +40,7 @@
                                 <td class="text-right"><?= number_format($row->gaji_pokok) ?></td>
                                 <td class="text-right"><?= number_format($row->telat_masuk) ?></td>
                                 <td class="text-right"><?= number_format($row->tidak_hadir) ?></td>
-                                <td><?= $row->keterangan ?></td>
+                                <!-- <td><?= $row->keterangan ?></td> -->
                                 <td class="text-center align-middle">
                                     <!-- <a href="#modal-add" class="btn btn-info btn-sm btn-edit"
                                         data-id="<?= $row->id_gaji ?>">
