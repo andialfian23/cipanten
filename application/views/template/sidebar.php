@@ -43,6 +43,12 @@
                          <p>Data Jabatan</p>
                      </a>
                  </li>
+                 <li class="nav-item">
+                     <a href="<?= base_url('dept') ?>" class="nav-link ">
+                         <i class="nav-icon fas fa-crown"></i>
+                         <p>Data Bagian / Dept</p>
+                     </a>
+                 </li>
 
                  <li class="nav-item">
                      <a href="<?= base_url('absensi') ?>" class="nav-link ">

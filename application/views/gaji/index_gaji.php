@@ -40,15 +40,14 @@
                                 <td class="text-right"><?= number_format($row->gaji_pokok) ?></td>
                                 <td class="text-right"><?= number_format($row->telat_masuk) ?></td>
                                 <td class="text-right"><?= number_format($row->tidak_hadir) ?></td>
-                                <!-- <td><?= $row->keterangan ?></td> -->
                                 <td class="text-center align-middle">
                                     <!-- <a href="#modal-add" class="btn btn-info btn-sm btn-edit"
                                         data-id="<?= $row->id_gaji ?>">
                                         <i class="fas fa-edit"></i></a> -->
                                     <a href="<?= base_url('gaji/delete/'.$row->id_gaji) ?>"
-                                        class="btn btn-danger btn-sm"
+                                        class="badge badge-danger p-1"
                                         onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
-                                            class="fas fa-trash-alt"></i></a>
+                                            class="fas fa-trash-alt"></i> Hapus</a>
                                 </td>
                             </tr>
                             <?php $no++; } ?>

@@ -30,4 +30,12 @@
     <script src="<?= base_url() ?>AdminLTE_3/plugins/daterangepicker/daterangepicker.js"></script>
 
     <link rel="stylesheet" href="<?= base_url() ?>extra-libs/mystyle.css" />
+    <style>
+    table th,
+    table td {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px !important;
+        vertical-align: middle !important;
+    }
+    </style>
 </head>
