@@ -18,13 +18,17 @@ class absensi extends CI_Controller {
 
     public function update($id=null){
         if($id==null){
-            redirect(base_url('index'));
+            redirect(base_url('absensi'));
         }
     }
 
-    public function delete($id=null){
-        if($id==null){
-            redirect(base_url('index'));
+    public function delete($id=null,$tgl=null){
+        if($id==null || $tgl==null){
+            redirect(base_url('absensi'));
         }
+        $where = ['id_karyawan'=>$id,'tanggal'=>$tgl];
+        $this->global_model->delete_data('t_absensi',$where);
+        
+        redirect(base_url('absensi'));
     }
 }

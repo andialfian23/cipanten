@@ -11,6 +11,7 @@ class jabatan extends CI_Controller {
 	{
         $data['judul'] = 'Data Jabatan';
         $data['jabatan'] = $this->db->get('t_jabatan')->result();
+        $data['dept'] = $this->db->get('t_dept')->result();
         $data['view'] = 'jabatan/index_jabatan';
 		$this->load->view('index',$data);
 	}

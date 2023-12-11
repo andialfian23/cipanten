@@ -8,7 +8,7 @@
     <div class="col-lg-12">
         <div class="card card-danger card-outline">
             <div class="card-header">
-                <h3>Proses Penggajian Karyawan</h3>
+                <h4>Proses Penggajian Karyawan</h4>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -18,7 +18,7 @@
                             <select name="nama_dept" id="nama_dept" class="form-control form-control-sm">
                                 <option value="">-- Pilih Bagian --</option>
                                 <?php foreach($dept as $d){ ?>
-                                <option value="<?= $d->id_dept ?>"><?= $d->nama_dept ?></option>
+                                <option value="<?= $d->nama_dept ?>"><?= $d->nama_dept ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -52,21 +52,27 @@
                                         <th colspan="3">Absensi</th>
                                         <th colspan="2">Gaji</th>
                                         <th colspan="2">Potongan</th>
-                                        <th rowspan="2">Total Gaji<br>di Terima</th>
+                                        <th rowspan="2">Total<br />Gaji<br>di Terima</th>
                                     </tr>
                                     <tr>
                                         <th>Hadir</th>
-                                        <th>Tidak Hadir</th>
-                                        <th>Telat Masuk</th>
+                                        <th>Tidak<br />Hadir</th>
+                                        <th>Telat<br />Masuk</th>
                                         <th>Pokok</th>
                                         <th>Bonus</th>
-                                        <th>Tidak Hadir</th>
-                                        <th>Telat Masuk</th>
+                                        <th>Tidak<br />Hadir</th>
+                                        <th>Telat<br />Masuk</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 ml-auto">
+                        <button class="btn btn-primary btn-sm btn-block " id="btn-simpan-gk">Simpan Gaji
+                            Karyawan</button>
                     </div>
                 </div>
             </div>
@@ -130,5 +136,7 @@ $(function() {
             }
         });
     });
+
+
 });
 </script>
