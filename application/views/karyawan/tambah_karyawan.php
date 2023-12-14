@@ -13,8 +13,9 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="id_karyawan" class="form-control-label">ID Karyawan</label>
-                                        <input class="form-control" type="text" value="<?= set_value('id_karyawan') ?>"
-                                            name="id_karyawan" id="id_karyawan" placeholder="010101">
+                                        <input class="form-control form-control-sm" type="text"
+                                            value="<?= set_value('id_karyawan') ?>" name="id_karyawan" id="id_karyawan"
+                                            placeholder="010101">
                                         <?= form_error('id_karyawan', '<small class="text-danger">', '</small>') ?>
                                     </div>
                                 </div>
@@ -23,8 +24,8 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="nama" class="form-control-label">Nama Karyawan</label>
-                                        <input class="form-control" type="text" value="<?= set_value('nama') ?>"
-                                            name="nama" id="nama">
+                                        <input class="form-control form-control-sm" type="text"
+                                            value="<?= set_value('nama') ?>" name="nama" id="nama">
                                         <?= form_error('nama', '<small class="text-danger">', '</small>') ?>
                                     </div>
                                 </div>
@@ -33,7 +34,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="jk" class="form-control-label">Jenis Kelamin</label>
-                                        <select class="form-control" name="jk" id="jk">
+                                        <select class="form-control form-control-sm" name="jk" id="jk">
                                             <option value="" hidden>-- Pilih Jenis Kelamin --</option>
                                             <option value="L">Laki Laki</option>
                                             <option value="P">Perempuan</option>
@@ -46,8 +47,8 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="tgl_lahir" class="form-control-label">Tanggal Lahir</label>
-                                        <input class="form-control" type="date" value="<?= set_value('tgl_lahir') ?>"
-                                            name="tgl_lahir" id="tgl_lahir">
+                                        <input class="form-control form-control-sm" type="date"
+                                            value="<?= set_value('tgl_lahir') ?>" name="tgl_lahir" id="tgl_lahir">
                                     </div>
                                 </div>
                             </div>
@@ -55,8 +56,9 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="alamat" class="form-control-label">Alamat</label>
-                                        <input class="form-control" type="text" value="<?= set_value('alamat') ?>"
-                                            name="alamat" id="alamat" placeholder="Desa .... Kec ... Kab ....">
+                                        <input class="form-control form-control-sm" type="text"
+                                            value="<?= set_value('alamat') ?>" name="alamat" id="alamat"
+                                            placeholder="Desa .... Kec ... Kab ....">
                                         <?= form_error('alamat', '<small class="text-danger">', '</small>') ?>
                                     </div>
                                 </div>
@@ -65,8 +67,9 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="no_hp" class="form-control-label">No. HP</label>
-                                        <input class="form-control" type="text" value="<?= set_value('no_hp') ?>"
-                                            name="no_hp" id="no_hp" placeholder="085XXXXXXXXX">
+                                        <input class="form-control form-control-sm" type="text"
+                                            value="<?= set_value('no_hp') ?>" name="no_hp" id="no_hp"
+                                            placeholder="085XXXXXXXXX">
                                         <?= form_error('no_hp', '<small class="text-danger">', '</small>') ?>
                                     </div>
                                 </div>
@@ -78,7 +81,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="foto" class="form-control-label">Foto</label>
-                                        <input class="form-control" type="file" name="foto" id="foto" />
+                                        <input class="form-control form-control-sm" type="file" name="foto" id="foto" />
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +89,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="jabatan" class="form-control-label">Jabatan</label>
-                                        <select class="form-control" name="jabatan" id="jabatan">
+                                        <select class="form-control form-control-sm" name="jabatan" id="jabatan">
                                             <option value="" hidden>-- Pilih Jabatan --</option>
                                             <?php foreach($jabatan as $jb): ?>
                                             <option value="<?= $jb->id_jabatan ?>"><?= $jb->nama_jabatan ?></option>
@@ -100,7 +103,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="departemen" class="form-control-label">Bagian</label>
-                                        <select class="form-control" name="departemen" id="departemen">
+                                        <select class="form-control form-control-sm" name="departemen" id="departemen">
                                             <option value="" hidden>-- Pilih Bagian --</option>
                                             <?php foreach($dept as $jb): ?>
                                             <option value="<?= $jb->id_dept ?>"><?= $jb->nama_dept ?></option>
@@ -114,8 +117,8 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="join_at" class="form-control-label">Gabung Sejak</label>
-                                        <input class="form-control" type="date" value="<?= set_value('join_at') ?>"
-                                            name="join_at" id="join_at">
+                                        <input class="form-control form-control-sm" type="date"
+                                            value="<?= set_value('join_at') ?>" name="join_at" id="join_at">
                                         <?= form_error('join_at', '<small class="text-danger">', '</small>') ?>
                                     </div>
                                 </div>

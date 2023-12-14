@@ -54,6 +54,7 @@ class karyawan extends CI_Controller {
                 'updated_at' => date('Y-m-d'),
             ];
             $this->global_model->insert_data('t_karyawan',$values);
+            notifikasi(true,'Berhasil Menambah Data Karyawan');
             redirect(base_url('karyawan'));
         }
     }
@@ -98,6 +99,7 @@ class karyawan extends CI_Controller {
             ];
             $where = ['id_karyawan'=>$id];
             $this->global_model->update_data('t_karyawan',$set,$where);
+            notifikasi(true,'Berhasil Memperbarui Data Karyawan');
             redirect(base_url('karyawan'));
         }
         
@@ -109,6 +111,7 @@ class karyawan extends CI_Controller {
         }
         $where = ['id_karyawan'=>$id];
         $this->global_model->delete_data('t_karyawan',$where);
+        notifikasi(true,'Berhasil Menghapus Data Karyawan');
         redirect(base_url('karyawan'));
     }
 
@@ -147,7 +150,7 @@ class karyawan extends CI_Controller {
         echo json_encode($qrcode);
     }
 
-    public function id_card($nik=null){
+    public function id_card($nik=null){ //print
         if($nik==null){
             redirect(base_url('karyawan'));
         }

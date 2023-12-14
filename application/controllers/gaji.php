@@ -77,6 +77,7 @@ class gaji extends CI_Controller {
 
         $where = ['id_gaji'=>$id];
         $this->global_model->delete_data('t_gaji',$where);
+        notifikasi(true,'Berhasil Menghapus Data Gaji !!!');
         redirect(base_url('gaji'));
     }
 

@@ -49,6 +49,7 @@ class jabatan extends CI_Controller {
         }
         $where = ['id_jabatan'=>$id];
         $this->global_model->delete_data('t_jabatan',$where);
+        notifikasi(true,'Berhasil Menghapus Data Jabatan');
         redirect(base_url('jabatan'));
     }
 }

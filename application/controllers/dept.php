@@ -40,6 +40,7 @@ class dept extends CI_Controller {
         }
         $where = ['id_dept'=>$id];
         $this->global_model->delete_data('t_dept',$where);
-        redirect(base_url('dept'));
+        notifikasi(true,'Berhasil Menghapus Data Departemen');
+        redirect(base_url('jabatan'));
     }
 }

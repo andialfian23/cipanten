@@ -34,10 +34,10 @@ class absensi_model extends CI_Model {
 
     public function get_absensi_karyawan($xBegin,$xEnd,$dept){
 
-        return $this->db->query("SELECT k.id_karyawan as nik, nama, 
+        return $this->db->query("SELECT id, k.id_karyawan as nik, nama, 
                     nama_jabatan, nama_dept, 
-                    count(tanggal)as jml_hadir, absen, jam_kerja,
-                    gaji_pokok, hitungan_kerja, telat_masuk, tidak_hadir
+                    count(tanggal)as jml_hadir, absen, jam_kerja, 
+                    g.id_gaji, gaji_pokok, hitungan_kerja, telat_masuk, tidak_hadir
                 FROM (SELECT tanggal, 
                         ab.id_karyawan, 
                         min(waktu) as waktu_masuk, max(waktu) as waktu_pulang, 

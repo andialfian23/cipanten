@@ -21,6 +21,8 @@
             <section class="content">
                 <div class="container-fluid pt-3">
 
+                    <?= $this->session->flashdata('message'); ?>
+
                     <?php $this->load->view($view); ?>
 
                 </div>

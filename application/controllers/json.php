@@ -80,48 +80,58 @@ class json extends CI_Controller {
         $total_row = 0;
         $array_karyawan = [];
         $data = $this->absensi->get_absensi_karyawan($xBegin,$xEnd,$id_dept);
+        $status =0;
         if($data){
             $total_row = $data->num_rows();
-
             $array_karyawan = [];
-            foreach($data->result() as $key){
-                if($key->hitungan_kerja =='Harian'){
-                    $total_gaji = ($key->gaji_pokok * $key->jml_hadir);
-                }else{
-                    $total_gaji = $key->gaji_pokok;
+            if($total_row > 0){
+                foreach($data->result() as $key){
+                    if($key->hitungan_kerja =='Harian'){
+                        $total_gaji = ($key->gaji_pokok * $key->jml_hadir);
+                    }else{
+                        $total_gaji = $key->gaji_pokok;
+                    }
+    
+                    $tidak_hadir = $jumlah_hari - $key->jml_hadir;
+    
+                    $pot_tidak_hadir = $tidak_hadir * $key->tidak_hadir;
+    
+                    $total_potongan = $pot_tidak_hadir;
+
+                    $terima_gaji = $total_gaji - $total_potongan;
+    
+                    //jika kehadiran 0  maka terima_gaji 0
+                    if($key->jml_hadir == 0){
+                        $terima_gaji = 0;
+                    }else{
+                        $terima_gaji = $terima_gaji;
+                    }
+    
+                    $array_karyawan[] = [
+                        'id' => $key->id,
+                        'nik' => $key->nik,
+                        'nama' => $key->nama,
+                        'nama_jabatan' => $key->nama_jabatan,
+                        'nama_dept' => $key->nama_dept,
+                        'jml_hadir' => $key->jml_hadir,
+                        'jml_tidak_hadir' => $tidak_hadir,
+                        'jml_telat_masuk' => 0,
+                        'hitungan_kerja' => $key->hitungan_kerja,
+                        'id_gaji' => $key->id_gaji,
+                        'gaji_pokok' => intval($key->gaji_pokok),
+                        'tidak_hadir' => ($key->tidak_hadir)?intval($key->tidak_hadir):0,
+                        'telat_masuk' => ($key->telat_masuk)?intval($key->telat_masuk):0,
+                        'total_gaji' => intval($total_gaji),
+                        'total_potongan' => $total_potongan,
+                        'terima_gaji' => $terima_gaji
+                    ]; 
                 }
-
-                $tidak_hadir = $jumlah_hari - $key->jml_hadir;
-
-                $pot_tidak_hadir = $tidak_hadir * $key->tidak_hadir;
-
-                $terima_gaji = $total_gaji - $pot_tidak_hadir;
-
-                //jika kehadiran 0  maka terima_gaji 0
-                if($key->jml_hadir == 0){
-                    $terima_gaji = '';
-                }else{
-                    $terima_gaji = number_format($terima_gaji);
-                }
-
-                $array_karyawan[] = [
-                    'nik' => $key->nik,
-                    'nama' => $key->nama,
-                    'nama_jabatan' => $key->nama_jabatan,
-                    'nama_dept' => $key->nama_dept,
-                    'jml_hadir' => $key->jml_hadir,
-                    'jml_tidak_hadir' => $tidak_hadir,
-                    'jml_telat_masuk' => '',
-                    'gaji_pokok' => number_format($key->gaji_pokok),
-                    'tidak_hadir' => ($key->tidak_hadir)?number_format($key->tidak_hadir):'',
-                    'telat_masuk' => ($key->telat_masuk)?number_format($key->telat_masuk):'',
-                    'terima_gaji' => $terima_gaji
-                ]; 
+                $status = 1;
             }
         }
         
         $output = [
-            'status'=>1,
+            'status'=>$status,
             'total_data' => $total_row,
             'data_karyawan' => $array_karyawan,
             'xBegin' =>  $xBegin,
