@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Des 2023 pada 23.42
+-- Waktu pembuatan: 16 Des 2023 pada 17.18
 -- Versi server: 10.4.8-MariaDB
 -- Versi PHP: 7.3.11
 
@@ -46,7 +46,13 @@ INSERT INTO `t_absensi` (`id_absensi`, `id_karyawan`, `tanggal`, `waktu`, `creat
 (2, '160099', '2023-11-22', '17:00:00', '2023-11-22 00:00:00', '2023-11-22 00:00:00'),
 (3, '160099', '2023-11-26', '21:27:51', '2023-11-26 21:27:51', '2023-11-26 21:27:51'),
 (29, '160099', '2023-11-26', '21:54:46', '2023-11-26 21:54:46', '2023-11-26 21:54:46'),
-(30, '164917', '2023-11-26', '21:59:32', '2023-11-26 21:59:32', '2023-11-26 21:59:32');
+(30, '164917', '2023-11-26', '21:59:32', '2023-11-26 21:59:32', '2023-11-26 21:59:32'),
+(31, '160099', '2023-12-09', '07:21:18', '2023-12-09 19:21:18', '2023-12-09 19:21:18'),
+(32, '160099', '2023-12-09', '19:24:29', '2023-12-09 19:24:29', '2023-12-09 19:24:29'),
+(33, '164917', '2023-12-12', '07:10:48', '2023-12-12 20:10:48', '2023-12-12 20:10:48'),
+(34, '164917', '2023-12-12', '20:11:01', '2023-12-12 20:11:01', '2023-12-12 20:11:01'),
+(35, '160099', '2023-12-12', '07:12:38', '2023-12-12 20:12:38', '2023-12-12 20:12:38'),
+(36, '160099', '2023-12-12', '20:12:42', '2023-12-12 20:12:42', '2023-12-12 20:12:42');
 
 -- --------------------------------------------------------
 
@@ -64,8 +70,7 @@ CREATE TABLE `t_dept` (
 --
 
 INSERT INTO `t_dept` (`id_dept`, `nama_dept`) VALUES
-(1, 'IT'),
-(2, 'Bebek Gowes');
+(1, 'IT');
 
 -- --------------------------------------------------------
 
@@ -80,6 +85,7 @@ CREATE TABLE `t_gaji` (
   `nama_gaji` varchar(50) NOT NULL,
   `gaji_pokok` int(11) NOT NULL,
   `hitungan_kerja` enum('Harian','Mingguan','Bulanan') NOT NULL,
+  `jam_kerja` time NOT NULL,
   `telat_masuk` int(11) DEFAULT NULL,
   `tidak_hadir` int(11) DEFAULT NULL,
   `keterangan` text NOT NULL
@@ -89,10 +95,9 @@ CREATE TABLE `t_gaji` (
 -- Dumping data untuk tabel `t_gaji`
 --
 
-INSERT INTO `t_gaji` (`id_gaji`, `id_jabatan`, `id_dept`, `nama_gaji`, `gaji_pokok`, `hitungan_kerja`, `telat_masuk`, `tidak_hadir`, `keterangan`) VALUES
-(1, 1, 1, 'Gaji Kantor', 2600000, 'Bulanan', NULL, 85666, 'Gaji Bulanan'),
-(6, 2, 2, 'Gaji Karyawan Bebek Gowes', 40000, 'Harian', 5000, 0, '-'),
-(7, 3, 1, 'Gaji Asisten Manager IT', 2600000, 'Harian', 0, 87666, 'Gaji Asisten Manager IT');
+INSERT INTO `t_gaji` (`id_gaji`, `id_jabatan`, `id_dept`, `nama_gaji`, `gaji_pokok`, `hitungan_kerja`, `jam_kerja`, `telat_masuk`, `tidak_hadir`, `keterangan`) VALUES
+(1, 1, 1, 'Gaji Kantor', 2600000, 'Bulanan', '08:00:00', NULL, 85666, 'Gaji Bulanan'),
+(7, 3, 1, 'Gaji Asisten Manager IT', 2600000, 'Harian', '00:00:00', 0, 87666, 'Gaji Asisten Manager IT');
 
 -- --------------------------------------------------------
 
@@ -102,7 +107,9 @@ INSERT INTO `t_gaji` (`id_gaji`, `id_jabatan`, `id_dept`, `nama_gaji`, `gaji_pok
 
 CREATE TABLE `t_gaji_karyawan` (
   `id_gk` int(11) NOT NULL,
-  `tanggal` datetime NOT NULL,
+  `tgl_gajian` datetime NOT NULL,
+  `tgl_awal` date NOT NULL,
+  `tgl_akhir` date NOT NULL,
   `id_gaji` int(11) NOT NULL,
   `id_karyawan` int(11) NOT NULL,
   `jml_hadir` int(11) NOT NULL,
@@ -114,35 +121,6 @@ CREATE TABLE `t_gaji_karyawan` (
   `ttl_telat_masuk` int(11) DEFAULT NULL,
   `total_terima` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `t_gaji_karyawan`
---
-
-INSERT INTO `t_gaji_karyawan` (`id_gk`, `tanggal`, `id_gaji`, `id_karyawan`, `jml_hadir`, `jml_tidak_hadir`, `jml_telat_masuk`, `ttl_gaji_pokok`, `ttl_bonus`, `ttl_tidak_hadir`, `ttl_telat_masuk`, `total_terima`) VALUES
-(1, '2023-11-07 00:00:00', 1, 8, 19, 4, 0, 2600000, 190000, 346668, 0, 2443332);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `t_item_gaji`
---
-
-CREATE TABLE `t_item_gaji` (
-  `id_igj` int(11) NOT NULL,
-  `id_gaji` int(11) NOT NULL,
-  `jenis` enum('bonus','potongan') NOT NULL,
-  `m_id` int(11) NOT NULL,
-  `nominal` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `t_item_gaji`
---
-
-INSERT INTO `t_item_gaji` (`id_igj`, `id_gaji`, `jenis`, `m_id`, `nominal`) VALUES
-(1, 1, 'bonus', 1, 190000),
-(2, 1, 'potongan', 1, 87666);
 
 -- --------------------------------------------------------
 
@@ -161,11 +139,8 @@ CREATE TABLE `t_jabatan` (
 
 INSERT INTO `t_jabatan` (`id_jabatan`, `nama_jabatan`) VALUES
 (1, 'STAFF'),
-(2, 'ADMINISTRATION'),
 (3, 'ASISTEN MANAGER'),
-(4, 'MANAGER'),
-(5, 'KETUA'),
-(6, 'ASISTEN KETUA');
+(5, 'KETUA');
 
 -- --------------------------------------------------------
 
@@ -206,7 +181,6 @@ INSERT INTO `t_karyawan` (`id`, `id_karyawan`, `nama`, `jk`, `tgl_lahir`, `alama
 (10, '168050', 'DENI RISMAYA', 'L', '2002-10-17', 'Majalengka', '08111711100022', NULL, 1, 1, '2021-09-07', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00'),
 (11, '168529', 'MUHAMAD RIZKIYA', 'L', '2003-08-08', 'KADIPATEN', '088880808823', NULL, 1, 1, '2021-12-17', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00'),
 (12, '162497', 'TITIN PRATIWI', 'P', '1987-11-07', 'MAJALENGKA', '08871111987', NULL, 1, 1, '2019-01-14', 'Aktif', '2023-11-25 00:00:00', '2023-11-25 00:00:00'),
-(13, '164917', 'ABDURRAHMAN SYARIF', 'L', '0000-00-00', 'Kadipaten', '089021319283', NULL, 1, 1, '2014-02-24', 'Aktif', '2023-11-26 00:00:00', '2023-11-26 00:00:00'),
 (15, '165457', 'DANNY IBRAHIM', 'L', '1987-06-01', 'Cirebon', '08237463278468', NULL, 3, 1, '2021-12-01', 'Aktif', '2023-11-26 00:00:00', '2023-11-26 00:00:00');
 
 -- --------------------------------------------------------
@@ -231,7 +205,8 @@ INSERT INTO `t_qrcode` (`id`, `qrcode`, `nilai`, `expired`) VALUES
 (2, '160094.png', '160094', 1700920432),
 (3, '160090.png', '160090', 1700920534),
 (4, '160095.png', '160095', 1700921151),
-(5, '164917.png', '164917', 1701097148);
+(5, '164917.png', '164917', 1701097148),
+(6, '167791.png', '167791', 1702469566);
 
 -- --------------------------------------------------------
 
@@ -241,7 +216,6 @@ INSERT INTO `t_qrcode` (`id`, `qrcode`, `nilai`, `expired`) VALUES
 
 CREATE TABLE `t_user` (
   `id_user` int(11) NOT NULL,
-  `id_karyawan` varchar(6) NOT NULL,
   `username` varchar(25) NOT NULL,
   `password` varchar(255) NOT NULL,
   `level` int(1) NOT NULL
@@ -251,9 +225,10 @@ CREATE TABLE `t_user` (
 -- Dumping data untuk tabel `t_user`
 --
 
-INSERT INTO `t_user` (`id_user`, `id_karyawan`, `username`, `password`, `level`) VALUES
-(1, '160099', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1),
-(2, '2', 'guest', '084e0343a0486ff05530df6c705c8bb4', 2);
+INSERT INTO `t_user` (`id_user`, `username`, `password`, `level`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1),
+(2, 'guest', '084e0343a0486ff05530df6c705c8bb4', 2),
+(4, '090932', 'fcea920f7412b5da7be0cf42b8c93759', 3);
 
 --
 -- Indexes for dumped tables
@@ -282,12 +257,6 @@ ALTER TABLE `t_gaji`
 --
 ALTER TABLE `t_gaji_karyawan`
   ADD PRIMARY KEY (`id_gk`);
-
---
--- Indeks untuk tabel `t_item_gaji`
---
-ALTER TABLE `t_item_gaji`
-  ADD PRIMARY KEY (`id_igj`);
 
 --
 -- Indeks untuk tabel `t_jabatan`
@@ -321,7 +290,7 @@ ALTER TABLE `t_user`
 -- AUTO_INCREMENT untuk tabel `t_absensi`
 --
 ALTER TABLE `t_absensi`
-  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_dept`
@@ -339,13 +308,7 @@ ALTER TABLE `t_gaji`
 -- AUTO_INCREMENT untuk tabel `t_gaji_karyawan`
 --
 ALTER TABLE `t_gaji_karyawan`
-  MODIFY `id_gk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT untuk tabel `t_item_gaji`
---
-ALTER TABLE `t_item_gaji`
-  MODIFY `id_igj` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_gk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_jabatan`
@@ -357,19 +320,19 @@ ALTER TABLE `t_jabatan`
 -- AUTO_INCREMENT untuk tabel `t_karyawan`
 --
 ALTER TABLE `t_karyawan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_qrcode`
 --
 ALTER TABLE `t_qrcode`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_user`
 --
 ALTER TABLE `t_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
