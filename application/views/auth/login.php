@@ -1,108 +1,131 @@
-<!--
-=========================================================
-* Argon Dashboard 2 - v2.0.4
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?= base_url('argon/') ?>assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="<?= base_url('argon/') ?>assets/img/favicon.png">
-    <title>
-        Login Page
-    </title>
-    <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <!-- Nucleo Icons -->
-    <link href="<?= base_url('argon/') ?>assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="<?= base_url('argon/') ?>assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- CSS Files -->
-    <link id="pagestyle" href="<?= base_url('argon/') ?>assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Page</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="<?= base_url() ?>AdminLTE_3/plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="<?= base_url() ?>AdminLTE_3/dist/css/adminlte.min.css">
+    <!-- jQuery -->
+    <script src="<?= base_url() ?>AdminLTE_3/plugins/jquery/jquery.min.js"></script>
 </head>
 
-<body class="">
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <img src="<?= base_url() ?>images/logo/cptn.png" alt="Cipanten Logo" class="] bg-white w-50 my-2"
+                    style="opacity: 0.8" />
+            </div>
+            <div class="card-body">
+                <div class="notif"></div>
 
-    <main class="main-content  mt-0">
-        <section>
-            <div class="page-header min-vh-100">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
-                            <div class="card card-plain">
-                                <div class="card-header pb-0 text-start">
-                                    <h4 class="font-weight-bolder">LOGIN SYSTEM</h4>
-                                    <p class="mb-0">Masukkan Username dan Password</p>
-                                </div>
-                                <div class="card-body">
-                                    <form role="form">
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control form-control-lg" placeholder="090909"
-                                                name="username" id="username" aria-label="username">
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="password" class="form-control form-control-lg"
-                                                placeholder="Password" aria-label="Password">
-                                        </div>
-                                        <div class="text-center">
-                                            <button type="submit"
-                                                class="btn btn-lg btn-primary btn-lg w-100 mb-0">LOGIN</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <!-- <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                                    <p class="mb-4 text-sm mx-auto">
-                                        Don't have an account?
-                                        <a href="javascript:;" class="text-primary text-gradient font-weight-bold">Sign
-                                            up</a>
-                                    </p>
-                                </div> -->
-                            </div>
-                        </div>
-                        <div
-                            class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-                            <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
-                                style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
-          background-size: cover;">
-                                <span class="mask bg-gradient-primary opacity-6"></span>
-                                <h4 class="mt-5 text-white font-weight-bolder position-relative">"Attention is the new
-                                    currency"</h4>
-                                <p class="text-white position-relative">The more effortless the writing looks, the more
-                                    effort the writer actually put into the process.</p>
-                            </div>
+                <!-- <form> -->
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="NIK" id="username">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
                         </div>
                     </div>
                 </div>
+                <small class="text-danger mb-3" id="notif_username"></small>
+                <div class="input-group mt-2">
+                    <input type="password" class="form-control" placeholder="Password" id="password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-danger mb-3" id="notif_password"></small>
+                <div class="row my-2">
+                    <!-- /.col -->
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block" id="btn-login">LOGIN</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- </form> -->
+
             </div>
-        </section>
-    </main>
-    <!--   Core JS Files   -->
-    <script src="<?= base_url('argon/') ?>assets/js/core/popper.min.js"></script>
-    <script src="<?= base_url('argon/') ?>assets/js/core/bootstrap.min.js"></script>
-    <script src="<?= base_url('argon/') ?>assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="<?= base_url('argon/') ?>assets/js/plugins/smooth-scrollbar.min.js"></script>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
+
     <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-        var options = {
-            damping: '0.5'
+    $(function() {
+
+        $(document).on('keydown', '#username,#password', function() {
+            if (event.keyCode == 13) {
+                login();
+            }
+        });
+
+        $(document).on('click', '#btn-login', function() {
+            login();
+        });
+
+        function login() {
+            $('.notif, small').empty();
+            $('input').removeClass('border-danger');
+
+            $.ajax({
+                url: '<?= base_url('auth/login') ?>',
+                type: 'POST',
+                data: {
+                    username: $('#username').val(),
+                    password: $('#password').val(),
+                },
+                dataType: 'json',
+                success: function(res) {
+
+
+                    if (res.status == 0) {
+                        $('.notif').html(`<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                ` + res.pesan + `
+                            </div>`);
+
+                        if (res.form_error.username != '') {
+                            $('#username').addClass('border-danger');
+                            $('#notif_username').html(res.form_error.username);
+                        }
+
+                        if (res.form_error.password != '') {
+                            $('#password').addClass('border-danger');
+                            $('#notif_password').html(res.form_error.password);
+                        }
+
+                    } else {
+                        $('.notif').html(`<div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                ` + res.pesan + `
+                            </div>`);
+                        setTimeout(() => {
+                            window.location.replace('<?= base_url('dashboard') ?>');
+                        }, 1000);
+                    }
+                }
+            });
         }
-        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
+    });
     </script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="<?= base_url('argon/') ?>assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+
+    <!-- Bootstrap 4 -->
+    <script src="<?= base_url() ?>AdminLTE_3/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="<?= base_url() ?>AdminLTE_3/dist/js/adminlte.min.js"></script>
 </body>
 
 </html>

@@ -34,6 +34,7 @@ class json extends CI_Controller {
                 'nama_jabatan'  => $key->nama_jabatan,
                 'nama_dept'     => $key->nama_dept,
                 
+                'period_gj'      => date('d M Y',strtotime($key->tgl_awal)).' - '.date('d M Y',strtotime($key->tgl_akhir)),
                 'tgl_gaji'      => $key->tgl_gaji,
                 'nama_gaji'     => $key->nama_gaji,
                 'gaji_pokok'    => number_format($key->gaji_pokok),

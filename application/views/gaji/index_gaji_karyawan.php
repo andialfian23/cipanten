@@ -76,8 +76,8 @@
 
 
                         <p class="text-center mb-3">
-                            <b id="nama_gj">Gaji Bulanan</b> - <b id="bagian">IT</b><br />
-                            <b id="tgl_gaji">02 Des 2023</b>
+                            <b id="nama_gaji">NAMA GAJI</b> - <b id="bagian">DEPT</b><br />
+                            <b id="period_gj"></b>
                         </p>
 
                         <hr />
@@ -144,6 +144,8 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                        Tanggal Penggajian : <b id="tgl_gaji">02 Des 2023</b>
                     </div>
                 </div>
             </div>
@@ -170,6 +172,7 @@ $(function() {
             dataType: 'json',
             success: function(res) {
 
+                $('#period_gj').html(res.data.period_gj);
                 $('#nama_gaji').html(res.data.nama_gaji);
                 $('#nik').html(res.data.nik);
                 $('#nama').html(res.data.nama);

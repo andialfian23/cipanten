@@ -1,3 +1,18 @@
+<style>
+table th {
+    text-align: center;
+    font-size: 12px !important;
+}
+
+.inptd {
+    width: 100%;
+}
+
+table td {
+    font-size: 12px !important;
+}
+</style>
+
 <div class="row">
     <div class="col-lg-6">
 

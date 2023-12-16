@@ -38,6 +38,7 @@ class karyawan extends CI_Controller {
             $data['view'] = 'karyawan/tambah_karyawan';
             $this->load->view('index',$data);
         }else{
+            $id_karyawan = $this->input->post('id_karyawan',true);
             $values = [
                 'id_karyawan' => $this->input->post('id_karyawan',true),
                 'nama' => strtoupper($this->input->post('nama',true)),
@@ -54,6 +55,14 @@ class karyawan extends CI_Controller {
                 'updated_at' => date('Y-m-d'),
             ];
             $this->global_model->insert_data('t_karyawan',$values);
+            
+            $values2 = [
+                'username' => $id_karyawan,
+                'password' => str_replace('-','',$this->input->post('tgl_lahir',TRUE)),
+                'level' => 3 
+            ];
+            $this->global_model->insert_data('t_user',$values2);
+
             notifikasi(true,'Berhasil Menambah Data Karyawan');
             redirect(base_url('karyawan'));
         }

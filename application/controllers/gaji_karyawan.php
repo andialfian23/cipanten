@@ -46,7 +46,7 @@ class gaji_karyawan extends CI_Controller {
             $ttl_gaji_pokok = 0;
             $ttl_gaji_pokok = ($hitungan_kerja[$i]=='Bulanan') ? $gaji_pokok[$i] : $gaji_pokok[$i] * $jml_hadir[$i];
             $ttl_tidak_hadir = 0;
-            $ttl_tidak_hadir = ($hitungan_kerja[$i]=='Bulanan')?$tidak_hadir[$i]*$jml_tdk_hadir[$i]:0;
+            $ttl_tidak_hadir = ($hitungan_kerja[$i]=='Bulanan')? $tidak_hadir[$i] * $jml_tdk_hadir[$i] : 0;
             $ttl_telat_masuk = 0;
             $ttl_telat_masuk = $telat_masuk[$i] * $jml_telat_masuk[$i];
 
@@ -69,9 +69,22 @@ class gaji_karyawan extends CI_Controller {
         }
         $output = [
             'status' => 1,
-            'pesan' => 'Berhasil Menyimpan Data',
-            'post' => $_POST
+            'pesan' => 'Berhasil Menyimpan Data Gaji Karyawan',
+            'post' => $_POST,
+            'values' => $values
         ];
         echo json_encode($output);
+    }
+
+    public function delete($id=null){
+        if($id==null){
+            notifikasi(true,'Gagal Menggapus data gaji karyawan !!!');
+            redirect(base_url('gaji_karyawan'));
+        }
+        
+        $where = ['id_gk'=>$id];
+        $this->global_model->delete_data('t_gaji_karyawan',$where);
+        notifikasi(true,'Data Gaji Karyawan Berhasil di Hapus !!!');
+        redirect(base_url('gaji_karyawan'));
     }
 }

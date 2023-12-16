@@ -1,3 +1,18 @@
+<style>
+#tbl-absensi th {
+    text-align: center;
+    font-size: 12px !important;
+}
+
+.inptd {
+    width: 100%;
+}
+
+#tbl-absensi td {
+    font-size: 12px !important;
+}
+</style>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card card-info card-outline">
@@ -14,9 +29,7 @@
                     <table class="table table-bordered table-striped table-hover table-sm" border="2" id="tbl-absensi">
                         <thead class="bg-dark text-white">
                             <tr>
-                                <th>
-                                    No
-                                </th>
+                                <th>No</th>
                                 <th>NIK</th>
                                 <th>Nama</th>
                                 <th>Jabatan</th>

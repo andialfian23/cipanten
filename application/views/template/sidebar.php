@@ -2,7 +2,7 @@
  <aside class="main-sidebar bg-navy elevation-4">
      <!-- Brand Logo -->
      <a href="#" class="brand-link">
-         <img src="<?= base_url() ?>AdminLTE_3/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+         <img src="<?= base_url() ?>images/logo/cptn.png" alt="AdminLTE Logo"
              class="brand-image img-circle elevation-3  bg-white" style="opacity: 0.8" />
          <span class="brand-text font-weight-light">Cipanten AppV1</span>
      </a>

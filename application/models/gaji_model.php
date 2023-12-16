@@ -20,7 +20,8 @@ class gaji_model extends CI_Model {
     }
 
     public function get_gaji_karyawan($id=null){
-        $this->db->select('k.id_karyawan as nik, nama, nama_jabatan, nama_dept, gk.*, DATE_FORMAT(tanggal,"%d %M %Y") as tgl_gaji, 
+        $this->db->select('k.id_karyawan as nik, nama, nama_jabatan, nama_dept, 
+            gk.*, DATE_FORMAT(tgl_gajian,"%d %M %Y") as tgl_gaji, tgl_awal, tgl_akhir,
             nama_gaji, gaji_pokok, hitungan_kerja, telat_masuk, tidak_hadir, keterangan')
             ->from('t_gaji_karyawan gk')
             ->join('t_gaji g','gk.id_gaji=g.id_gaji','LEFT')

@@ -16,6 +16,13 @@ class global_model extends CI_model {
         $this->db->delete($table, $where);
     }
 
+    // login
+    public function auth($username,$password){
+        return $this->db->select('username,level,k.nama')
+        ->from('t_user u')->join('t_karyawan k','u.username=k.id_karyawan','LEFT')
+        ->where('username',$username)->where('password',md5($password))->get();
+    }
+
     //upload image
     public function upload_image($fieldname, $filename, $folder)
     {
