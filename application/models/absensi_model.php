@@ -36,11 +36,13 @@ class absensi_model extends CI_Model {
 
         return $this->db->query("SELECT id, k.id_karyawan as nik, nama, 
                     nama_jabatan, nama_dept, 
-                    count(tanggal)as jml_hadir, absen, jam_kerja, 
+                    count(tanggal)as jml_hadir, absen, jam_kerja, sum(telat) as jml_telat, 
                     g.id_gaji, gaji_pokok, hitungan_kerja, telat_masuk, tidak_hadir
-                FROM (SELECT tanggal, 
-                        ab.id_karyawan, 
-                        min(waktu) as waktu_masuk, max(waktu) as waktu_pulang, 
+                FROM (SELECT ab.id_karyawan, 
+                        tanggal,
+                        min(waktu) as waktu_masuk, 
+                        max(waktu) as waktu_pulang, 
+                        TIMESTAMPDIFF(SECOND,CONCAT(tanggal,' 07:00:00'),CONCAT(tanggal,' ',min(waktu))) as telat,
                         CASE WHEN TIMEDIFF(max(waktu), min(waktu)) >= jam_kerja THEN 'OK' ELSE 'NOT OK' END as absen
                         FROM t_absensi ab
                         INNER JOIN t_karyawan ak ON ab.id_karyawan = ak.id_karyawan
@@ -56,6 +58,7 @@ class absensi_model extends CI_Model {
                 GROUP BY a.id_karyawan
                 ORDER BY k.id_karyawan ASC");
     }
+    
 }
 
 ?>

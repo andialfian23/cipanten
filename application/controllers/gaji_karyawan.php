@@ -41,12 +41,11 @@ class gaji_karyawan extends CI_Controller {
         $total_terima = $this->input->post('total_terima');
         $total_row = count($id_karyawan);
 
-        
         for($i=0;$i<$total_row;$i++){
             $ttl_gaji_pokok = 0;
             $ttl_gaji_pokok = ($hitungan_kerja[$i]=='Bulanan') ? $gaji_pokok[$i] : $gaji_pokok[$i] * $jml_hadir[$i];
             $ttl_tidak_hadir = 0;
-            $ttl_tidak_hadir = ($hitungan_kerja[$i]=='Bulanan')? $tidak_hadir[$i] * $jml_tdk_hadir[$i] : 0;
+            $ttl_tidak_hadir = $tidak_hadir[$i] * $jml_tdk_hadir[$i];
             $ttl_telat_masuk = 0;
             $ttl_telat_masuk = $telat_masuk[$i] * $jml_telat_masuk[$i];
 
