@@ -5,9 +5,12 @@ class absensi_model extends CI_Model {
     
     public function get_absensi($id=null,$order='DESC',$start=null,$end=null){
         
-        $this->db->select('k.nama, a.id_karyawan as nik, a.tanggal, 
-                    waktu_masuk, waktu_pulang, TIMEDIFF(waktu_pulang,waktu_masuk) as waktu_kerja,
-                    nama_jabatan, nama_dept')
+        $this->db->select("k.nama, a.id_karyawan as nik, a.tanggal, 
+                    waktu_masuk, 
+                    TIMEDIFF(waktu_masuk,'07:00:00') as telat_masuk,
+                    waktu_pulang, 
+                    TIMEDIFF(waktu_pulang,waktu_masuk) as waktu_kerja,
+                    nama_jabatan, nama_dept")
                 ->from('(SELECT id_karyawan,tanggal, min(waktu) as waktu_masuk, max(waktu) as waktu_pulang FROM t_absensi GROUP BY tanggal,id_karyawan) a');
                
         $this->db->join('t_karyawan k', 'a.id_karyawan=k.id_karyawan', 'LEFT')

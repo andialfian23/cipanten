@@ -36,6 +36,7 @@
                                 <th>Dept</th>
                                 <th>Tanggal</th>
                                 <th>Masuk</th>
+                                <th>Telat Masuk</th>
                                 <th>Pulang</th>
                                 <th>Kerja</th>
                                 <th>--</th>
@@ -49,10 +50,15 @@
                                 <td><?= $row->nama ?></td>
                                 <td><?= $row->nama_jabatan ?></td>
                                 <td><?= $row->nama_dept ?></td>
-                                <td><?= $row->tanggal ?></td>
-                                <td><?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_masuk)) ?></td>
-                                <td><?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_pulang)) ?></td>
-                                <td><?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_kerja)) ?></td>
+                                <td class="text-center"><?= $row->tanggal ?></td>
+                                <td class="text-center">
+                                    <?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_masuk)) ?></td>
+                                <td class="text-center">
+                                    <?= date('H:i:s',strtotime($row->tanggal.' '.$row->telat_masuk)) ?></td>
+                                <td class="text-center">
+                                    <?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_pulang)) ?></td>
+                                <td class="text-center">
+                                    <?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_kerja)) ?></td>
                                 <td class="text-center align-middle">
                                     <a href="#" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                     <a href="<?= base_url('absensi/delete/'.$row->nik.'/'.$row->tanggal) ?>"

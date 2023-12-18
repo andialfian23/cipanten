@@ -16,7 +16,7 @@
                     alt="User Image" />
             </div>
             <div class="info">
-                <a href="<?= base_url() ?>" class="d-block text-white">Andi Alfian</a>
+                <a href="<?= base_url() ?>" class="d-block text-white"><?= $_SESSION['nama'] ?></a>
             </div>
         </div>
 
@@ -28,6 +28,8 @@
                     $role = $_SESSION['level'];
                     if ($role == 1) { //MENU ADMIN
                         $menu = $this->menu_model->menu_admin();
+                    }elseif($role==2){
+                        $menu = $this->menu_model->menu_bendahara();
                     }
 
                     $active = '';
@@ -76,6 +78,13 @@
                 <?php } 
                     } 
                 ?>
+
+                <li class="nav-item ">
+                    <a href="<?= base_url('auth/logout') ?>" class="nav-link">
+                        <i class="nav-icon fas fa-power-off"></i>
+                        <p>Logout</p>
+                    </a>
+                </li>
 
             </ul>
         </nav>

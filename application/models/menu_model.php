@@ -47,7 +47,40 @@ class menu_model extends CI_Model {
     }
 
     public function menu_bendahara(){
-        //
+        return [
+            [
+				'has-sub' => FALSE,
+				'menu_link' => 'dashboard',
+				'menu_text' => 'Dashboard',
+				'menu_color' => '',
+				'menu_icon' => 'fas fa-tachometer-alt'
+			],[
+				'has-sub' => FALSE,
+				'menu_link' => 'karyawan',
+				'menu_text' => 'Data Karyawan',
+				'menu_color' => '',
+				'menu_icon' => 'fas fa-users'
+			],[
+                'has-sub' => FALSE,
+                'menu_link' => 'absensi',
+                'menu_text' => 'Data Absensi',
+                'menu_color' => '',
+                'menu_icon' => 'fas fa-calendar-check'
+			],[
+				'has-sub' => TRUE,
+				'menu_text' => 'Data Penggajian',
+				'menu_icon' => 'fas fa-book',
+				'menu_child' =>	[
+					[
+						'menu_link' => 'gaji',
+						'menu_text' => 'Data Gaji',
+					], [
+						'menu_link' => 'gaji_karyawan',
+						'menu_text' => 'Gaji Karyawan',
+					],
+				],
+			],
+        ];
     }
 
     public function menu_user(){

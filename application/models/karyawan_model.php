@@ -21,6 +21,11 @@ class karyawan_model extends CI_Model {
     public function get_dept(){
         return $this->db->order_by('nama_dept','ASC')->get('t_dept');
     }
+
+    //BUAT DI HOME
+    public function jml_karyawan(){
+        return $this->db->select('count(id) as jml')->from('t_karyawan')->where('Status','Aktif')->get()->row()->jml;
+    }
 }
 
 ?>

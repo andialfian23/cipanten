@@ -3,8 +3,8 @@
     <div class="col-lg-3 col-6">
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>10</h3>
-                <p>Karyawan</p>
+                <h3><?= number_format($jml_karyawan) ?></h3>
+                <p>Jumlah Semua Karyawan</p>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -17,8 +17,8 @@
     <div class="col-lg-3 col-6">
         <div class="small-box bg-success">
             <div class="inner">
-                <h3>10</h3>
-                <p>Karyawan</p>
+                <h4>10</h4>
+                <p>Jml Pengeluaran Gaji Bulan Ini</p>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -29,8 +29,8 @@
     <div class="col-lg-3 col-6">
         <div class="small-box bg-warning">
             <div class="inner">
-                <h3>10</h3>
-                <p>Karyawan</p>
+                <h4>10</h4>
+                <p>Jml Pengeluaran Gaji Tahun Ini</p>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -41,8 +41,8 @@
     <div class="col-lg-3 col-6">
         <div class="small-box bg-danger">
             <div class="inner">
-                <h3>10</h3>
-                <p>Karyawan</p>
+                <h4>10</h4>
+                <p>Total Pengeluaran Gaji Selama Ini</p>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
