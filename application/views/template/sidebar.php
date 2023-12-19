@@ -30,6 +30,8 @@
                         $menu = $this->menu_model->menu_admin();
                     }elseif($role==2){
                         $menu = $this->menu_model->menu_bendahara();
+                    }else{
+                        $menu = $this->menu_model->menu_user();
                     }
 
                     $active = '';

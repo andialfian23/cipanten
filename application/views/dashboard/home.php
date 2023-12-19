@@ -1,3 +1,5 @@
+<?php if($_SESSION['level']<2): ?>
+
 <div class="row">
 
     <div class="col-lg-3 col-6">
@@ -53,6 +55,9 @@
 
 
 </div>
+
+<?php endif; ?>
+
 <div class="row">
     <div class="col-lg-12 mb-4">
         <div class="card card-primary card-outline">

@@ -84,7 +84,27 @@ class menu_model extends CI_Model {
     }
 
     public function menu_user(){
-        //
+		return [
+            [
+				'has-sub' => FALSE,
+				'menu_link' => 'dashboard',
+				'menu_text' => 'Dashboard',
+				'menu_color' => '',
+				'menu_icon' => 'fas fa-tachometer-alt'
+			],[
+                'has-sub' => FALSE,
+                'menu_link' => 'dashboard/absensi',
+                'menu_text' => 'Absensi Harian',
+                'menu_color' => '',
+                'menu_icon' => 'fas fa-calendar-check'
+			],[
+				'has-sub' => FALSE,
+				'menu_link' => 'dashboard/gaji',
+				'menu_text' => 'Data Slip Gaji',
+				'menu_color' => '',
+				'menu_icon' => 'fas fa-book'
+			],
+        ];
     }
     
 }

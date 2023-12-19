@@ -5,6 +5,12 @@ class jabatan extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
+        if(!isset($_SESSION['level'])){
+            redirect(base_url('auth'));
+        }
+        if($_SESSION['level'] != 1){
+            redirect(base_url('dashboard'));
+        }
     }
     
 	public function index()

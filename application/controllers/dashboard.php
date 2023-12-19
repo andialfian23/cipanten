@@ -6,6 +6,9 @@ class dashboard extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('karyawan_model','karyawan');
+        if(!isset($_SESSION['level'])){
+            redirect(base_url('auth'));
+        }
     }
     
 	public function index()
