@@ -1,14 +1,35 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card card-primary card-outline">
-            <div class="card-header d-flex justify-content-between">
-                <div class="">
-                    <h5>Data Gaji Karyawan</h5>
-                </div>
-                <div class="ml-auto">
-                    <a href="<?= base_url('gaji_karyawan/proses_penggajian') ?>" class="btn bg-gradient-primary">Proses
-                        Penggajian
-                        Karyawan</a>
+            <div class="card-header">
+                <div class=" row d-flex justify-content-between">
+
+                    <div class="col-md-5 d-flex">
+                        <span class="mx-2">Data Gaji Karyawan</span>
+                    </div>
+                    <div class="text-right ml-auto pr-3">
+                        <div class="input-group input-group-sm">
+                            <a href="<?= base_url('gaji_karyawan/proses_penggajian') ?>"
+                                class="btn bg-gradient-primary mr-3 btn-sm">Proses
+                                Penggajian
+                                Karyawan</a>
+
+                            <div class="input-group-prepend">
+                                <span class="input-group-text border-warning">Tanggal Gajian</span>
+                            </div>
+                            <input type="date" class="form-control form-control-sm" id="xBegin"
+                                value="<?= date('Y-m-01') ?>" />
+                            <input type="date" class="form-control form-control-sm" id="xEnd"
+                                value="<?= date('Y-m-d') ?>" />
+                            <div class="input-group-prepend">
+                                <button id="cari" type="button"
+                                    class="btn bg-gradient-success btn-sm border-warning"><b>Cari</b></button>
+                                <!-- <button id="pdf-prod3" class="btn btn-primary btn-sm border-warning"><b><i
+                        class="fa-solid fa-print"></i> Print</b></button> -->
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="card-body px-3 py-3 pb-2">
@@ -24,6 +45,7 @@
                                 <th class="font-weight-bolder">Jabatan</th>
                                 <th class="font-weight-bolder">Bagian</th>
                                 <th class="font-weight-bolder">Gaji</th>
+                                <th class="font-weight-bolder">Tanggal Gajian</th>
                                 <th>--</th>
                             </tr>
                         </thead>
@@ -41,6 +63,7 @@
                                 <td><?= $row->nama_jabatan ?></td>
                                 <td><?= $row->nama_dept ?></td>
                                 <td><?= number_format($row->total_terima) ?></td>
+                                <td class="text-center"><?= date('Y-n-d',strtotime($row->tgl_gajian)) ?></td>
                                 <td class="text-center align-middle d-flex">
                                     <!-- <a href="<?= base_url('gaji_karyawan/update/'.$row->id_gk) ?>"
                                         class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a> -->

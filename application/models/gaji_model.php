@@ -36,4 +36,13 @@ class gaji_model extends CI_Model {
         }
         return $this->db->get();
     }
+
+    public function pengeluaran($start=null,$end){
+        $this->db->select('sum(total_terima) as jml')->from('t_gaji_karyawan');
+        if($start !=null){
+            $this->db->where('tgl_gajian >=',$start);
+        }
+        $this->db->where('tgl_gajian <=',$end);
+        return $this->db->get();
+    }
 }

@@ -5,10 +5,12 @@ class gaji extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
+        
         if(!isset($_SESSION['level'])){
             redirect(base_url('auth'));
         }
-        if($_SESSION['level'] != 1 || $_SESSION['level'] !=2 ){
+        
+        if(($_SESSION['level'] > 2) || ($_SESSION['level'] ==0) ){
             redirect(base_url('dashboard'));
         }
         $this->load->model('karyawan_model','karyawan');

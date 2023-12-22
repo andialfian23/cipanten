@@ -9,7 +9,7 @@ class gaji_karyawan extends CI_Controller {
             redirect(base_url('auth'));
         }
         
-        if($_SESSION['level'] != 1 || $_SESSION['level'] !=2 ){
+        if($_SESSION['level'] >2 || $_SESSION['level'] ==0 ){
             redirect(base_url('dashboard'));
         }
         $this->load->model('karyawan_model','karyawan');
@@ -92,4 +92,5 @@ class gaji_karyawan extends CI_Controller {
         notifikasi(true,'Data Gaji Karyawan Berhasil di Hapus !!!');
         redirect(base_url('gaji_karyawan'));
     }
+
 }

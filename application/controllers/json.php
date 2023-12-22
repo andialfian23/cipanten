@@ -28,6 +28,7 @@ class json extends CI_Controller {
             $key = $gaji_karyawan->row();
             $total_gaji = $key->ttl_gaji_pokok + $key->ttl_bonus;
             $total_potongan = $key->ttl_telat_masuk + $key->ttl_tidak_hadir;
+            $jml_hadir = (($key->jml_hadir!= 0)&&($key->hitungan_kerja != 'Bulanan'))?'x '.$key->jml_hadir : '';
             $data = [
                 'nik'           => $key->nik,
                 'nama'          => $key->nama,
@@ -37,11 +38,11 @@ class json extends CI_Controller {
                 'period_gj'      => date('d M Y',strtotime($key->tgl_awal)).' - '.date('d M Y',strtotime($key->tgl_akhir)),
                 'tgl_gaji'      => $key->tgl_gaji,
                 'nama_gaji'     => $key->nama_gaji,
-                'gaji_pokok'    => number_format($key->gaji_pokok),
+                'gaji_pokok'    => ($key->hitungan_kerja != 'Bulanan')?number_format($key->gaji_pokok):'',
                 'telat_masuk'   => $key->telat_masuk != 0 ? number_format($key->telat_masuk) : '',
                 'tidak_hadir'   => $key->tidak_hadir != 0 ? number_format($key->tidak_hadir) : '',
                 
-                'jml_hadir'       => ($key->jml_hadir!= 0)?'x '.$key->jml_hadir : '',
+                'jml_hadir'       => $jml_hadir,
                 'jml_tidak_hadir' => ($key->jml_tidak_hadir != 0)?'x '.$key->jml_tidak_hadir : '',
                 'jml_telat_masuk' => ($key->jml_telat_masuk != 0)?'x '.$key->jml_telat_masuk : '',
 

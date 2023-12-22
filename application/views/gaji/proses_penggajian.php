@@ -291,6 +291,9 @@ $(function() {
             dataType: 'json',
             success: function(res) {
                 toastr.success('Data Gaji Karyawan Berhasil Disimpan');
+                setTimeout(() => {
+                    window.location.replace('<?= base_url('gaji_karyawan') ?>');
+                }, 2000);
             }
         });
     });

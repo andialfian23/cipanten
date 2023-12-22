@@ -40,7 +40,7 @@ class scan_qr extends CI_Controller {
             $this->global_model->insert_data('t_absensi', $values);
             
             $status =1;
-            $pesan = 'Absensi Masuk Berhasil';
+            $pesan = 'Absensi Berhasil';
             
         } else { //member Tidak Terdaftar
             $status =0;

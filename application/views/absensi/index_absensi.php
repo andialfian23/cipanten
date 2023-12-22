@@ -16,12 +16,33 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card card-info card-outline">
-            <div class="card-header d-flex justify-content-between">
-                <div class="">
-                    <h5>Data Absensi</h5>
-                </div>
-                <div class="ml-auto">
-                    <a href="<?= base_url('scan_qr') ?>" class="btn bg-gradient-success">Scan QR-Code</a>
+            <div class="card-header">
+                <div class=" row d-flex justify-content-between">
+
+                    <div class="col-md-5 d-flex">
+                        <span class="mx-2">Data Absensi</span>
+                    </div>
+                    <div class="text-right ml-auto pr-3">
+                        <div class="input-group input-group-sm">
+                            <a href="<?= base_url('scan_qr') ?>" class="btn btn-sm bg-gradient-success mr-3">Scan
+                                QR-Code</a>
+
+                            <div class="input-group-prepend">
+                                <span class="input-group-text border-warning">Date</span>
+                            </div>
+                            <input type="date" class="form-control form-control-sm" id="xBegin"
+                                value="<?= date('Y-m-01') ?>" />
+                            <input type="date" class="form-control form-control-sm" id="xEnd"
+                                value="<?= date('Y-m-d') ?>" />
+                            <div class="input-group-prepend">
+                                <button id="cari" type="button"
+                                    class="btn bg-gradient-success btn-sm border-warning"><b>Cari</b></button>
+                                <!-- <button id="pdf-prod3" class="btn btn-primary btn-sm border-warning"><b><i
+                                            class="fa-solid fa-print"></i> Print</b></button> -->
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="card-body">

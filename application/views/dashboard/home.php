@@ -5,8 +5,8 @@
     <div class="col-lg-3 col-6">
         <div class="small-box bg-info">
             <div class="inner">
-                <h3><?= number_format($jml_karyawan) ?></h3>
                 <p>Jumlah Semua Karyawan</p>
+                <h4 class="text-center"><?= number_format($jml_karyawan) ?></h4>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -19,37 +19,40 @@
     <div class="col-lg-3 col-6">
         <div class="small-box bg-success">
             <div class="inner">
-                <h4>10</h4>
                 <p>Jml Pengeluaran Gaji Bulan Ini</p>
+                <h4 class="text-center">Rp <?= number_format($jml_bulan_ini) ?></h4>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="<?= base_url('gaji_karyawan') ?>" class="small-box-footer">More info <i
+                    class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-6">
         <div class="small-box bg-warning">
             <div class="inner">
-                <h4>10</h4>
                 <p>Jml Pengeluaran Gaji Tahun Ini</p>
+                <h4 class="text-center">Rp <?= number_format($jml_tahun_ini) ?></h4>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="<?= base_url('gaji_karyawan') ?>" class="small-box-footer">More info <i
+                    class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-6">
         <div class="small-box bg-danger">
             <div class="inner">
-                <h4>10</h4>
                 <p>Total Pengeluaran Gaji Selama Ini</p>
+                <h4 class="text-center">Rp <?= number_format($jml_selama_ini) ?></h4>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="<?= base_url('gaji_karyawan') ?>" class="small-box-footer">More info <i
+                    class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 
