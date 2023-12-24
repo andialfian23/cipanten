@@ -93,12 +93,17 @@ class gaji_karyawan extends CI_Controller {
         redirect(base_url('gaji_karyawan'));
     }
 
-    //DATATABLES
+    //DATATABLES acan
     public function get_data(){
         $xBegin = $this->input->post('xBegin',TRUE);
         $xEnd   = $this->input->post('xEnd',TRUE);
-        $column_order   = array('a.id_karyawan', 'k.nama', 'nama_jabatan', 'nama_dept', 'a.tanggal');
-        $list           = $this->absensi->get_datatables($column_order, $xBegin, $xEnd);
+        $id_dept   = $this->input->post('dept',TRUE);
+        $id_dept = ($id_dept == 'All') ? nuLL : $id_dept;
+        
+        $column_order   = array('a.id_karyawan', 'k.nama', 'nama_jabatan', 'nama_dept', 
+                    'a.tanggal','waktu_masuk','telat_masuk','waktu_pulang','waktu_kerja');
+                    
+        $list = $this->absensi->get_datatables($column_order, $xBegin, $xEnd,$id_dept);
         
         $data   = array();
         foreach ($list as $key) {

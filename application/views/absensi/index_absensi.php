@@ -16,6 +16,11 @@
     border: 1px solid #ffc107;
 }
 
+.inpselect {
+    font-size: 14px;
+    border: 1px solid #ffc107;
+}
+
 #tbl-absensi td {
     font-size: 12px !important;
 }
@@ -27,7 +32,7 @@
             <div class="card-header">
                 <div class=" row d-flex justify-content-between">
 
-                    <div class="col-md-4 d-flex mt-2">
+                    <div class="col-lg-3 mt-2">
                         <span class="mx-2">Data Absensi</span>
                     </div>
                     <div class="text-right ml-auto pr-3">
@@ -54,8 +59,6 @@
                                 <button id="cari" type="button"
                                     class="btn bg-gradient-success btn-sm border-warning mt-1">
                                     <i class="fas fa-search"></i> Cari</button>
-                                <button id="pdf" class="btn btn-primary btn-sm border-warning mt-1"><i
-                                        class="fas fa-print"></i> Print</button>
                             </div>
                         </div>
                     </div>
@@ -92,6 +95,25 @@
 <script>
 $(function() {
     let table = $('#tbl-absensi').DataTable({
+        dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        lengthMenu: [
+            [5, 10, 25],
+            ['5', '10', '25']
+        ],
+        pageLength: 10,
+        buttons: [{
+                extend: 'pageLength',
+                text: 'Tampilkan Data',
+                className: 'btn btn-secondary btn-sm',
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-print"></i> Cetak Laporan',
+                className: 'btn bg-gradient-blue btn-sm',
+            },
+        ],
         language: {
             url: "<?= base_url('extra-libs/ID.json') ?>",
         },
@@ -146,6 +168,7 @@ $(function() {
                 data: 'nik',
                 className: 'text-center',
                 render: function(data, type, row, meta) {
+                    // return `<a href="#" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                     return `<a href="#" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                             <a href="<?= base_url('absensi/delete/') ?>` + row.nik + `/` + row.tanggal + `"
                             class="btn btn-danger btn-sm"
