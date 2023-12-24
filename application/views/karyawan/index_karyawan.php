@@ -131,6 +131,9 @@
 $(function() {
     $('#tbl-karyawan').DataTable({
         responsive: true,
+        language: {
+            url: "<?= base_url('extra-libs/ID.json') ?>",
+        },
     });
 
     $('#btn-print-card').hide();

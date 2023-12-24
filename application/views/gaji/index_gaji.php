@@ -149,6 +149,9 @@
 $(function() {
     $('#tbl-gaji').DataTable({
         responsive: true,
+        language: {
+            url: "<?= base_url('extra-libs/ID.json') ?>",
+        },
     });
 
     $(document).on('click', '#btn-create', function() {

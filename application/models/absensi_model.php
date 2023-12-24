@@ -62,6 +62,101 @@ class absensi_model extends CI_Model {
                 ORDER BY k.id_karyawan ASC");
     }
     
+
+    //DATATABLE ABSENSI
+    
+    private function _get_query($column_order, $xBegin = null, $xEnd = null,$id_dept=null)
+    {
+        $column_search = $column_order;
+        
+        $this->db->select("k.nama, a.id_karyawan as nik, a.tanggal, 
+                    waktu_masuk, telat_masuk, waktu_pulang, waktu_kerja,
+                    nama_jabatan, nama_dept")
+                ->from("(SELECT id_karyawan,tanggal, min(waktu) as waktu_masuk, 
+                    TIMEDIFF(min(waktu),'07:00:00') as telat_masuk, 
+                    max(waktu) as waktu_pulang,
+                    TIMEDIFF(max(waktu),min(waktu)) as waktu_kerja 
+                    FROM t_absensi GROUP BY tanggal,id_karyawan) a");    
+        $this->db->join('t_karyawan k', 'a.id_karyawan=k.id_karyawan', 'LEFT')
+                ->join('t_jabatan j','k.id_jabatan=j.id_jabatan','LEFT')
+                ->join('t_dept d','k.id_dept=d.id_dept','LEFT');
+                
+        if($xBegin !=null){
+            $this->db->where('a.tanggal >=',$xBegin);
+        }
+        
+        if($xEnd !=null){
+            $this->db->where('a.tanggal <=',$xEnd);
+        }
+        
+        if($id_dept !=null){
+            $this->db->where('d.id_dept',$id_dept);
+        }
+ 
+        $i = 0;
+        foreach ($column_search as $item) 
+        {
+            if ($_POST['search']['value']) 
+            {
+                if ($i === 0) {
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+                if (count($column_search) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+        
+        if (isset($_POST['order'])) {
+            $this->db->order_by($column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by('a.tanggal','ASC');
+            $this->db->order_by('waktu_masuk','ASC');
+            $this->db->order_by('waktu_pulang','ASC');
+        }
+    }
+    public function get_datatables($column_order, $xBegin = null, $xEnd = null,$id_dept=null)
+    {
+        $this->_get_query($column_order, $xBegin, $xEnd,$id_dept);
+        if ($_POST['length'] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+            $query = $this->db->get();
+            if ($query) {
+                return $query->result();
+            }
+        } else {
+            $query = $this->db->get();
+            if ($query) {
+                return $query->result();
+            }
+        }
+    }
+    public function total_terfilter($column_order, $xBegin = null, $xEnd = null,$id_dept=null)
+    {
+        $this->_get_query($column_order, $xBegin, $xEnd, $id_dept);
+        return $this->db->get()->num_rows();
+    }
+    public function total_entri($xBegin = null, $xEnd = null)
+    {
+        $this->db->from('t_absensi');
+                
+        if($xBegin !=null){
+            $this->db->where('tanggal >=',$xBegin);
+        }
+        
+        if($xEnd !=null){
+            $this->db->where('tanggal <=',$xEnd);
+        }
+
+        $this->db->group_by('tanggal');
+        $this->db->group_by('id_karyawan');
+        
+        return $this->db->count_all_results();
+    }
+    
 }
 
 ?>

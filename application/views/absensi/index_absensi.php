@@ -8,6 +8,14 @@
     width: 100%;
 }
 
+.inpdate {
+    width: 120px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: none;
+    border: 1px solid #ffc107;
+}
+
 #tbl-absensi td {
     font-size: 12px !important;
 }
@@ -19,26 +27,35 @@
             <div class="card-header">
                 <div class=" row d-flex justify-content-between">
 
-                    <div class="col-md-5 d-flex">
+                    <div class="col-md-4 d-flex mt-2">
                         <span class="mx-2">Data Absensi</span>
                     </div>
                     <div class="text-right ml-auto pr-3">
-                        <div class="input-group input-group-sm">
-                            <a href="<?= base_url('scan_qr') ?>" class="btn btn-sm bg-gradient-success mr-3">Scan
-                                QR-Code</a>
+                        <div class="input-group input-group-sm d-flex justify-content-end">
+                            <a href="<?= base_url('scan_qr') ?>" class="btn btn-sm bg-gradient-success mr-2 mt-1">
+                                <i class="fas fa-qrcode mr-1"></i> Scan QR-Code</a>
 
-                            <div class="input-group-prepend">
-                                <span class="input-group-text border-warning">Date</span>
+                            <div class="input-group-prepend mt-1">
+                                <span class="input-group-text border-warning bg-dark">Bagian</span>
                             </div>
-                            <input type="date" class="form-control form-control-sm" id="xBegin"
-                                value="<?= date('Y-m-01') ?>" />
-                            <input type="date" class="form-control form-control-sm" id="xEnd"
-                                value="<?= date('Y-m-d') ?>" />
+                            <select id="dept" class="inpselect mt-1 mr-2">
+                                <option value="All">Semua</option>
+                                <?php foreach($dept as $d){ ?>
+                                <option value="<?= $d->id_dept ?>"><?= $d->nama_dept ?></option>
+                                <?php } ?>
+                            </select>
+
+                            <div class="input-group-prepend mt-1">
+                                <span class="input-group-text border-warning bg-dark">Tanggal</span>
+                            </div>
+                            <input type="date" class="inpdate mt-1" id="xBegin" value="<?= date('Y-m-01') ?>" />
+                            <input type="date" class="inpdate mt-1" id="xEnd" value="<?= date('Y-m-d') ?>" />
                             <div class="input-group-prepend">
                                 <button id="cari" type="button"
-                                    class="btn bg-gradient-success btn-sm border-warning"><b>Cari</b></button>
-                                <!-- <button id="pdf-prod3" class="btn btn-primary btn-sm border-warning"><b><i
-                                            class="fa-solid fa-print"></i> Print</b></button> -->
+                                    class="btn bg-gradient-success btn-sm border-warning mt-1">
+                                    <i class="fas fa-search"></i> Cari</button>
+                                <button id="pdf" class="btn btn-primary btn-sm border-warning mt-1"><i
+                                        class="fas fa-print"></i> Print</button>
                             </div>
                         </div>
                     </div>
@@ -47,10 +64,11 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive p-2">
-                    <table class="table table-bordered table-striped table-hover table-sm" border="2" id="tbl-absensi">
+                    <table class="table table-bordered table-striped table-hover table-sm w-100 responsive" border="2"
+                        id="tbl-absensi">
                         <thead class="bg-dark text-white">
                             <tr>
-                                <th>No</th>
+                                <!-- <th>No</th> -->
                                 <th>NIK</th>
                                 <th>Nama</th>
                                 <th>Jabatan</th>
@@ -63,33 +81,7 @@
                                 <th>--</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $no=1; foreach($absensi as $row){ ?>
-                            <tr>
-                                <td class="text-center"><?= $no; ?></td>
-                                <td><?= $row->nik ?></td>
-                                <td><?= $row->nama ?></td>
-                                <td><?= $row->nama_jabatan ?></td>
-                                <td><?= $row->nama_dept ?></td>
-                                <td class="text-center"><?= $row->tanggal ?></td>
-                                <td class="text-center">
-                                    <?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_masuk)) ?></td>
-                                <td class="text-center">
-                                    <?= date('H:i:s',strtotime($row->tanggal.' '.$row->telat_masuk)) ?></td>
-                                <td class="text-center">
-                                    <?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_pulang)) ?></td>
-                                <td class="text-center">
-                                    <?= date('H:i:s',strtotime($row->tanggal.' '.$row->waktu_kerja)) ?></td>
-                                <td class="text-center align-middle">
-                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                                    <a href="<?= base_url('absensi/delete/'.$row->nik.'/'.$row->tanggal) ?>"
-                                        class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
-                                            class="fas fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-                            <?php $no++; } ?>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
@@ -99,6 +91,74 @@
 
 <script>
 $(function() {
-    $('#tbl-absensi').DataTable();
+    let table = $('#tbl-absensi').DataTable({
+        language: {
+            url: "<?= base_url('extra-libs/ID.json') ?>",
+        },
+        serverSide: true,
+        processing: true,
+        "columnDefs": [{
+            "orderable": false,
+            "targets": [9]
+        }],
+        ajax: {
+            url: "<?= base_url('absensi/get_data') ?>",
+            type: "POST",
+            data: function(d) {
+                d.xBegin = $('#xBegin').val();
+                d.xEnd = $('#xEnd').val();
+                d.dept = $('#dept').val();
+            }
+        },
+        columns: [{
+                data: 'nik'
+            },
+            {
+                data: 'nama'
+            },
+            {
+                data: 'nama_jabatan'
+            },
+            {
+                data: 'nama_dept'
+            },
+            {
+                data: 'tanggal',
+                className: 'text-center',
+            },
+            {
+                data: 'waktu_masuk',
+                className: 'text-center',
+            },
+            {
+                data: 'telat_masuk',
+                className: 'text-center',
+            },
+            {
+                data: 'waktu_pulang',
+                className: 'text-center',
+            },
+            {
+                data: 'waktu_kerja',
+                className: 'text-center',
+            },
+            {
+                data: 'nik',
+                className: 'text-center',
+                render: function(data, type, row, meta) {
+                    return `<a href="#" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                            <a href="<?= base_url('absensi/delete/') ?>` + row.nik + `/` + row.tanggal + `"
+                            class="btn btn-danger btn-sm"
+                            onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
+                                class="fas fa-trash-alt"></i></a>`;
+                }
+            },
+        ],
+    });
+
+
+    $(document).on('click', '#cari', function() {
+        table.ajax.reload(null, false);
+    });
 });
 </script>

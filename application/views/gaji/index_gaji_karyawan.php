@@ -1,31 +1,49 @@
+<style>
+.inpdate {
+    width: 120px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: none;
+    border: 1px solid #ffc107;
+}
+
+.inpselect {
+    font-size: 14px;
+    border: 1px solid #ffc107;
+}
+</style>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card card-primary card-outline">
             <div class="card-header">
                 <div class=" row d-flex justify-content-between">
 
-                    <div class="col-md-5 d-flex">
+                    <div class="col-lg-2 col-md-6 col-sm-12 mt-1">
                         <span class="mx-2">Data Gaji Karyawan</span>
                     </div>
                     <div class="text-right ml-auto pr-3">
                         <div class="input-group input-group-sm">
                             <a href="<?= base_url('gaji_karyawan/proses_penggajian') ?>"
-                                class="btn bg-gradient-primary mr-3 btn-sm">Proses
-                                Penggajian
-                                Karyawan</a>
+                                class="btn bg-gradient-primary mr-2 mt-1 btn-sm">Proses Penggajian Karyawan</a>
 
-                            <div class="input-group-prepend">
-                                <span class="input-group-text border-warning">Tanggal Gajian</span>
+                            <div class="input-group-prepend mt-1">
+                                <span class="input-group-text border-warning bg-dark">Bagian</span>
                             </div>
-                            <input type="date" class="form-control form-control-sm" id="xBegin"
-                                value="<?= date('Y-m-01') ?>" />
-                            <input type="date" class="form-control form-control-sm" id="xEnd"
-                                value="<?= date('Y-m-d') ?>" />
+                            <select name="dept" id="dept" class="inpselect mt-1 mr-2">
+                                <option value="All">Semua</option>
+                                <option value="IT">IT</option>
+                            </select>
+
+                            <div class="input-group-prepend mt-1">
+                                <span class="input-group-text border-warning bg-dark">Tanggal Gajian</span>
+                            </div>
+                            <input type="date" class="inpdate mt-1" id="xBegin" value="<?= date('Y-m-01') ?>" />
+                            <input type="date" class="inpdate mt-1" id="xEnd" value="<?= date('Y-m-d') ?>" />
                             <div class="input-group-prepend">
                                 <button id="cari" type="button"
-                                    class="btn bg-gradient-success btn-sm border-warning"><b>Cari</b></button>
-                                <!-- <button id="pdf-prod3" class="btn btn-primary btn-sm border-warning"><b><i
-                        class="fa-solid fa-print"></i> Print</b></button> -->
+                                    class="btn bg-gradient-success btn-sm border-warning mt-1">
+                                    <i class="fas fa-search"></i> Cari</button>
                             </div>
                         </div>
                     </div>
@@ -183,7 +201,34 @@
 
 <script>
 $(function() {
-    $('#tbl-gaji-karyawan').DataTable();
+    $('#tbl-gaji-karyawan').DataTable({
+        dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        lengthMenu: [
+            [5, 10, 25],
+            ['5', '10', '25']
+        ],
+        pageLength: 10,
+        buttons: [{
+                extend: 'pageLength',
+                text: 'Tampilkan Data',
+                className: 'btn btn-secondary btn-sm',
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-print"></i> Cetak Laporan',
+                className: 'btn bg-gradient-blue btn-sm',
+            },
+        ],
+        language: {
+            url: "<?= base_url('extra-libs/ID.json') ?>",
+        },
+        // "columnDefs": [{
+        //     "orderable": false,
+        //     "targets": [8]
+        // }],
+    });
 
     $(document).on('click', '.btn-view', function() {
         $.ajax({

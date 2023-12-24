@@ -93,4 +93,40 @@ class gaji_karyawan extends CI_Controller {
         redirect(base_url('gaji_karyawan'));
     }
 
+    //DATATABLES
+    public function get_data(){
+        $xBegin = $this->input->post('xBegin',TRUE);
+        $xEnd   = $this->input->post('xEnd',TRUE);
+        $column_order   = array('a.id_karyawan', 'k.nama', 'nama_jabatan', 'nama_dept', 'a.tanggal');
+        $list           = $this->absensi->get_datatables($column_order, $xBegin, $xEnd);
+        
+        $data   = array();
+        foreach ($list as $key) {
+            $row      = array();
+
+            $row['nik']             = $key->nik;
+            $row['nama']   	 	    = $key->nama;
+            $row['nama_jabatan']    = $key->nama_jabatan;
+            $row['nama_dept']       = $key->nama_dept;
+            $row['tanggal']         = $key->tanggal;
+            $row['waktu_masuk']     = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_masuk));
+            $row['telat_masuk']     = date('H:i:s',strtotime($key->tanggal.' '.$key->telat_masuk));
+            $row['waktu_pulang']    = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_pulang));
+            $row['waktu_kerja']     = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_kerja));
+            
+            $data[]   = $row;
+        }
+
+        $output = array(
+            "draw"              => $_POST['draw'],
+            "recordsFiltered"   => $this->absensi->total_terfilter($column_order, $xBegin, $xEnd),
+            "recordsTotal"      => $this->absensi->total_entri($xBegin, $xEnd),
+            "data"              => $data,
+            'xBegin' =>$xBegin,
+            'xEnd' =>$xEnd,
+        );
+
+        echo json_encode($output);
+    }
+
 }

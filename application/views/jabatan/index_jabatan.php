@@ -157,8 +157,11 @@ table td {
 
 <script>
 $(function() {
-    $('#tbl-jabatan').DataTable();
-    $('#tbl-departemen').DataTable();
+    $('#tbl-jabatan, #tbl-departemen').DataTable({
+        language: {
+            url: "<?= base_url('extra-libs/ID.json') ?>",
+        },
+    });
 
     $(document).on('click', '#btn-create-jabatan', function() {
         $(document).find('#btn-save-edit').hide();
