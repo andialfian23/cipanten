@@ -11,7 +11,36 @@
     font-size: 14px;
     border: 1px solid #ffc107;
 }
+
+.loaderbox {
+    display: none;
+}
+
+.loder {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ddd;
+    opacity: 0.3;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    font-size: 50px;
+}
 </style>
+
+<div class="loaderbox">
+    <div class="loder">
+        <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+    </div>
+</div>
+
+<div id="iframeload_print"></div>
 
 <div class="row">
     <div class="col-lg-12">
@@ -32,7 +61,9 @@
                             </div>
                             <select name="dept" id="dept" class="inpselect mt-1 mr-2">
                                 <option value="All">Semua</option>
-                                <option value="IT">IT</option>
+                                <?php foreach($dept as $d){ ?>
+                                <option value="<?= $d->id_dept ?>"><?= $d->nama_dept ?></option>
+                                <?php } ?>
                             </select>
 
                             <div class="input-group-prepend mt-1">
@@ -57,42 +88,19 @@
                         id="tbl-gaji-karyawan" width="100%">
                         <thead class="bg-gradient-dark text-white">
                             <tr>
-                                <th class="font-weight-bolder">No</th>
+                                <!-- <th class="font-weight-bolder">No</th> -->
                                 <th class="font-weight-bolder">NIK</th>
                                 <th class="font-weight-bolder">Nama</th>
                                 <th class="font-weight-bolder">Jabatan</th>
                                 <th class="font-weight-bolder">Bagian</th>
-                                <th class="font-weight-bolder">Gaji</th>
                                 <th class="font-weight-bolder">Tanggal Gajian</th>
+                                <th class="font-weight-bolder">Gaji Pokok</th>
+                                <th class="font-weight-bolder">Jenis</th>
+                                <th class="font-weight-bolder">Gaji</th>
                                 <th>--</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $no=1; foreach($gaji_karyawan as $row){ ?>
-                            <tr>
-                                <td class="text-center"><?= $no; ?></td>
-                                <td class="text-center"><?= $row->nik ?></td>
-                                <td>
-                                    <a href="#preview" data-id="<?= $row->id_gk ?>" class="btn-view"
-                                        data-toggle="modal">
-                                        <b><?= $row->nama ?></b>
-                                    </a>
-                                </td>
-                                <td><?= $row->nama_jabatan ?></td>
-                                <td><?= $row->nama_dept ?></td>
-                                <td><?= number_format($row->total_terima) ?></td>
-                                <td class="text-center"><?= date('Y-n-d',strtotime($row->tgl_gajian)) ?></td>
-                                <td class="text-center align-middle d-flex">
-                                    <!-- <a href="<?= base_url('gaji_karyawan/update/'.$row->id_gk) ?>"
-                                        class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a> -->
-                                    <a href="<?= base_url('gaji_karyawan/delete/'.$row->id_gk) ?>"
-                                        class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
-                                            class="fas fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-                            <?php $no++; } ?>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
@@ -201,7 +209,8 @@
 
 <script>
 $(function() {
-    $('#tbl-gaji-karyawan').DataTable({
+    let localStorage = window.localStorage;
+    let table = $('#tbl-gaji-karyawan').DataTable({
         dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
@@ -219,15 +228,89 @@ $(function() {
                 extend: 'pdf',
                 text: '<i class="fas fa-print"></i> Cetak Laporan',
                 className: 'btn bg-gradient-blue btn-sm',
+                action: function(e, dt, node, config) {
+                    setTimeout(function() {
+                        window.open("<?= base_url('gaji_karyawan/print') ?>",
+                            '_blank');
+                    }, 1000);
+                }
             },
         ],
         language: {
             url: "<?= base_url('extra-libs/ID.json') ?>",
         },
-        // "columnDefs": [{
-        //     "orderable": false,
-        //     "targets": [8]
-        // }],
+        serverSide: true,
+        processing: true,
+        "columnDefs": [{
+            "orderable": false,
+            "targets": [8]
+        }],
+        ajax: {
+            url: "<?= base_url('gaji_karyawan/get_data') ?>",
+            type: "POST",
+            data: function(d) {
+                d.xBegin = $('#xBegin').val();
+                d.xEnd = $('#xEnd').val();
+                d.dept = $('#dept').val();
+
+                localStorage.setItem('xBegin', "" + d.xBegin + "");
+                localStorage.setItem('xEnd', "" + d.xEnd + "");
+                localStorage.setItem('dept', "" + d.dept + "");
+            }
+        },
+        columns: [{
+                data: 'nik',
+                className: 'text-center'
+            },
+            {
+                data: 'nama',
+                render: function(data, type, row, meta) {
+                    return `<a href="#preview" data-id="` + row.id + `" 
+                                class="btn-view"
+                                data-toggle="modal">
+                                <b>` + row.nama + `</b>
+                            </a>`;
+                }
+            },
+            {
+                data: 'nama_jabatan'
+            },
+            {
+                data: 'nama_dept'
+            },
+            {
+                data: 'tgl_gaji',
+                className: 'text-center',
+            },
+            {
+                data: 'gaji_pokok',
+                className: 'text-right',
+            },
+            {
+                data: 'hitungan_kerja',
+                className: 'text-right',
+            },
+            {
+                data: 'total_terima',
+                className: 'text-right',
+            },
+            {
+                data: 'id_gk',
+                className: 'text-center',
+                render: function(data, type, row, meta) {
+                    return `<a href="<?= base_url('gaji_karyawan/update/') ?>` + row.id + `"
+                                class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                    <a href="<?= base_url('gaji_karyawan/delete/') ?>` + row.id + `"
+                            class="btn btn-danger btn-sm"
+                            onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
+                            class="fas fa-trash-alt"></i></a>`;
+                }
+            },
+        ],
+    });
+
+    $(document).on('click', '#cari', function() {
+        table.ajax.reload(null, false);
     });
 
     $(document).on('click', '.btn-view', function() {

@@ -19,7 +19,7 @@ class gaji_karyawan extends CI_Controller {
 	public function index()
 	{
         $data['judul'] = 'Data Gaji Karyawan';
-        $data['gaji_karyawan'] = $this->gaji->get_gaji_karyawan()->result();
+        $data['dept'] = $this->karyawan->get_dept()->result();
         $data['view'] = 'gaji/index_gaji_karyawan';
         $this->load->view('index',$data);
     }
@@ -93,45 +93,98 @@ class gaji_karyawan extends CI_Controller {
         redirect(base_url('gaji_karyawan'));
     }
 
-    //DATATABLES acan
+    //DATATABLES GAJI KARYAWAN
     public function get_data(){
         $xBegin = $this->input->post('xBegin',TRUE);
         $xEnd   = $this->input->post('xEnd',TRUE);
         $id_dept   = $this->input->post('dept',TRUE);
         $id_dept = ($id_dept == 'All') ? nuLL : $id_dept;
         
-        $column_order   = array('a.id_karyawan', 'k.nama', 'nama_jabatan', 'nama_dept', 
-                    'a.tanggal','waktu_masuk','telat_masuk','waktu_pulang','waktu_kerja');
+        $column_order = array('k.id_karyawan', 'k.nama', 'nama_jabatan', 'nama_dept', 'gaji_pokok','hitungan_kerja','tgl_gajian');
                     
-        $list = $this->absensi->get_datatables($column_order, $xBegin, $xEnd,$id_dept);
+        $list = $this->gaji->get_datatables($column_order, $xBegin, $xEnd,$id_dept);
         
         $data   = array();
         foreach ($list as $key) {
             $row      = array();
 
+            $row['id']              = $key->id_gk;
             $row['nik']             = $key->nik;
             $row['nama']   	 	    = $key->nama;
             $row['nama_jabatan']    = $key->nama_jabatan;
             $row['nama_dept']       = $key->nama_dept;
-            $row['tanggal']         = $key->tanggal;
-            $row['waktu_masuk']     = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_masuk));
-            $row['telat_masuk']     = date('H:i:s',strtotime($key->tanggal.' '.$key->telat_masuk));
-            $row['waktu_pulang']    = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_pulang));
-            $row['waktu_kerja']     = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_kerja));
+            $row['gaji_pokok']    = number_format($key->gaji_pokok);
+            $row['hitungan_kerja']    = $key->hitungan_kerja;
+            $row['total_terima']    = number_format($key->total_terima);
+            $row['tgl_gaji']        = $key->tgl_gaji;
             
             $data[]   = $row;
         }
 
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsFiltered"   => $this->absensi->total_terfilter($column_order, $xBegin, $xEnd),
-            "recordsTotal"      => $this->absensi->total_entri($xBegin, $xEnd),
+            "recordsFiltered"   => $this->gaji->total_terfilter($column_order, $xBegin, $xEnd),
+            "recordsTotal"      => $this->gaji->total_entri($xBegin, $xEnd),
             "data"              => $data,
-            'xBegin' =>$xBegin,
-            'xEnd' =>$xEnd,
         );
 
         echo json_encode($output);
+    }
+
+
+    //REPORT
+    public function get_data_print(){
+        $output = [];
+        $total_row = 0;
+        $isi_tabel = '';
+
+        $xBegin = $this->input->post('xBegin',TRUE);
+        $xEnd   = $this->input->post('xEnd',TRUE);
+        $id_dept = $this->input->post('dept',TRUE);
+        $id_dept = ($id_dept == 'All') ? nuLL : $id_dept;
+
+        $gaji_karyawan = $this->gaji->get_gaji_karyawan(null,$xBegin,$xEnd,$id_dept);
+
+        $total_terima = 0;
+        if($gaji_karyawan){
+            $total_row = $gaji_karyawan->num_rows();
+
+            $no = 1;
+            foreach($gaji_karyawan->result() as $key){
+                // <td class="text-center">'.$no++.'</td>  
+                $isi_tabel .= '<tr>
+                        <td class="text-center">'.$key->tgl_gaji.'</td>  
+                      <td>'.$key->nik.'</td>  
+                      <td>'.$key->nama.'</td>  
+                      <td>'.$key->nama_jabatan.'</td>  
+                      <td>'.$key->nama_dept.'</td>  
+                      <td class="text-center">'.$key->hitungan_kerja.'</td>  
+                      <td class="text-right">'.number_format($key->gaji_pokok).'</td>  
+                      <td class="text-right">'.number_format($key->jml_hadir).'</td>  
+                      <td class="text-right">'.number_format($key->ttl_bonus).'</td>  
+                      <td class="text-right">'.number_format($key->ttl_gaji_pokok).'</td>  
+                      <td class="text-right">'.number_format($key->jml_tidak_hadir).'</td>  
+                      <td class="text-right">'.number_format($key->ttl_tidak_hadir).'</td>  
+                      <td class="text-right">'.number_format($key->jml_telat_masuk).'</td>  
+                      <td class="text-right">'.number_format($key->ttl_telat_masuk).'</td>  
+                      <td class="text-right">'.number_format($key->ttl_tidak_hadir + $key->ttl_telat_masuk).'</td>  
+                      <td class="text-right">'.number_format($key->total_terima).'</td>  
+                <tr>';
+                $total_terima += $key->total_terima;
+            }
+        }
+        
+        $output = [
+            'total_data' => $total_row,
+            'isi_tabel' => $isi_tabel,
+            'periode' => date('d M Y',strtotime($xBegin)).' - '.date('d M Y',strtotime($xEnd)),
+            'total_terima' => number_format($total_terima),
+        ];
+        echo json_encode($output);
+    }
+    
+    public function print(){
+        $this->load->view('gaji/laporan_gaji_karyawan');
     }
 
 }

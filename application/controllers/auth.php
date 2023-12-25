@@ -38,6 +38,7 @@ class auth extends CI_Controller {
                     $_SESSION['nama'] = 'Administrator';
                 }else{
                     $_SESSION['nama'] = $user->nama;
+                    $_SESSION['id_dept'] = $user->id_dept;
                 }
                 
                 $output = [

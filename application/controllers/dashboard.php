@@ -22,4 +22,14 @@ class dashboard extends CI_Controller {
         $data['view'] = 'dashboard/home';
 		$this->load->view('index',$data);
 	}
+
+    public function absensi(){
+        $data['view'] = 'dashboard/absensi';
+		$this->load->view('index',$data);
+    }
+    
+    public function gaji(){
+        $data['view'] = 'dashboard/gaji';
+		$this->load->view('index',$data);
+    }
 }

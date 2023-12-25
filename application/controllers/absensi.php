@@ -74,10 +74,53 @@ class absensi extends CI_Controller {
             "recordsFiltered"   => $this->absensi->total_terfilter($column_order, $xBegin, $xEnd),
             "recordsTotal"      => $this->absensi->total_entri($xBegin, $xEnd),
             "data"              => $data,
-            'xBegin' =>$xBegin,
-            'xEnd' =>$xEnd,
         );
 
         echo json_encode($output);
+    }
+
+    //REPORT
+    public function get_data_print(){
+        $output = [];
+        $total_row = 0;
+        $isi_tabel = '';
+
+        $xBegin = $this->input->post('xBegin',TRUE);
+        $xEnd   = $this->input->post('xEnd',TRUE);
+        $id_dept = $this->input->post('dept',TRUE);
+        $id_dept = ($id_dept == 'All') ? nuLL : $id_dept;
+
+        $absensi = $this->absensi->get_absensi(null,'ASC',$xBegin,$xEnd,$id_dept);
+
+        if($absensi){
+            $total_row = $absensi->num_rows();
+
+            $no = 1;
+            foreach($absensi->result() as $key){
+                $isi_tabel .= '<tr>
+                      <td class="text-center">'.$no++.'</td>  
+                      <td>'.$key->nik.'</td>  
+                      <td>'.$key->nama.'</td>  
+                      <td>'.$key->nama_jabatan.'</td>  
+                      <td>'.$key->nama_dept.'</td>  
+                      <td class="text-center">'.$key->tanggal.'</td>
+                      <td class="text-center">'.$key->waktu_masuk.'</td>
+                      <td class="text-center">'.$key->telat_masuk.'</td>
+                      <td class="text-center">'.$key->waktu_pulang.'</td>
+                      <td class="text-center">'.$key->waktu_kerja.'</td>
+                <tr>';
+            }
+        }
+        
+        $output = [
+            'total_data' => $total_row,
+            'isi_tabel' => $isi_tabel,
+            'periode' => date('d M Y',strtotime($xBegin)).' - '.date('d M Y',strtotime($xEnd)),
+        ];
+        echo json_encode($output);
+    }
+    
+    public function print(){
+        $this->load->view('absensi/laporan_absensi');
     }
 }

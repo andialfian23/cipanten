@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class absensi_model extends CI_Model {
     
-    public function get_absensi($id=null,$order='DESC',$start=null,$end=null){
+    public function get_absensi($id=null,$order='DESC',$start=null,$end=null,$id_dept=null){
         
         $this->db->select("k.nama, a.id_karyawan as nik, a.tanggal, 
                     waktu_masuk, 
@@ -11,7 +11,8 @@ class absensi_model extends CI_Model {
                     waktu_pulang, 
                     TIMEDIFF(waktu_pulang,waktu_masuk) as waktu_kerja,
                     nama_jabatan, nama_dept")
-                ->from('(SELECT id_karyawan,tanggal, min(waktu) as waktu_masuk, max(waktu) as waktu_pulang FROM t_absensi GROUP BY tanggal,id_karyawan) a');
+                ->from('(SELECT id_karyawan,tanggal, min(waktu) as waktu_masuk, max(waktu) as waktu_pulang 
+                    FROM t_absensi GROUP BY tanggal,id_karyawan) a');
                
         $this->db->join('t_karyawan k', 'a.id_karyawan=k.id_karyawan', 'LEFT')
                 ->join('t_jabatan j','k.id_jabatan=j.id_jabatan','LEFT')
@@ -24,6 +25,9 @@ class absensi_model extends CI_Model {
         }
         if($end !=null){
             $this->db->where('a.tanggal <=',$end);
+        }
+        if($id_dept !=null){
+            $this->db->where('d.id_dept',$id_dept);
         }
 
         $order = ($order=='DESC')??'ASC';
@@ -64,7 +68,6 @@ class absensi_model extends CI_Model {
     
 
     //DATATABLE ABSENSI
-    
     private function _get_query($column_order, $xBegin = null, $xEnd = null,$id_dept=null)
     {
         $column_search = $column_order;

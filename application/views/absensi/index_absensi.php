@@ -94,6 +94,8 @@
 
 <script>
 $(function() {
+    let localStorage = window.localStorage;
+
     let table = $('#tbl-absensi').DataTable({
         dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
@@ -112,6 +114,11 @@ $(function() {
                 extend: 'pdf',
                 text: '<i class="fas fa-print"></i> Cetak Laporan',
                 className: 'btn bg-gradient-blue btn-sm',
+                action: function(e, dt, node, config) {
+                    setTimeout(function() {
+                        window.open("<?= base_url('absensi/print') ?>", '_blank');
+                    }, 1000);
+                }
             },
         ],
         language: {
@@ -130,6 +137,9 @@ $(function() {
                 d.xBegin = $('#xBegin').val();
                 d.xEnd = $('#xEnd').val();
                 d.dept = $('#dept').val();
+                localStorage.setItem('xBegin', "" + d.xBegin + "");
+                localStorage.setItem('xEnd', "" + d.xEnd + "");
+                localStorage.setItem('dept', "" + d.dept + "");
             }
         },
         columns: [{

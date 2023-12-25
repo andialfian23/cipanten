@@ -161,6 +161,8 @@ $(function() {
         language: {
             url: "<?= base_url('extra-libs/ID.json') ?>",
         },
+        lengthChange: false,
+        info: false,
     });
 
     $(document).on('click', '#btn-create-jabatan', function() {
