@@ -59,8 +59,8 @@ class gaji_model extends CI_Model {
         return $this->db->get();
     }
 
-    //DATATABLE ABSENSI
-    private function _get_query($column_order, $xBegin = null, $xEnd = null,$id_dept=null)
+    //DATATABLE GAJI KARYAWAN
+    public function get_datatables($column_order, $xBegin = null, $xEnd = null,$id_dept=null,$id_k=null)
     {
         $column_search = $column_order;
         
@@ -75,15 +75,18 @@ class gaji_model extends CI_Model {
         
 
         if($xBegin !=null){
-            $this->db->where('gk.tgl_gajian >=',$xBegin);
+            $this->db->where('gk.tgl_gajian >=', $xBegin.' 00:00:00');
         }
         
         if($xEnd !=null){
-            $this->db->where('gk.tgl_gajian <=',$xEnd);
+            $this->db->where('gk.tgl_gajian <=', $xEnd.' 23:59:59');
         }
         
         if($id_dept !=null){
             $this->db->where('d.id_dept',$id_dept);
+        }
+        if($id_k !=null){
+            $this->db->where('gk.id_karyawan',$id_k);
         }
  
         $i = 0;
@@ -110,29 +113,20 @@ class gaji_model extends CI_Model {
             $this->db->order_by('nama_dept','ASC');
             $this->db->order_by('k.id_karyawan','ASC');
         }
-    }
-    public function get_datatables($column_order, $xBegin = null, $xEnd = null,$id_dept=null)
-    {
-        $this->_get_query($column_order, $xBegin, $xEnd,$id_dept);
+        
         if ($_POST['length'] != -1) {
             $this->db->limit($_POST['length'], $_POST['start']);
-            $query = $this->db->get();
-            if ($query) {
-                return $query->result();
-            }
-        } else {
-            $query = $this->db->get();
-            if ($query) {
-                return $query->result();
-            }
+        } 
+
+        $query = $this->db->get();
+        if ($query) {
+            return $query;
+        }else{
+            return false;
         }
     }
-    public function total_terfilter($column_order, $xBegin = null, $xEnd = null,$id_dept=null)
-    {
-        $this->_get_query($column_order, $xBegin, $xEnd, $id_dept);
-        return $this->db->get()->num_rows();
-    }
-    public function total_entri($xBegin = null, $xEnd = null)
+    
+    public function total_entri($xBegin = null, $xEnd = null,$id_k=null)
     {
         $this->db->from('t_gaji_karyawan');
                 
@@ -142,6 +136,10 @@ class gaji_model extends CI_Model {
         
         if($xEnd !=null){
             $this->db->where('tgl_gajian <=',$xEnd.' 23:59:59');
+        }
+
+        if($id_k !=null){
+            $this->db->where('id_karyawan',$id_k);
         }
         
         return $this->db->count_all_results();

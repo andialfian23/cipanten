@@ -37,5 +37,39 @@
         font-size: 14px !important;
         vertical-align: middle !important;
     }
+
+    .loaderbox {
+        display: none;
+    }
+
+    .loder {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ddd;
+        opacity: 0.3;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10000;
+        font-size: 50px;
+    }
+
+    .inpdate {
+        width: 120px;
+        font-size: 14px;
+        text-align: center;
+        border-radius: none;
+        border: 1px solid #ffc107;
+    }
+
+    .inpselect {
+        font-size: 14px;
+        border: 1px solid #ffc107;
+    }
     </style>
 </head>

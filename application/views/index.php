@@ -7,7 +7,7 @@
 
     <div class="wrapper">
         <!-- Preloader -->
-        <?php // $this->load->view('template/loader'); ?>
+        <?php $this->load->view('template/loader'); ?>
 
         <!-- Navbar -->
         <?php $this->load->view('template/navbar'); ?>

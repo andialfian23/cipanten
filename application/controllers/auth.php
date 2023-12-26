@@ -38,6 +38,8 @@ class auth extends CI_Controller {
                     $_SESSION['nama'] = 'Administrator';
                 }else{
                     $_SESSION['nama'] = $user->nama;
+                    $_SESSION['id_karyawan'] = $user->id;
+                    $_SESSION['nik'] = $user->id_karyawan;
                     $_SESSION['id_dept'] = $user->id_dept;
                 }
                 
@@ -62,8 +64,12 @@ class auth extends CI_Controller {
 
     public function logout(){
         $this->session->unset_userdata('username');
-        $this->session->unset_userdata('nama');
         $this->session->unset_userdata('level');
+        $this->session->unset_userdata('nama');
+        $this->session->unset_userdata('id_karyawan');
+        $this->session->unset_userdata('nik');
+        $this->session->unset_userdata('id_dept');
+        
         notifikasi(true,'Berhasil Logout !!!');
         redirect(base_url('auth'));
     }

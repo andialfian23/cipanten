@@ -105,7 +105,7 @@ class gaji_karyawan extends CI_Controller {
         $list = $this->gaji->get_datatables($column_order, $xBegin, $xEnd,$id_dept);
         
         $data   = array();
-        foreach ($list as $key) {
+        foreach ($list->result() as $key) {
             $row      = array();
 
             $row['id']              = $key->id_gk;
@@ -123,7 +123,7 @@ class gaji_karyawan extends CI_Controller {
 
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsFiltered"   => $this->gaji->total_terfilter($column_order, $xBegin, $xEnd),
+            "recordsFiltered"   => $list->num_rows(),
             "recordsTotal"      => $this->gaji->total_entri($xBegin, $xEnd),
             "data"              => $data,
         );

@@ -17,10 +17,10 @@
     <script src="<?= base_url() ?>AdminLTE_3/plugins/jquery/jquery.min.js"></script>
 </head>
 
-<body class="hold-transition login-page">
+<body class="hold-transition login-page bg-navy">
     <div class="login-box">
         <!-- /.login-logo -->
-        <div class="card card-outline card-primary">
+        <div class="card card-outline card-success">
             <div class="card-header text-center">
                 <img src="<?= base_url() ?>images/logo/cptn.png" alt="Cipanten Logo" class="] bg-white w-50 my-2"
                     style="opacity: 0.8" />

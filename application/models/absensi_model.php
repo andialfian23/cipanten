@@ -68,7 +68,7 @@ class absensi_model extends CI_Model {
     
 
     //DATATABLE ABSENSI
-    private function _get_query($column_order, $xBegin = null, $xEnd = null,$id_dept=null)
+    public function get_datatables($column_order, $xBegin = null, $xEnd = null, $id_dept=null, $nik=null)
     {
         $column_search = $column_order;
         
@@ -95,6 +95,10 @@ class absensi_model extends CI_Model {
         if($id_dept !=null){
             $this->db->where('d.id_dept',$id_dept);
         }
+        
+        if($nik !=null){
+            $this->db->where('a.id_karyawan',$nik);
+        }
  
         $i = 0;
         foreach ($column_search as $item) 
@@ -120,31 +124,20 @@ class absensi_model extends CI_Model {
             $this->db->order_by('waktu_masuk','ASC');
             $this->db->order_by('waktu_pulang','ASC');
         }
-    }
-    public function get_datatables($column_order, $xBegin = null, $xEnd = null,$id_dept=null)
-    {
-        $this->_get_query($column_order, $xBegin, $xEnd,$id_dept);
+        
         if ($_POST['length'] != -1) {
             $this->db->limit($_POST['length'], $_POST['start']);
-            $query = $this->db->get();
-            if ($query) {
-                return $query->result();
-            }
-        } else {
-            $query = $this->db->get();
-            if ($query) {
-                return $query->result();
-            }
+        }
+        
+        $query = $this->db->get();
+        if ($query) {
+            return $query;
         }
     }
-    public function total_terfilter($column_order, $xBegin = null, $xEnd = null,$id_dept=null)
+    
+    public function total_entri($xBegin = null, $xEnd = null, $nik=null)
     {
-        $this->_get_query($column_order, $xBegin, $xEnd, $id_dept);
-        return $this->db->get()->num_rows();
-    }
-    public function total_entri($xBegin = null, $xEnd = null)
-    {
-        $this->db->from('t_absensi');
+        $this->db->select('tanggal')->from('t_absensi');
                 
         if($xBegin !=null){
             $this->db->where('tanggal >=',$xBegin);
@@ -153,11 +146,14 @@ class absensi_model extends CI_Model {
         if($xEnd !=null){
             $this->db->where('tanggal <=',$xEnd);
         }
+        if($nik != null){
+            $this->db->where('id_karyawan',$nik);
+        }
 
-        $this->db->group_by('tanggal');
-        $this->db->group_by('id_karyawan');
+        $this->db->group_by(['tanggal','id_karyawan']);
+        // $this->db->group_by('id_karyawan');
         
-        return $this->db->count_all_results();
+        return $this->db->get()->num_rows();
     }
     
 }

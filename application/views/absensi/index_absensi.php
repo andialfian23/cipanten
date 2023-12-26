@@ -8,19 +8,6 @@
     width: 100%;
 }
 
-.inpdate {
-    width: 120px;
-    font-size: 14px;
-    text-align: center;
-    border-radius: none;
-    border: 1px solid #ffc107;
-}
-
-.inpselect {
-    font-size: 14px;
-    border: 1px solid #ffc107;
-}
-
 #tbl-absensi td {
     font-size: 12px !important;
 }

@@ -24,12 +24,14 @@ class dashboard extends CI_Controller {
 	}
 
     public function absensi(){
-        $data['view'] = 'dashboard/absensi';
+        $data['judul'] = 'Absensi Harian';
+        $data['view'] = 'dashboard/absensi_harian';
 		$this->load->view('index',$data);
     }
     
     public function gaji(){
-        $data['view'] = 'dashboard/gaji';
+        $data['judul'] = 'Data Slip Gaji';
+        $data['view'] = 'dashboard/slip_gaji';
 		$this->load->view('index',$data);
     }
 }

@@ -147,4 +147,72 @@ class json extends CI_Controller {
         
         echo json_encode($output);
     }
+
+    public function gaji_karyawan(){
+        $xBegin = $this->input->post('xBegin',TRUE);
+        $xEnd   = $this->input->post('xEnd',TRUE);
+        $id_karyawan   = $this->input->post('id_karyawan',TRUE);
+        
+        $column_order = array('tgl_gajian','gaji_pokok','hitungan_kerja');
+                    
+        $list = $this->gaji->get_datatables($column_order, $xBegin, $xEnd, null,$id_karyawan);
+        
+        $data   = array();
+        foreach ($list->result() as $key) {
+            $row      = array();
+
+            $row['id']        = $key->id_gk;
+            $row['tgl_gaji']        = $key->tgl_gaji;
+            $row['gaji_pokok']    = number_format($key->gaji_pokok);
+            $row['hitungan_kerja']    = $key->hitungan_kerja;
+            $row['bonus']    = number_format($key->ttl_bonus);
+            $row['potongan']    = number_format($key->ttl_tidak_hadir + $key->telat_masuk);
+            $row['total_terima']    = number_format($key->total_terima);
+            
+            $data[]   = $row;
+        }
+
+        $output = array(
+            "draw"              => $_POST['draw'],
+            "recordsFiltered"   => $list->num_rows(),
+            "recordsTotal"      => $this->gaji->total_entri($xBegin, $xEnd,$id_karyawan),
+            "data"              => $data,
+        );
+
+        echo json_encode($output);
+    }
+
+    public function absensi_harian(){
+        $output = [];
+
+        $xBegin = $this->input->post('xBegin',TRUE);
+        $xEnd   = $this->input->post('xEnd',TRUE);
+        $nik = $this->input->post('nik',TRUE);
+
+        $column_order   = array('a.tanggal','waktu_masuk','telat_masuk','waktu_pulang','waktu_kerja');
+        
+        $list = $this->absensi->get_datatables($column_order, $xBegin, $xEnd,null,$nik);
+
+        $data   = array();
+        foreach ($list->result() as $key) {
+            $row      = array();
+
+            $row['tanggal']         = $key->tanggal;
+            $row['waktu_masuk']     = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_masuk));
+            $row['telat_masuk']     = date('H:i:s',strtotime($key->tanggal.' '.$key->telat_masuk));
+            $row['waktu_pulang']    = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_pulang));
+            $row['waktu_kerja']     = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_kerja));
+
+            $data[]   = $row;
+        }
+
+        $output = array(
+            "draw"              => $_POST['draw'],
+            "recordsFiltered"   => $list->num_rows(),
+            "recordsTotal"      => $this->absensi->total_entri($xBegin, $xEnd, $nik),
+            "data"              => $data,
+        );
+
+        echo json_encode($output);
+    }
 }
