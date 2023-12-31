@@ -17,18 +17,14 @@
                         width="100%">
                         <thead class="bg-gradient-dark text-white">
                             <tr>
-                                <th class="font-weight-bolder">
-                                    No
-                                </th>
-                                <th class="font-weight-bolder">
-                                    NIK
-                                </th>
-                                <th class="font-weight-bolder">Nama</th>
-                                <th class="font-weight-bolder">Jabatan</th>
-                                <th class="font-weight-bolder">Bagian</th>
-                                <th class="font-weight-bolder">Gabung Sejak</th>
-                                <th class="font-weight-bolder">No HP</th>
-                                <th class="font-weight-bolder">Alamat</th>
+                                <th>No</th>
+                                <th>NIK</th>
+                                <th>Nama</th>
+                                <th>Jabatan</th>
+                                <th>Bagian</th>
+                                <th>Gabung Sejak</th>
+                                <th>No HP</th>
+                                <th>Alamat</th>
                                 <th>--</th>
                             </tr>
                         </thead>

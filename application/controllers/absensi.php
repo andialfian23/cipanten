@@ -23,20 +23,73 @@ class absensi extends CI_Controller {
 		$this->load->view('index',$data);
 	}
 
-    public function update($id=null){
-        if($id==null){
-            redirect(base_url('absensi'));
+    public function update(){
+        $id_absensi = $this->input->post('id',TRUE);
+        $waktu = $this->input->post('waktu',TRUE);
+
+        if($id_absensi==null || $waktu==null){
+            $output = [
+                'status' => 0,
+                'pesan' => 'Gagal Edit'
+            ];
+        }else{
+            $where = ['id_absensi'=>$id_absensi];
+            $cek_absensi = $this->db->get_where('t_absensi',$where);
+            if($cek_absensi->num_rows() > 0){
+                $set = [
+                    'waktu' => $this->input->post('waktu',true),
+                ];
+                $this->global_model->update_data('t_absensi',$set,$where);
+                $output = [
+                    'status' => 1,
+                    'pesan' => 'Edit Waktu Absensi Berhasil'
+                ];
+            }else{
+                $output = [
+                    'status' => 0,
+                    'pesan' => 'Gagal Edit'
+                ];
+            }
         }
+        
+        echo json_encode($output);
     }
 
-    public function delete($id=null,$tgl=null){
-        if($id==null || $tgl==null){
+    public function delete($id_karyawan=null,$tgl=null){
+        if($id_karyawan==null || $tgl==null){
             redirect(base_url('absensi'));
         }
-        $where = ['id_karyawan'=>$id,'tanggal'=>$tgl];
+        $where = ['id_karyawan'=>$id_karyawan,'tanggal'=>$tgl];
         $this->global_model->delete_data('t_absensi',$where);
         
         redirect(base_url('absensi'));
+    }
+
+    public function delete2(){
+        $id_absensi = $this->input->post('id',TRUE);
+        if($id_absensi==null){
+            $output = [
+                'status' => 0,
+                'pesan' => 'Gagal Menghapus Data'
+            ];
+        }else{
+            $where = ['id_absensi'=>$id_absensi];
+            $cek_absensi = $this->db->get_where('t_absensi',$where);
+            if($cek_absensi->num_rows() > 0){
+                $this->global_model->delete_data('t_absensi',$where);
+                $output = [
+                    'status' => 1,
+                    'pesan' => 'Menghapus Data Waktu Absensi Berhasil'
+                ];
+            }else{
+                $output = [
+                    'status' => 0,
+                    'pesan' => 'Gagal Menghapus Data'
+                ];
+            }
+        }
+        
+        echo json_encode($output);
     }
 
     //DATATABLES
@@ -51,9 +104,9 @@ class absensi extends CI_Controller {
                     'a.tanggal','waktu_masuk','telat_masuk','waktu_pulang','waktu_kerja');
                     
         $list = $this->absensi->get_datatables($column_order, $xBegin, $xEnd,$id_dept);
-        
+       
         $data   = array();
-        foreach ($list as $key) {
+        foreach ($list->result() as $key) {
             $row      = array();
 
             $row['nik']             = $key->nik;
@@ -71,7 +124,7 @@ class absensi extends CI_Controller {
 
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsFiltered"   => $this->absensi->total_terfilter($column_order, $xBegin, $xEnd),
+            "recordsFiltered"   => $list->num_rows(),
             "recordsTotal"      => $this->absensi->total_entri($xBegin, $xEnd),
             "data"              => $data,
         );
@@ -122,5 +175,35 @@ class absensi extends CI_Controller {
     
     public function print(){
         $this->load->view('absensi/laporan_absensi');
+    }
+
+    //GET DATA UNTUK EDIT ABSENSI
+    public function get_absensi(){
+        $input_nik = $this->input->post('nik',TRUE);
+        $input_tgl = $this->input->post('tgl',TRUE);
+        $nik = null;
+        $nama = null;
+        $dept = null;
+        $jabatan = null;
+        $data_waktu = [];
+        $absensi = $this->absensi->get_1data($input_nik,$input_tgl);
+        foreach($absensi->result() as $key){
+            $data_waktu[] = [
+                'id'=>$key->id_absensi,
+                'waktu'=>$key->waktu,
+            ];
+            $nik = $key->id_karyawan;
+            $nama = $key->nama;
+            $dept = $key->nama_dept;
+            $jabatan = $key->nama_jabatan;
+        }
+        $output = [
+            'nik' => $nik,
+            'nama' => $nama,
+            'dept' => $dept,
+            'jabatan' => $jabatan,
+            'data_waktu' => $data_waktu,
+        ];
+        echo json_encode($output);
     }
 }

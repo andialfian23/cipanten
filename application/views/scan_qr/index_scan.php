@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="card-body text-center">
 
@@ -24,22 +24,35 @@
             </div>
         </div>
     </div>
-    <!-- <div class="col-lg-4">
+    <div class="col-lg-4">
         <div class="card">
-            <div class="card-header">Data Absensi Hari Ini</div>
             <div class="card-body">
-                <table class="table" width="100%" id="tbl-absensi">
-                    <thead class="bg-gradient-dark">
-                        <tr>
-                            <th>NIK</th>
-                            <th>Nama</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5 class="text-center">Data Karyawan</h5>
+                        <table class="table table-sm">
+                            <tr>
+                                <th>NIK</th>
+                                <th id="nik"></th>
+                            </tr>
+                            <tr>
+                                <th>Nama</th>
+                                <th id="nama"></th>
+                            </tr>
+                            <tr>
+                                <th>Jabatan</th>
+                                <th id="jabatan"></th>
+                            </tr>
+                            <tr>
+                                <th>Bagian</th>
+                                <th id="dept"></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-    </div> -->
+    </div>
 </div>
 
 <script type="text/javascript" src="<?= base_url() ?>extra-libs/webcodecam/js/qrcodelib.js"></script>
@@ -58,9 +71,10 @@ $('select').on('change', function() {
     decoder.stop().play();
 });
 
-// jquery extend function
 $.extend({
     redirectPost: function(value) {
+
+
         let params = {
             no_qr: value
         }
@@ -72,10 +86,24 @@ $.extend({
             dataType: 'json',
             success: function(res) {
                 decoder.stop();
-                setTimeout(() => {
-                    toastr.success('Berhasil Melakukan Absensi');
-                    decoder.stop().play();
-                }, 2000);
+                if (res.status == 1) {
+                    $(document).find('#nik').text(": " + res.data.nik);
+                    $(document).find('#nama').text(": " + res.data.nama);
+                    $(document).find('#dept').text(": " + res.data.dept);
+                    $(document).find('#jabatan').text(": " + res.data.jabatan);
+                    setTimeout(() => {
+                        toastr.success(res.pesan);
+                    }, 2000);
+                } else {
+                    $(document).find('#nik').text('');
+                    $(document).find('#nama').text('');
+                    $(document).find('#dept').text('');
+                    $(document).find('#jabatan').text('');
+                    setTimeout(() => {
+                        toastr.error(res.pesan);
+                    }, 2000);
+                }
+                decoder.stop().play();
             }
         });
     }

@@ -49,4 +49,42 @@ class dept extends CI_Controller {
         notifikasi(true,'Berhasil Menghapus Data Departemen');
         redirect(base_url('jabatan'));
     }
+
+    public function update(){
+        $id_dept = $this->input->post('id_dept'); 
+        $nama_dept = $this->input->post('nama_dept');
+        $status = 0;
+        $pesan = 'Gagal Mengedit Data Bagian';
+
+        $where = ['id_dept'=>$id_dept];
+        $cek_dept = $this->db->get_where('t_dept',$where);
+        if($cek_dept->num_rows() > 0){
+            $set = ['nama_dept' => $nama_dept];
+            $this->global_model->update_data('t_dept',$set,$where);
+            $status = 1;
+            $pesan='Berhasil Mengubah Data Bagian';
+        }
+
+        $output = [
+            'status' => $status,
+            'pesan' => $pesan,
+        ];
+        echo json_encode($output);
+    }
+
+    public function get_dept(){
+        $id_dept = $this->input->post('id_dept',TRUE);
+        $status = 0;
+        $data = [];
+        $dept = $this->db->get_where('t_dept',['id_dept'=>$id_dept]);
+        if($dept->num_rows() > 0){
+            $data = $dept->row();
+            $status = 1;
+        }
+        $output = [
+            'status' => $status,
+            'data' => $data,
+        ];
+        echo json_encode($output);
+    }
 }

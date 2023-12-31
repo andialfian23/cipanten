@@ -65,6 +65,17 @@ class absensi_model extends CI_Model {
                 GROUP BY a.id_karyawan
                 ORDER BY k.id_karyawan ASC");
     }
+
+    public function get_1data($id,$tgl){
+        return $this->db->select('a.*, nama, nama_dept, nama_jabatan')
+                ->from('t_absensi a')
+                ->join('t_karyawan k', 'a.id_karyawan=k.id_karyawan', 'LEFT')
+                ->join('t_jabatan j','k.id_jabatan=j.id_jabatan','LEFT')
+                ->join('t_dept d','k.id_dept=d.id_dept','LEFT')
+                ->where(['a.id_karyawan'=>$id,'tanggal'=>$tgl])
+                ->order_by('waktu','ASC')
+                ->get();
+    }
     
 
     //DATATABLE ABSENSI
@@ -72,7 +83,7 @@ class absensi_model extends CI_Model {
     {
         $column_search = $column_order;
         
-        $this->db->select("k.nama, a.id_karyawan as nik, a.tanggal, 
+        $this->db->select("k.nama, k.id_karyawan as nik, a.tanggal, 
                     waktu_masuk, telat_masuk, waktu_pulang, waktu_kerja,
                     nama_jabatan, nama_dept")
                 ->from("(SELECT id_karyawan,tanggal, min(waktu) as waktu_masuk, 
