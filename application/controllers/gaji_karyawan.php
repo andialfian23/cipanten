@@ -93,6 +93,62 @@ class gaji_karyawan extends CI_Controller {
         redirect(base_url('gaji_karyawan'));
     }
 
+    public function update(){
+        $id_gk = $this->input->post('id_gk',TRUE);
+        $where = ['id_gk'=>$id_gk];
+        $gaji_karyawan = $this->db->get_where('t_gaji_karyawan',$where);
+        $status = 0;
+        $pesan = 'Gagal mengubah data gaji karyawan';
+        
+        if($gaji_karyawan->num_rows() > 0){
+            $id_gaji = $this->input->post('id_gaji');
+            $hitungan_kerja = $this->input->post('hitungan_kerja');
+            $gaji_pokok = $this->input->post('gaji_pokok');
+            $bonus = $this->input->post('bonus');
+
+            $jml_hadir = $this->input->post('jml_hadir');
+            $jml_tdk_hadir = $this->input->post('jml_tdk_hadir');
+            $tidak_hadir = $this->input->post('tidak_hadir');
+            $jml_telat_masuk = $this->input->post('jml_telat_masuk');
+            $telat_masuk = $this->input->post('telat_masuk');
+            $total_terima = $this->input->post('total_terima');
+
+            $ttl_gaji_pokok = 0;
+            $ttl_gaji_pokok = ($hitungan_kerja=='Bulanan') ? $gaji_pokok : $gaji_pokok * $jml_hadir;
+            $ttl_tidak_hadir = 0;
+            $ttl_tidak_hadir = $tidak_hadir * $jml_tdk_hadir;
+            $ttl_telat_masuk = 0;
+            $ttl_telat_masuk = $telat_masuk * $jml_telat_masuk;
+
+            $set = [
+                'tgl_gajian' => date('Y-m-d'),
+                'tgl_awal' => $xBegin,
+                'tgl_akhir' => $xEnd,
+                'id_gaji' => $id_gaji, 
+                'jml_hadir' => $jml_hadir, 
+                'jml_tidak_hadir' => $jml_tdk_hadir, 
+                'jml_telat_masuk' => $jml_telat_masuk, 
+                'ttl_gaji_pokok' => $ttl_gaji_pokok, 
+                'ttl_bonus' => $bonus, 
+                'ttl_tidak_hadir' => $ttl_tidak_hadir, 
+                'ttl_telat_masuk' => $ttl_telat_masuk, 
+                'total_terima' => $total_terima, 
+            ];
+            $this->global_model->update_data('t_gaji_karyawan',$set,$where);
+            $status= 1;
+            $pesan = 'Berhasil Mengubah Data Gaji Karyawan';
+        }
+        
+        echo json_encode($output);
+    }
+
+    public function get_gaji_karyawan(){
+        $status = 0;
+        $data = [];
+        $output = ['status' => $status,'data'=>$data];
+        echo json_encode($output);
+    }
+
     //DATATABLES GAJI KARYAWAN
     public function get_data(){
         $xBegin = $this->input->post('xBegin',TRUE);

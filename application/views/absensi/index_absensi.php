@@ -16,6 +16,10 @@
     padding: 2px !important;
     font-size: 14px !important;
 }
+
+.nwrap {
+    white-space: nowrap;
+}
 </style>
 
 <div class="row">
@@ -194,7 +198,8 @@ $(function() {
                 data: 'nik'
             },
             {
-                data: 'nama'
+                data: 'nama',
+                className: 'nwrap'
             },
             {
                 data: 'nama_jabatan'
@@ -224,7 +229,7 @@ $(function() {
             },
             {
                 data: 'nik',
-                className: 'text-center',
+                className: 'text-center nwrap',
                 render: function(data, type, row, meta) {
                     return `<a href="#modal-edit-absensi" data-toggle="modal" class="btn btn-info btn-sm btn-edit" data-id="` +
                         row.nik + `" data-tgl="` + row.tanggal + `"><i class="fas fa-edit"></i></a>

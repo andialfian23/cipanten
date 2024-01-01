@@ -11,6 +11,10 @@
     font-size: 14px;
     border: 1px solid #ffc107;
 }
+
+.nwrap {
+    white-space: nowrap;
+}
 </style>
 
 
@@ -180,6 +184,104 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-navy">
+                <b class="modal-title" id="exampleModalLabel">
+                    Edit Data Gaji Karyawan
+                </b>
+                <button type="button" class="btn btn-close text-white" aria-label="Close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6 form-horizontal">
+                        <div class="form-group row">
+                            <label for="e_nik" class="col-sm-3 col-form-label">NIK</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-control-sm" id="e_nik" value="" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="e_nama" class="col-sm-3 col-form-label">Nama</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-control-sm" id="e_nama" value="" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="e_jabatan" class="col-sm-3 col-form-label">Jabatan</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-control-sm" id="e_jabatan" value=""
+                                    disabled />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="e_dept" class="col-sm-3 col-form-label">Bagian</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-control-sm" id="e_dept" value="" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="e_tgl_gajian" class="col-sm-4 col-form-label">Tanggal Gajian</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control form-control-sm" id="e_tgl_gajian" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="e_tgl_gajian" class="col-sm-4 col-form-label">Periode Gajian</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control form-control-sm" id="e_tgl_awal" value="" />
+                                <input type="date" class="form-control form-control-sm" id="e_tgl_akhir" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="e_tgl_gajian" class="col-sm-4 col-form-label">Nama Gaji</label>
+                            <div class="col-sm-8">
+                                <select name="e_nama_gaji" id="e_nama_gaji" class="form-control form-control-sm">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="e_hitungan_kerja" class="col-sm-4 col-form-label">Hitungan Kerja</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control form-control-sm" id="e_hitungan_kerja" value=""
+                                    disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 form-horizontal">
+                        <div class="form-group row">
+                            <label for="e_gaji_pokok" class="col-sm-4 col-form-label">Gaji Pokok</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control form-control-sm" id="e_gaji_pokok" value=""
+                                    disabled />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="e_bonus" class="col-sm-4 col-form-label">Bonus</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control form-control-sm" id="e_bonus" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <table class="table table-bordered" width="100%">
+                                <tr>
+                                    <th>--</th>
+                                    <th></th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 
 <script>
 $(function() {
@@ -238,6 +340,7 @@ $(function() {
             },
             {
                 data: 'nama',
+                className: 'nwrap',
                 render: function(data, type, row, meta) {
                     return `<a href="#preview" data-id="` + row.id + `" 
                                 class="btn-view"
@@ -270,11 +373,11 @@ $(function() {
             },
             {
                 data: 'id_gk',
-                className: 'text-center',
+                className: 'text-center nwrap',
                 render: function(data, type, row, meta) {
-                    return `<a href="<?= base_url('gaji_karyawan/update/') ?>` + row.id + `"
-                                class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                    <a href="<?= base_url('gaji_karyawan/delete/') ?>` + row.id + `"
+                    // return `<a href="#modal-edit" data-toggle="modal" data-id="` + row.id + `"
+                    //             class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                    return `<a href="<?= base_url('gaji_karyawan/delete/') ?>` + row.id + `"
                             class="btn btn-danger btn-sm"
                             onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
                             class="fas fa-trash-alt"></i></a>`;
@@ -323,6 +426,10 @@ $(function() {
                 $('#tgl_gaji').html(res.data.tgl_gaji);
             }
         });
-    })
+    });
+
+    $(document).on('click', '.btn-edit', function() {
+        let id_gk = $(this).data('id');
+    });
 });
 </script>
