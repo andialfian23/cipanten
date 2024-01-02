@@ -16,7 +16,9 @@
                     alt="User Image" />
             </div>
             <div class="info">
-                <a href="<?= base_url() ?>" class="d-block text-white"><?= $_SESSION['nama'] ?></a>
+                <a href="#" class="d-block text-white">
+                    <?= $_SESSION['nama'] ?></a>
+
             </div>
         </div>
 
