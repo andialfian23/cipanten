@@ -6,7 +6,7 @@
                     <h5>Data Gaji</h5>
                 </div>
                 <div class="ml-auto">
-                    <a href="#modal-add" data-toggle="modal" class="btn btn-primary" id="btn-create">Tambah Data
+                    <a href="#modal-add" data-toggle="modal" class="btn btn-primary btn-sm" id="btn-create">Tambah Data
                         Gaji</a>
                 </div>
             </div>
@@ -21,13 +21,13 @@
                                 <th class="font-weight-bolder text-center" rowspan="2">Jabatan</th>
                                 <th class="font-weight-bolder text-center" rowspan="2">Nama Gaji</th>
                                 <th class="font-weight-bolder text-center" rowspan="2">Gaji Pokok</th>
+                                <th class="font-weight-bolder text-center" rowspan="2">Hitungan<br />Kerja</th>
                                 <th class="font-weight-bolder text-center" colspan="2">Potongan Gaji</th>
-                                <!-- <th class="font-weight-bolder text-center" rowspan="2">Keterangan</th> -->
                                 <th class="font-weight-bolder text-center" rowspan="2">--</th>
                             </tr>
                             <tr>
-                                <th class="font-weight-bolder text-center">Telat Masuk</th>
-                                <th class="font-weight-bolder text-center">Tidak Hadir</th>
+                                <th class="font-weight-bolder text-center">Telat<br />Masuk</th>
+                                <th class="font-weight-bolder text-center">Tidak<br />Hadir</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,12 +38,14 @@
                                 <td><?= $row->nama_jabatan ?></td>
                                 <td><?= $row->nama_gaji ?></td>
                                 <td class="text-right"><?= number_format($row->gaji_pokok) ?></td>
+                                <td><?= $row->hitungan_kerja ?></td>
                                 <td class="text-right"><?= number_format($row->telat_masuk) ?></td>
                                 <td class="text-right"><?= number_format($row->tidak_hadir) ?></td>
                                 <td class="text-center align-middle">
-                                    <!-- <a href="#modal-add" class="btn btn-info btn-sm btn-edit"
+                                    <a href="#modal-add" data-toggle="modal" class="badge badge-info p-1 btn-edit"
                                         data-id="<?= $row->id_gaji ?>">
-                                        <i class="fas fa-edit"></i></a> -->
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
                                     <a href="<?= base_url('gaji/delete/'.$row->id_gaji) ?>"
                                         class="badge badge-danger p-1"
                                         onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
@@ -72,7 +74,7 @@
                 <div class="form-group">
                     <label for="nama_dept">Bagian</label>
                     <select name="nama_dept" id="nama_dept" class="form-control form-control-sm">
-                        <option value="">-- Pilih Bagian --</option>
+                        <option value="" hidden>-- Pilih Bagian --</option>
                         <?php foreach($dept as $d){ ?>
                         <option value="<?= $d->id_dept ?>"><?= $d->nama_dept ?></option>
                         <?php } ?>
@@ -82,7 +84,7 @@
                 <div class="form-group">
                     <label for="nama_jabatan">Jabatan</label>
                     <select name="nama_jabatan" id="nama_jabatan" class="form-control form-control-sm">
-                        <option value="">-- Pilih Jabatan --</option>
+                        <option value="" hidden>-- Pilih Jabatan --</option>
                         <?php foreach($jabatan as $d){ ?>
                         <option value="<?= $d->id_jabatan ?>"><?= $d->nama_jabatan ?></option>
                         <?php } ?>
@@ -129,11 +131,6 @@
                         <small id="notif_tidak_hadir" class="text-danger"></small>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="keterangan">Keterangan</label>
-                    <input type="text" class="form-control" id="keterangan" name="keterangan">
-                    <small id="notif_keterangan" class="text-danger"></small>
-                </div>
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="id_gaji" id="id_gaji">
@@ -155,7 +152,8 @@ $(function() {
     });
 
     $(document).on('click', '#btn-create', function() {
-        $(document).find('#btn-save-edit').hide();
+        $('#btn-save-edit').hide();
+        $('#btn-save').show();
     });
 
     $(document).on('click', '#btn-save', function() {
@@ -213,6 +211,60 @@ $(function() {
                         }
                         return false;
                     }
+                } else {
+                    toastr.success(res.pesan);
+                    setTimeout(() => {
+                        window.location.replace('<?= base_url('gaji') ?>');
+                    }, 2000);
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.btn-edit', function() {
+        $('#btn-save').hide();
+        $('#btn-save-edit').show();
+        $('#id_gaji').val($(this).data('id'));
+        $.ajax({
+            url: '<?= base_url('gaji/get_data') ?>',
+            type: 'POST',
+            data: {
+                id_gaji: $(this).data('id'),
+            },
+            dataType: 'json',
+            success: function(res) {
+                $('#nama_dept').val(res.data.id_dept).trigger('change');
+                $('#nama_jabatan').val(res.data.id_jabatan).trigger('change');
+                $('#hitungan_kerja').val(res.data.hitungan_kerja).trigger('change');
+                $('#nama_gaji').val(res.data.nama_gaji);
+                $('#gaji_pokok').val(res.data.gaji_pokok);
+                $('#telat_masuk').val(res.data.telat_masuk);
+                $('#tidak_hadir').val(res.data.tidak_hadir);
+            }
+        });
+    });
+
+    $(document).on('click', '#btn-save-edit', function() {
+        $('#modal-add input, #modal-add select').removeClass('is-invalid');
+        $('#modal-add small').html('');
+
+        $.ajax({
+            url: '<?= base_url('gaji/update') ?>',
+            type: 'POST',
+            data: {
+                nama_jabatan: $('#nama_jabatan').val(),
+                nama_dept: $('#nama_dept').val(),
+                nama_gaji: $('#nama_gaji').val(),
+                gaji_pokok: $('#gaji_pokok').val(),
+                hitungan_kerja: $('#hitungan_kerja').val(),
+                telat_masuk: $('#telat_masuk').val(),
+                tidak_hadir: $('#tidak_hadir').val(),
+                id_gaji: $('#id_gaji').val(),
+            },
+            dataType: 'json',
+            success: function(res) {
+                if (res.status == 0) {
+                    toastr.error(res.pesan);
                 } else {
                     toastr.success(res.pesan);
                     setTimeout(() => {

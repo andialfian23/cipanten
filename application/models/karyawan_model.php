@@ -29,6 +29,19 @@ class karyawan_model extends CI_Model {
     public function jml_karyawan(){
         return $this->db->select('count(id) as jml')->from('t_karyawan')->where('Status','Aktif')->get()->row()->jml;
     }
+
+    //MANAJEMEN USER
+    public function get_users(){
+        return $this->db->select("id_user, username,password,level,
+            CASE WHEN username='admin' THEN 'Administrator' ELSE nama END as nama,
+            nama_dept,nama_jabatan")
+            ->from('t_user u')
+            ->join('t_karyawan k','u.username=k.id_karyawan','LEFT')
+            ->join('t_jabatan j','k.id_jabatan=j.id_jabatan','LEFT')
+            ->join('t_dept d','k.id_dept=d.id_dept','LEFT')
+            ->order_by('username','ASC')
+            ->get();
+    }
 }
 
 ?>

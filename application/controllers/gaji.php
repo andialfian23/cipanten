@@ -17,8 +17,7 @@ class gaji extends CI_Controller {
         $this->load->model('gaji_model','gaji');
     }
     
-	public function index()
-	{
+	public function index(){
         $data['judul'] = 'Data Gaji';
         $data['gaji'] = $this->gaji->get_gaji()->result();
         $data['jabatan'] = $this->karyawan->get_jabatan()->result();
@@ -88,6 +87,33 @@ class gaji extends CI_Controller {
         redirect(base_url('gaji'));
     }
 
+    public function update(){
+        $id_gaji = $this->input->post('id_gaji',TRUE);
+        $where = ['id_gaji'=>$id_gaji];
+        $status = 0;
+        $pesan = 'Gagal mengubah data gaji';
+        $gaji = $this->db->get_where('t_gaji',$where);
+        if($gaji->num_rows() > 0){
+            $set = [
+                'id_dept' => $this->input->post('nama_dept',true),
+                'id_jabatan' => $this->input->post('nama_jabatan',true),
+                'nama_gaji' => $this->input->post('nama_gaji',true),
+                'gaji_pokok' => $this->input->post('gaji_pokok',true),
+                'telat_masuk' => $this->input->post('telat_masuk',true),
+                'tidak_hadir' => $this->input->post('tidak_hadir',true),
+            ];
+            $this->global_model->update_data('t_gaji',$set,$where);
+            $status=1;
+            $pesan='Berhasil Mengubah Data Gaji';
+        }
+
+        $output = [
+            'status' => $status,
+            'pesan' => $pesan,
+        ];
+        echo json_encode($output);
+    }
+
     public function get_slip_gaji(){
         $id = $this->input->post('id',TRUE);
 
@@ -114,6 +140,22 @@ class gaji extends CI_Controller {
                 'keterangan' => $gaji->keterangan,
             ],
             'item' => $item
+        ];
+        echo json_encode($output);
+    }
+
+    public function get_data(){
+        $id_gaji = $this->input->post('id_gaji',TRUE);
+        $gaji = $this->gaji->get_gaji($id_gaji);
+        $status = 0;
+        $data = [];
+        if($gaji->num_rows() > 0){
+            $data = $gaji->row();
+            $status = 1;
+        }
+        $output = [
+            'status'=>$status,
+            'data' => $data,
         ];
         echo json_encode($output);
     }

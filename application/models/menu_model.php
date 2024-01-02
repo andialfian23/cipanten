@@ -19,6 +19,18 @@ class menu_model extends CI_Model {
 				'menu_icon' => 'fas fa-users'
 			],[
 				'has-sub' => FALSE,
+				'menu_link' => 'user',
+				'menu_text' => 'Data User',
+				'menu_color' => '',
+				'menu_icon' => 'fas fa-users'
+			],[
+                'has-sub' => FALSE,
+                'menu_link' => 'absensi',
+                'menu_text' => 'Data Absensi',
+                'menu_color' => '',
+                'menu_icon' => 'fas fa-calendar-check'
+			],[
+				'has-sub' => FALSE,
 				'menu_link' => 'jabatan',
 				'menu_text' => 'Data Jabatan',
 				'menu_color' => '',
