@@ -16,16 +16,16 @@
                 <i class="fas fa-expand-arrows-alt text-white"></i>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="fas fa-user"></i>
             </a>
-            <div class="dropdown-menu text-dark">
+            <div class="dropdown-menu dropdown-menu-right text-dark">
                 <a class="dropdown-item text-dark" href="<?= base_url('dashboard/ubah_password') ?>">
-                    Ubah Password</a>
+                    <i class="fas fa-key"></i>&nbsp; Ubah Password</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-dark" href="<?= base_url('auth/logout') ?>">
-                    Logout</a>
+                    <i class="fas fa-power-off"></i>&nbsp; Logout</a>
             </div>
         </li>
     </ul>

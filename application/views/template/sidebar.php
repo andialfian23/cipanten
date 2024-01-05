@@ -16,7 +16,7 @@
                     alt="User Image" />
             </div>
             <div class="info">
-                <a href="#" class="d-block text-white">
+                <a href="<?= base_url('dashboard/profil') ?>" class="d-block text-white">
                     <?= $_SESSION['nama'] ?></a>
 
             </div>

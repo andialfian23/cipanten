@@ -63,4 +63,25 @@ class dashboard extends CI_Controller {
             redirect(base_url('dashboard/ubah_password'));
         }
     }
+
+    public function profil(){
+        $karyawan = $this->karyawan->get_karyawan($_SESSION['username']);
+        if($karyawan->num_rows() > 0){
+            $cek_qr = $this->global_model->cek_qrcode($_SESSION['username']);
+            if($cek_qr->num_rows() > 0){
+                $qrcode = $cek_qr->row()->qrcode;
+            }else{
+                $qrcode = $this->global_model->buat_qrcode($_SESSION['username']);
+            }
+            
+            $data['judul'] = 'Dashboard';
+            $data['karyawan'] = $karyawan->row();
+            $data['qrcode'] = $qrcode;
+            $data['view'] = 'dashboard/profil';
+            $this->load->view('index',$data);
+        }else{
+            notifikasi('Admin tidak boleh membuka halaman profil !!!',false);
+            redirect(base_url('dashboard'));
+        }
+    }
 }

@@ -63,7 +63,7 @@ class karyawan extends CI_Controller {
             
             $values2 = [
                 'username' => $id_karyawan,
-                'password' => str_replace('-','',$this->input->post('tgl_lahir',TRUE)),
+                'password' => md5(str_replace('-','',$this->input->post('tgl_lahir',TRUE))),
                 'level' => 3 
             ];
             $this->global_model->insert_data('t_user',$values2);
