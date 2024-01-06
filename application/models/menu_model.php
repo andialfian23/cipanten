@@ -36,12 +36,6 @@ class menu_model extends CI_Model {
 				'menu_color' => '',
 				'menu_icon' => 'fas fa-crown'
             ],[
-                'has-sub' => FALSE,
-                'menu_link' => 'absensi',
-                'menu_text' => 'Data Absensi',
-                'menu_color' => '',
-                'menu_icon' => 'fas fa-calendar-check'
-			],[
 				'has-sub' => TRUE,
 				'menu_text' => 'Data Penggajian',
 				'menu_icon' => 'fas fa-book',

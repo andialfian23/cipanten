@@ -113,7 +113,7 @@
                                 ` + res.pesan + `
                             </div>`);
                         setTimeout(() => {
-                            window.location.replace('<?= base_url('dashboard') ?>');
+                            window.location.replace(res.base_url);
                         }, 1000);
                     }
                 }

@@ -32,10 +32,14 @@ class auth extends CI_Controller {
             $cek_login = $this->global_model->auth($username,$password);
             if($cek_login->num_rows() > 0){
                 $user = $cek_login->row();
+                $url = 'dashboard';
                 $_SESSION['username'] = $username;
                 $_SESSION['level'] = $user->level;
                 if($user->level == 1){
                     $_SESSION['nama'] = 'Administrator';
+                }else if($user->level == 4){
+                    $_SESSION['nama'] = 'Scan QR-Code';
+                    $url = 'dashboard2';
                 }else{
                     $_SESSION['nama'] = $user->nama;
                     $_SESSION['id_karyawan'] = $user->id;
@@ -46,6 +50,7 @@ class auth extends CI_Controller {
                 $output = [
                     'status' => 1,
                     'pesan' => 'Login Berhasil',
+                    'base_url' => $url, 
                 ];
             }else{
                 $output = [

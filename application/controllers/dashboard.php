@@ -80,7 +80,7 @@ class dashboard extends CI_Controller {
             $data['view'] = 'dashboard/profil';
             $this->load->view('index',$data);
         }else{
-            notifikasi('Admin tidak boleh membuka halaman profil !!!',false);
+            notifikasi(false,'Admin tidak boleh membuka halaman profil !!!');
             redirect(base_url('dashboard'));
         }
     }
