@@ -218,7 +218,7 @@ $(function() {
                 } else {
                     toastr.success(res.pesan);
                     setTimeout(() => {
-                        window.location.replace('<?= base_url('dept') ?>');
+                        window.location.replace('<?= base_url('jabatan') ?>');
                     }, 2000);
                 }
             }
