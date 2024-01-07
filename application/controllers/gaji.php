@@ -35,7 +35,7 @@ class gaji extends CI_Controller {
         $this->form_validation->set_rules('gaji_pokok', 'Gaji Pokok', 'trim|required|numeric', $notif);
         $this->form_validation->set_rules('telat_masuk', 'Potongan', 'trim|numeric', $notif);
         $this->form_validation->set_rules('tidak_hadir', 'Potongan', 'trim|numeric', $notif);
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim',$notif);
+        // $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim',$notif);
         
         if ($this->form_validation->run() == FALSE){
             $output = [
@@ -46,7 +46,7 @@ class gaji extends CI_Controller {
                     'gaji_pokok' => form_error('gaji_pokok'),
                     'telat_masuk' => form_error('telat_masuk'),
                     'tidak_hadir' => form_error('tidak_hadir'),
-                    'keterangan' => form_error('keterangan'),
+                    // 'keterangan' => form_error('keterangan'),
                 ],
                 'set_value' => [
                     'nama_gaji' => set_value('nama_gaji'),
@@ -54,7 +54,7 @@ class gaji extends CI_Controller {
                     'telat_masuk' => set_value('telat_masuk'),
                     'telat_masuk' => set_value('telat_masuk'),
                     'tidak_hadir' => set_value('tidak_hadir'),
-                    'keterangan' => set_value('keterangan'),
+                    // 'keterangan' => set_value('keterangan'),
                 ],
             ];
         }else{
@@ -65,7 +65,7 @@ class gaji extends CI_Controller {
                 'gaji_pokok' => $this->input->post('gaji_pokok',true),
                 'telat_masuk' => $this->input->post('telat_masuk',true),
                 'tidak_hadir' => $this->input->post('tidak_hadir',true),
-                'keterangan' => $this->input->post('keterangan',true),
+                // 'keterangan' => $this->input->post('keterangan',true),
                 ];
             $this->global_model->insert_data('t_gaji',$values);
             $output = [

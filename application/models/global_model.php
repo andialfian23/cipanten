@@ -23,26 +23,6 @@ class global_model extends CI_model {
         ->where('username',$username)->where('password',md5($password))->get();
     }
 
-    //upload image
-    public function upload_image($fieldname, $filename, $folder)
-    {
-        $config = [
-            'upload_path' => $folder,
-            'file_name' => $filename,
-            'allowed_types' => 'jpg|png',
-            'max_size' => 8000,
-            'overwrite' => true,
-            'file_ext_tolower' => true,
-        ];
-        $this->load->library('upload', $config);
-        if ($this->upload->do_upload($fieldname)) {
-            return ['status'=>1,'data'=>$this->upload->data()];
-        } else {
-            // $this->form_validation->add_to_error_array($fieldname, );
-            return ['status'=>0,'error'=>$this->upload->display_errors()];
-        }
-    }
-
     //BUAT QRCODE
     public function buat_qrcode($nilai_qr)
     {

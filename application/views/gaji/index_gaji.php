@@ -215,7 +215,7 @@ $(function() {
                     toastr.success(res.pesan);
                     setTimeout(() => {
                         window.location.replace('<?= base_url('gaji') ?>');
-                    }, 2000);
+                    }, 1000);
                 }
             }
         });

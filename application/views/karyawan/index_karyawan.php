@@ -137,6 +137,7 @@ $(function() {
     $(document).on('click', '.btn-view', function() {
         let id = $(this).data('id');
         $('#btn-print-card').hide();
+        $('#create-qr').show();
         $.ajax({
             url: '<?= base_url('karyawan/detail') ?>',
             type: 'POST',
@@ -176,6 +177,7 @@ $(function() {
             success: function(res) {
                 $('#img-preview').attr('src', '<?= base_url('images/qrcode/') ?>' + res);
                 $('#btn-print-card').show();
+                $('#create-qr').hide();
             }
         });
     });

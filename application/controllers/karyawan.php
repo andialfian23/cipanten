@@ -44,6 +44,22 @@ class karyawan extends CI_Controller {
             $this->load->view('index',$data);
         }else{
             $id_karyawan = $this->input->post('id_karyawan',true);
+
+            $up_image = $_FILES['foto']['name'];
+            $foto = null;
+            if ($up_image) {
+                $config['upload_path'] = './images/foto';
+                $config['allowed_types'] = 'jpg|png';
+                $config['max_size'] = '5000';
+                $this->load->library('upload', $config);
+                if ($this->upload->do_upload('foto')) {
+                    $foto = $this->upload->data('file_name');
+                } else {
+                    notifikasi(false,$this->upload->display_errors());
+                    redirect(base_url('karyawan'));
+                }
+            }
+
             $values = [
                 'id_karyawan' => $this->input->post('id_karyawan',true),
                 'nama' => strtoupper($this->input->post('nama',true)),
@@ -51,7 +67,7 @@ class karyawan extends CI_Controller {
                 'tgl_lahir' => $this->input->post('tgl_lahir',true),
                 'alamat' => $this->input->post('alamat',true),
                 'no_hp' => $this->input->post('no_hp',true),
-                'foto' => null,
+                'foto' => $foto,
                 'join_at' => $this->input->post('join_at',true),
                 'id_jabatan' => $this->input->post('jabatan',true),
                 'id_dept' => $this->input->post('departemen',true),
@@ -89,15 +105,37 @@ class karyawan extends CI_Controller {
         $this->form_validation->set_rules('join_at', 'Bergabung Sejak', 'trim|required', $notif);
         $this->form_validation->set_rules('jabatan', 'Jabatan', 'trim|required', $notif);
         $this->form_validation->set_rules('departemen', 'Departemen', 'trim|required', $notif);
+        $this->form_validation->set_rules('status', 'status', 'trim', $notif);
        
         if ($this->form_validation->run() == FALSE)
         {
             $data['judul'] = 'Edit Data Karyawan';
             $data['karyawan'] = $this->karyawan->get_karyawan($id)->row();
             $data['jabatan'] = $this->karyawan->get_jabatan()->result();
+            $data['dept'] = $this->karyawan->get_dept()->result();
             $data['view'] = 'karyawan/edit_karyawan';
             $this->load->view('index',$data);
         }else{
+            $where = ['id_karyawan'=>$id];
+            
+            $up_image = $_FILES['foto']['name'];
+            $foto = null;
+            if ($up_image) {
+                $config['upload_path'] = './images/foto';
+                $config['allowed_types'] = 'jpg|png';
+                $config['max_size'] = '8000';
+                $this->load->library('upload', $config);
+                if ($this->upload->do_upload('foto')) {
+                    $set = [
+                        'foto' => $this->upload->data('file_name'),
+                    ];
+                    $this->global_model->update_data('t_karyawan',$set,$where);
+                } else {
+                    notifikasi(false, $this->upload->display_errors());
+                    redirect(base_url('karyawan/create'));
+                }
+            }
+            
             $set = [
                 'id_karyawan' => $this->input->post('id_karyawan',true),
                 'nama' => strtoupper($this->input->post('nama',true)),
@@ -111,7 +149,6 @@ class karyawan extends CI_Controller {
                 'status' => 'Aktif',
                 'updated_at' => date('Y-m-d'),
             ];
-            $where = ['id_karyawan'=>$id];
             $this->global_model->update_data('t_karyawan',$set,$where);
             notifikasi(true,'Berhasil Memperbarui Data Karyawan');
             redirect(base_url('karyawan'));
@@ -123,9 +160,16 @@ class karyawan extends CI_Controller {
         if($id==null){
             redirect(base_url('karyawan'));
         }
-        $where = ['id_karyawan'=>$id];
-        $this->global_model->delete_data('t_karyawan',$where);
-        notifikasi(true,'Berhasil Menghapus Data Karyawan');
+        $cek = $this->karyawan->get_karyawan($id);
+        if($cek->num_rows() > 0){
+            $karyawan = $cek->row();
+            unlink(FCPATH . 'images/foto/' . $karyawan->foto);
+            $where = ['id_karyawan'=>$id];
+            $this->global_model->delete_data('t_karyawan',$where);
+            notifikasi(true,'Berhasil Menghapus Data Karyawan');
+        }else{  
+            notifikasi(false,'Gagal Menghapus Data Karyawan');
+        }
         redirect(base_url('karyawan'));
     }
 

@@ -39,7 +39,7 @@
     <div class="luar">
         <div class="top">
             <!-- <img src="<?= base_url('images/foto/'.$karyawan->foto) ?>" alt="" /> -->
-            SITU CIPANTEN
+            Kartu Karyawan<br>WISATA SITU CIPANTEN
         </div>
         <div class="bottom">
             <img src="<?= base_url('images/qrcode/'.$karyawan->id_karyawan.'.png') ?>" alt="" />
