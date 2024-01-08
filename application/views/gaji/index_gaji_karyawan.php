@@ -18,8 +18,6 @@
 </style>
 
 
-<div id="iframeload_print"></div>
-
 <div class="row">
     <div class="col-lg-12">
         <div class="card card-primary card-outline">

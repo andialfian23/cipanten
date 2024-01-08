@@ -109,15 +109,18 @@ class absensi extends CI_Controller {
         foreach ($list->result() as $key) {
             $row      = array();
 
+            $telat_masuk = (strpos($key->telat_masuk,'-') !== false) ? '00:00:00' : $key->telat_masuk;
+            $waktu_kerja = (strpos($key->waktu_kerja,'-') !== false) ? '00:00:00' : $key->waktu_kerja;
+
             $row['nik']             = $key->nik;
             $row['nama']   	 	    = $key->nama;
             $row['nama_jabatan']    = $key->nama_jabatan;
             $row['nama_dept']       = $key->nama_dept;
             $row['tanggal']         = $key->tanggal;
-            $row['waktu_masuk']     = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_masuk));
-            $row['telat_masuk']     = date('H:i:s',strtotime($key->tanggal.' '.$key->telat_masuk));
-            $row['waktu_pulang']    = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_pulang));
-            $row['waktu_kerja']     = date('H:i:s',strtotime($key->tanggal.' '.$key->waktu_kerja));
+            $row['waktu_masuk']     = $key->waktu_masuk;
+            $row['telat_masuk']     = $telat_masuk;
+            $row['waktu_pulang']    = $key->waktu_pulang;
+            $row['waktu_kerja']     = $waktu_kerja;
             
             $data[]   = $row;
         }

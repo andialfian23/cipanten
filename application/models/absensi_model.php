@@ -84,12 +84,13 @@ class absensi_model extends CI_Model {
         $column_search = $column_order;
         
         $this->db->select("k.nama, k.id_karyawan as nik, a.tanggal, 
-                    waktu_masuk, telat_masuk, waktu_pulang, waktu_kerja,
+                    waktu_masuk, 
+                    TIMEDIFF(waktu_masuk,'07:00:00') as telat_masuk, 
+                    waktu_pulang,
+                    TIMEDIFF(waktu_pulang,waktu_masuk) as waktu_kerja, 
                     nama_jabatan, nama_dept")
-                ->from("(SELECT id_karyawan,tanggal, min(waktu) as waktu_masuk, 
-                    TIMEDIFF(min(waktu),'07:00:00') as telat_masuk, 
-                    max(waktu) as waktu_pulang,
-                    TIMEDIFF(max(waktu),min(waktu)) as waktu_kerja 
+                ->from("(SELECT id_karyawan, tanggal, min(waktu) as waktu_masuk, 
+                    max(waktu) as waktu_pulang
                     FROM t_absensi GROUP BY tanggal,id_karyawan) a");    
         $this->db->join('t_karyawan k', 'a.id_karyawan=k.id_karyawan', 'LEFT')
                 ->join('t_jabatan j','k.id_jabatan=j.id_jabatan','LEFT')
@@ -145,7 +146,6 @@ class absensi_model extends CI_Model {
             return $query;
         }
     }
-    
     public function total_entri($xBegin = null, $xEnd = null, $nik=null)
     {
         $this->db->select('tanggal')->from('t_absensi');

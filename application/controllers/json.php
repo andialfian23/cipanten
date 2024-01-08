@@ -112,6 +112,7 @@ class json extends CI_Controller {
                     }
     
                     $jml_telat_masuk = ($key->jml_telat / 3600);
+                    $jml_telat_masuk = ($jml_telat_masuk < 0)? 0:$jml_telat_masuk;
     
                     $array_karyawan[] = [
                         'id' => $key->id,
