@@ -33,6 +33,7 @@ class scan_qr extends CI_Controller {
                 'nama' => $karyawan->nama,
                 'jabatan' => $karyawan->nama_jabatan,
                 'dept' => $karyawan->nama_dept,
+                'waktu' => date('Y-m-d H:i:s'),
             ];
                 
             $values = [

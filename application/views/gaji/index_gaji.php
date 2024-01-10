@@ -61,87 +61,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-add" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="title-modal">Tambah Data Gaji</h5>
-                <button type="button" class="btn btn-close bg-gradient-danger " data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="nama_dept">Bagian</label>
-                    <select name="nama_dept" id="nama_dept" class="form-control form-control-sm">
-                        <option value="" hidden>-- Pilih Bagian --</option>
-                        <?php foreach($dept as $d){ ?>
-                        <option value="<?= $d->id_dept ?>"><?= $d->nama_dept ?></option>
-                        <?php } ?>
-                    </select>
-                    <small id="notif_nama_dept" class="text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label for="nama_jabatan">Jabatan</label>
-                    <select name="nama_jabatan" id="nama_jabatan" class="form-control form-control-sm">
-                        <option value="" hidden>-- Pilih Jabatan --</option>
-                        <?php foreach($jabatan as $d){ ?>
-                        <option value="<?= $d->id_jabatan ?>"><?= $d->nama_jabatan ?></option>
-                        <?php } ?>
-                    </select>
-                    <small id="notif_nama_jabatan" class="text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label for="nama_gaji">Nama Gaji</label>
-                    <input type="text" class="form-control form-control-sm" id="nama_gaji" name="nama_gaji">
-                    <small id="notif_nama_gaji" class="text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label for="gaji_pokok">Gaji Pokok</label>
-                    <div class="input-group input-group-sm">
-                        <input type="number" class="form-control form-control-sm" id="gaji_pokok" name="gaji_pokok">
-                        <span class="input-group-append">
-                            <select name="hitungan_kerja" id="hitungan_kerja" class="form-control form-control-sm">
-                                <option value="Harian">Harian</option>
-                                <option value="Bulanan">Bulanan</option>
-                            </select>
-                        </span>
-                    </div>
-                    <small id="notif_gaji_pokok" class="text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label for="potongan">Potongan Gaji</label>
-                    <div class="d-flex justify-content-between">
-                        <div class="input-group input-group-sm mb-3">
-                            <input type="number" class="form-control form-control-sm" id="telat_masuk"
-                                name="telat_masuk" placeholder="Telat Masuk">
-                            <div class="input-group-append">
-                                <span class="input-group-text">per jam</span>
-                            </div>
-                            <small id="notif_telat_masuk" class="text-danger"></small>
-                        </div>
-                        &nbsp;
-                        <div class="input-group input-group-sm mb-3">
-                            <input type="number" class="form-control form-control-sm" id="tidak_hadir"
-                                name="tidak_hadir" placeholder="Tidak Hadir">
-                            <div class="input-group-append">
-                                <span class="input-group-text">per hari</span>
-                            </div>
-                        </div>
-                        <small id="notif_tidak_hadir" class="text-danger"></small>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="id_gaji" id="id_gaji">
-                <button type="submit" class="btn bg-gradient-primary" id="btn-save">Simpan</button>
-                <button type="submit" class="btn bg-gradient-primary" id="btn-save-edit">Simpan</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <script>
 $(function() {
     $('#tbl-gaji').DataTable({
@@ -276,3 +195,84 @@ $(function() {
     });
 })
 </script>
+
+
+<div class="modal fade" id="modal-add" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title-modal">Tambah Data Gaji</h5>
+                <button type="button" class="btn btn-close bg-gradient-danger " data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="nama_dept">Bagian</label>
+                    <select name="nama_dept" id="nama_dept" class="form-control form-control-sm">
+                        <option value="" hidden>-- Pilih Bagian --</option>
+                        <?php foreach($dept as $d){ ?>
+                        <option value="<?= $d->id_dept ?>"><?= $d->nama_dept ?></option>
+                        <?php } ?>
+                    </select>
+                    <small id="notif_nama_dept" class="text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="nama_jabatan">Jabatan</label>
+                    <select name="nama_jabatan" id="nama_jabatan" class="form-control form-control-sm">
+                        <option value="" hidden>-- Pilih Jabatan --</option>
+                        <?php foreach($jabatan as $d){ ?>
+                        <option value="<?= $d->id_jabatan ?>"><?= $d->nama_jabatan ?></option>
+                        <?php } ?>
+                    </select>
+                    <small id="notif_nama_jabatan" class="text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="nama_gaji">Nama Gaji</label>
+                    <input type="text" class="form-control form-control-sm" id="nama_gaji" name="nama_gaji">
+                    <small id="notif_nama_gaji" class="text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="gaji_pokok">Gaji Pokok</label>
+                    <div class="input-group input-group-sm">
+                        <input type="number" class="form-control form-control-sm" id="gaji_pokok" name="gaji_pokok">
+                        <span class="input-group-append">
+                            <select name="hitungan_kerja" id="hitungan_kerja" class="form-control form-control-sm">
+                                <option value="Harian">Harian</option>
+                                <option value="Bulanan">Bulanan</option>
+                            </select>
+                        </span>
+                    </div>
+                    <small id="notif_gaji_pokok" class="text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="potongan">Potongan Gaji</label>
+                    <div class="d-flex justify-content-between">
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="number" class="form-control form-control-sm" id="telat_masuk"
+                                name="telat_masuk" placeholder="Telat Masuk">
+                            <div class="input-group-append">
+                                <span class="input-group-text">per jam</span>
+                            </div>
+                            <small id="notif_telat_masuk" class="text-danger"></small>
+                        </div>
+                        &nbsp;
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="number" class="form-control form-control-sm" id="tidak_hadir"
+                                name="tidak_hadir" placeholder="Tidak Hadir">
+                            <div class="input-group-append">
+                                <span class="input-group-text">per hari</span>
+                            </div>
+                        </div>
+                        <small id="notif_tidak_hadir" class="text-danger"></small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="id_gaji" id="id_gaji">
+                <button type="submit" class="btn bg-gradient-primary" id="btn-save">Simpan</button>
+                <button type="submit" class="btn bg-gradient-primary" id="btn-save-edit">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -42,13 +42,13 @@ table td {
                             <tr>
                                 <td><?= $row->nama_jabatan ?></td>
                                 <td class="text-center align-middle">
-                                    <a href="#modal-add-jabatan" class="btn btn-info btn-sm btn-edit-jabatan"
+                                    <a href="#modal-add-jabatan" class="badge badge-info p-1 btn-edit-jabatan"
                                         data-id="<?= $row->id_jabatan ?>" data-toggle="modal">
-                                        <i class="fas fa-edit"></i></a>
+                                        <i class="fas fa-edit"></i> Edit</a>
                                     <a href="<?= base_url('jabatan/delete/'.$row->id_jabatan) ?>"
-                                        class="btn btn-danger btn-sm"
+                                        class="badge badge-danger p-1"
                                         onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
-                                            class="fas fa-trash-alt"></i></a>
+                                            class="fas fa-trash-alt"></i> Hapus</a>
                                 </td>
                             </tr>
                             <?php $no++; } ?>
@@ -88,12 +88,12 @@ table td {
                                 <td><?= $row->nama_dept ?></td>
                                 <td class="text-center align-middle">
                                     <a href="#modal-add-dept" data-toggle="modal" data-id="<?= $row->id_dept ?>"
-                                        class="btn btn-info btn-sm btn-edit-dept">
-                                        <i class="fas fa-edit"></i></a>
+                                        class="badge badge-info p-1 btn-edit-dept">
+                                        <i class="fas fa-edit"></i> Edit</a>
                                     <a href="<?= base_url('dept/delete/'.$row->id_dept) ?>"
-                                        class="btn btn-danger btn-sm"
+                                        class="badge badge-danger p-1"
                                         onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
-                                            class="fas fa-trash-alt"></i></a>
+                                            class="fas fa-trash-alt"></i> Hapus</a>
                                 </td>
                             </tr>
                             <?php $no++; } ?>
@@ -118,6 +118,7 @@ $(function() {
 
     $(document).on('click', '#btn-create-jabatan', function() {
         $(document).find('#btn-save-edit-jabatan').hide();
+        $('#title-modal-jabatan').html('Tambah Jabatan');
     });
 
     $(document).on('click', '#btn-save-jabatan', function() {
@@ -153,6 +154,7 @@ $(function() {
     $(document).on('click', '.btn-edit-jabatan', function() {
         $(document).find('#btn-save-jabatan').hide();
         $(document).find('#btn-save-edit-jabatan').show();
+        $('#title-modal-jabatan').html('Edit Jabatan');
 
         $.ajax({
             url: '<?= base_url('jabatan/get_jabatan') ?>',
@@ -193,6 +195,7 @@ $(function() {
     // DEPT
     $(document).on('click', '#btn-create-dept', function() {
         $(document).find('#btn-save-edit-dept').hide();
+        $('#title-modal-dept').html('Tambah Bagian / Dept');
     });
 
     $(document).on('click', '#btn-save-dept', function() {
@@ -228,6 +231,7 @@ $(function() {
     $(document).on('click', '.btn-edit-dept', function() {
         $(document).find('#btn-save-dept').hide();
         $(document).find('#btn-save-edit-dept').show();
+        $('#title-modal-dept').html('Edit Bagian / Dept');
 
         $.ajax({
             url: '<?= base_url('dept/get_dept') ?>',
@@ -273,7 +277,7 @@ $(function() {
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="title-modal">Tambah Data Jabatan</h5>
+                <h5 class="modal-title" id="title-modal-jabatan">Tambah Data Jabatan</h5>
                 <button type="button" class="btn btn-close bg-gradient-danger " data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -298,7 +302,7 @@ $(function() {
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="title-modal">Tambah Data</h5>
+                <h5 class="modal-title" id="title-modal-dept">Tambah Data</h5>
                 <button type="button" class="btn btn-close bg-gradient-danger " data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>

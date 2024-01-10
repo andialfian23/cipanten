@@ -4,7 +4,7 @@
     <a href="#" class="brand-link">
         <img src="<?= base_url() ?>images/logo/cptn.png" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3  bg-white" style="opacity: 0.8" />
-        <span class="brand-text font-weight-light">SINAPEKA</span>
+        <span class="brand-text font-weight-light">SIPEKA</span>
     </a>
 
     <!-- Sidebar -->

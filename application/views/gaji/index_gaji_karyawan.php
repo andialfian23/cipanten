@@ -373,11 +373,11 @@ $(function() {
                 className: 'text-center nwrap',
                 render: function(data, type, row, meta) {
                     // return `<a href="#modal-edit" data-toggle="modal" data-id="` + row.id + `"
-                    //             class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                    //             class="badge badge-info p-1"><i class="fas fa-edit"></i> Edit</a>
                     return `<a href="<?= base_url('gaji_karyawan/delete/') ?>` + row.id + `"
-                            class="btn btn-danger btn-sm"
+                            class="badge badge-danger p-1"
                             onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
-                            class="fas fa-trash-alt"></i></a>`;
+                            class="fas fa-trash-alt"></i> Hapus</a>`;
                 }
             },
         ],

@@ -44,13 +44,13 @@
                                 <td><?= $row->join_at ?></td>
                                 <td><?= $row->no_hp ?></td>
                                 <td><?= $row->alamat ?></td>
-                                <td class="text-center align-middle d-flex">
+                                <td class="text-center align-middle">
                                     <a href="<?= base_url('karyawan/update/'.$row->id_karyawan) ?>"
-                                        class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                        class="badge badge-info p-1"><i class="fas fa-edit"></i> Edit</a>
                                     <a href="<?= base_url('karyawan/delete/'.$row->id_karyawan) ?>"
-                                        class="btn btn-danger btn-sm"
+                                        class="badge badge-danger p-1"
                                         onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
-                                            class="fas fa-trash-alt"></i></a>
+                                            class="fas fa-trash-alt"></i> Hapus</a>
                                 </td>
                             </tr>
                             <?php $no++; } ?>
@@ -62,66 +62,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="preview" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-gradient-navy">
-                <h5 class="modal-title" id="exampleModalLabel">Detail Karyawan</h5>
-                <button type="button" class="btn btn-close text-white" aria-label="Close" data-dismiss="modal">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-4 text-center">
-                        <img src="#" alt="" class="img-thumbnail" id="img-preview" width="250px" />
-                    </div>
-                    <div class="col-lg-8">
-                        <table class="table table-bordered table-sm" width="100%">
-                            <tr>
-                                <td>NIK</td>
-                                <th id="nik"></th>
-                            </tr>
-                            <tr>
-                                <td>Nama</td>
-                                <th id="nama"></th>
-                            </tr>
-                            <tr>
-                                <td>Tanggal Lahir</td>
-                                <th id="tgl_lahir"></th>
-                            </tr>
-                            <tr>
-                                <td>Alamat</td>
-                                <th id="alamat"></th>
-                            </tr>
-                            <tr>
-                                <td>No. HP</td>
-                                <th id="no_hp"></th>
-                            </tr>
-                            <tr>
-                                <td>Jabatan</td>
-                                <th id="jabatan"></th>
-                            </tr>
-                            <tr>
-                                <td>Gabung Sejak</td>
-                                <th id="join_at"></th>
-                            </tr>
-                            <tr>
-                                <td>Status</td>
-                                <th id="status"></th>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer  bg-gradient-navy">
-                <button type="submit" class="btn bg-gradient-primary" id="create-qr">Buat QRCode</button>
-                <a href="#" class="btn bg-gradient-success" id="btn-print-card" target="_blank">Cetak Kartu</a>
-                <button type="button" class="btn bg-gradient-danger" data-dismiss="modal">Keluar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
 $(function() {
@@ -183,3 +123,65 @@ $(function() {
     });
 });
 </script>
+
+
+<div class="modal fade" id="preview" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-navy">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Karyawan</h5>
+                <button type="button" class="btn btn-close text-white" aria-label="Close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-4 text-center">
+                        <img src="#" alt="" class="img-thumbnail" id="img-preview" width="250px" />
+                    </div>
+                    <div class="col-lg-8">
+                        <table class="table table-bordered table-sm" width="100%">
+                            <tr>
+                                <td>NIK</td>
+                                <th id="nik"></th>
+                            </tr>
+                            <tr>
+                                <td>Nama</td>
+                                <th id="nama"></th>
+                            </tr>
+                            <tr>
+                                <td>Tanggal Lahir</td>
+                                <th id="tgl_lahir"></th>
+                            </tr>
+                            <tr>
+                                <td>Alamat</td>
+                                <th id="alamat"></th>
+                            </tr>
+                            <tr>
+                                <td>No. HP</td>
+                                <th id="no_hp"></th>
+                            </tr>
+                            <tr>
+                                <td>Jabatan</td>
+                                <th id="jabatan"></th>
+                            </tr>
+                            <tr>
+                                <td>Gabung Sejak</td>
+                                <th id="join_at"></th>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <th id="status"></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer  bg-gradient-navy">
+                <button type="submit" class="btn bg-gradient-primary" id="create-qr">Buat QRCode</button>
+                <a href="#" class="btn bg-gradient-success" id="btn-print-card" target="_blank">Cetak Kartu</a>
+                <button type="button" class="btn bg-gradient-danger" data-dismiss="modal">Keluar</button>
+            </div>
+        </div>
+    </div>
+</div>

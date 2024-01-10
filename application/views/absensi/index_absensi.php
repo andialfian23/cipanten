@@ -231,12 +231,12 @@ $(function() {
                 data: 'nik',
                 className: 'text-center nwrap',
                 render: function(data, type, row, meta) {
-                    return `<a href="#modal-edit-absensi" data-toggle="modal" class="btn btn-info btn-sm btn-edit" data-id="` +
-                        row.nik + `" data-tgl="` + row.tanggal + `"><i class="fas fa-edit"></i></a>
+                    return `<a href="#modal-edit-absensi" data-toggle="modal" class="badge badge-info p-1 btn-edit" data-id="` +
+                        row.nik + `" data-tgl="` + row.tanggal + `"><i class="fas fa-edit"></i> Edit</a>
                             <a href="<?= base_url('absensi/delete/') ?>` + row.nik + `/` + row.tanggal + `"
-                            class="btn btn-danger btn-sm"
+                            class="badge badge-danger p-1"
                             onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
-                                class="fas fa-trash-alt"></i></a>`;
+                                class="fas fa-trash-alt"></i> Hapus</a>`;
                 }
             },
         ],

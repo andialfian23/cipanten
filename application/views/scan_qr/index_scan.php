@@ -47,6 +47,10 @@
                                 <th>Bagian</th>
                                 <th id="dept"></th>
                             </tr>
+                            <tr>
+                                <th>Waktu Absensi</th>
+                                <th id="waktu"></th>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -91,6 +95,7 @@ $.extend({
                     $(document).find('#nama').text(": " + res.data.nama);
                     $(document).find('#dept').text(": " + res.data.dept);
                     $(document).find('#jabatan').text(": " + res.data.jabatan);
+                    $(document).find('#waktu').text(": " + res.data.waktu);
                     setTimeout(() => {
                         toastr.success(res.pesan);
                     }, 2000);
@@ -99,6 +104,7 @@ $.extend({
                     $(document).find('#nama').text('');
                     $(document).find('#dept').text('');
                     $(document).find('#jabatan').text('');
+                    $(document).find('#waktu').text('');
                     setTimeout(() => {
                         toastr.error(res.pesan);
                     }, 2000);

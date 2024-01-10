@@ -71,5 +71,9 @@
         font-size: 14px;
         border: 1px solid #ffc107;
     }
+
+    .badge {
+        font-size: 12px !important;
+    }
     </style>
 </head>
