@@ -98,7 +98,10 @@ class json extends CI_Controller {
     
                     $pot_tidak_hadir = $tidak_hadir * $key->tidak_hadir;
 
-                    $pot_telat_masuk = ($key->jml_telat / 3600) * $key->telat_masuk; 
+                    $jml_telat_masuk = ($key->jml_telat / 3600);
+                    $jml_telat_masuk = ($jml_telat_masuk < 0)? 0:$jml_telat_masuk;
+                    
+                    $pot_telat_masuk = $jml_telat_masuk * $key->telat_masuk; 
     
                     $total_potongan = $pot_tidak_hadir + $pot_telat_masuk;
 
@@ -111,8 +114,7 @@ class json extends CI_Controller {
                         $terima_gaji = $terima_gaji;
                     }
     
-                    $jml_telat_masuk = ($key->jml_telat / 3600);
-                    $jml_telat_masuk = ($jml_telat_masuk < 0)? 0:$jml_telat_masuk;
+                    
     
                     $array_karyawan[] = [
                         'id' => $key->id,
