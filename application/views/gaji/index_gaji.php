@@ -73,6 +73,7 @@ $(function() {
     $(document).on('click', '#btn-create', function() {
         $('#btn-save-edit').hide();
         $('#btn-save').show();
+        $('#title-modal').html('Tambah Data Gaji');
     });
 
     $(document).on('click', '#btn-save', function() {
@@ -144,6 +145,7 @@ $(function() {
         $('#btn-save').hide();
         $('#btn-save-edit').show();
         $('#id_gaji').val($(this).data('id'));
+        $('#title-modal').html('Edit Data Gaji');
         $.ajax({
             url: '<?= base_url('gaji/get_data') ?>',
             type: 'POST',

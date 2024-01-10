@@ -118,7 +118,7 @@ $(function() {
 
     $(document).on('click', '#btn-create-jabatan', function() {
         $(document).find('#btn-save-edit-jabatan').hide();
-        $('#title-modal-jabatan').html('Tambah Jabatan');
+        $('#title-modal-jabatan').html('Tambah Data Jabatan');
     });
 
     $(document).on('click', '#btn-save-jabatan', function() {
@@ -195,7 +195,7 @@ $(function() {
     // DEPT
     $(document).on('click', '#btn-create-dept', function() {
         $(document).find('#btn-save-edit-dept').hide();
-        $('#title-modal-dept').html('Tambah Bagian / Dept');
+        $('#title-modal-dept').html('Tambah Data Bagian / Dept');
     });
 
     $(document).on('click', '#btn-save-dept', function() {
