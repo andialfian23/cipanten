@@ -9,7 +9,7 @@ class gaji_karyawan extends CI_Controller {
             redirect(base_url('auth'));
         }
         
-        if($_SESSION['level'] >2 || $_SESSION['level'] ==0 ){
+        if($_SESSION['level'] > 3 || $_SESSION['level'] ==0 ){
             redirect(base_url('dashboard'));
         }
         $this->load->model('karyawan_model','karyawan');

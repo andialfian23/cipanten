@@ -32,6 +32,8 @@
                         $menu = $this->menu_model->menu_admin();
                     }elseif($role==2){
                         $menu = $this->menu_model->menu_bendahara();
+                    }elseif($role==3){
+                        $menu = $this->menu_model->menu_ketua();
                     }else{
                         $menu = $this->menu_model->menu_user();
                     }

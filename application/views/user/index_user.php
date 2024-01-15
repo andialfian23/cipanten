@@ -43,40 +43,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="title-modal">Ubah Level User</h5>
-                <button type="button" class="btn btn-close bg-gradient-danger " data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="level">Level Lama</label>
-                    <input type="text" class="form-control form-control-sm" value="" id="level_lama" disabled />
-                </div>
-                <div class="form-group">
-                    <label for="level">Level Baru</label>
-                    <select name="level" id="level" class="form-control form-control-sm">
-                        <option value="" hidden>-- Pilih Level --</option>
-                        <option value="1">1 | Admin</option>
-                        <option value="2">2 | Bendahara</option>
-                        <option value="3">3 | User Biasa</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="hidden" name="id_user" id="id_user">
-                    <button type="submit" class="btn btn-block bg-gradient-primary" id="btn-save-edit">Simpan</button>
-                </div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
 $(function() {
     $('#tbl-user').DataTable({
@@ -111,3 +77,38 @@ $(function() {
     });
 });
 </script>
+
+<div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title-modal">Ubah Level User</h5>
+                <button type="button" class="btn btn-close bg-gradient-danger " data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="level">Level Lama</label>
+                    <input type="text" class="form-control form-control-sm" value="" id="level_lama" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="level">Level Baru</label>
+                    <select name="level" id="level" class="form-control form-control-sm">
+                        <option value="" hidden>-- Pilih Level --</option>
+                        <option value="1">1 | Admin</option>
+                        <option value="2">2 | Bendahara</option>
+                        <option value="3">3 | Ketua</option>
+                        <option value="4">4 | User Biasa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="id_user" id="id_user">
+                    <button type="submit" class="btn btn-block bg-gradient-primary" id="btn-save-edit">Simpan</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

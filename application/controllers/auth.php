@@ -37,7 +37,7 @@ class auth extends CI_Controller {
                 $_SESSION['level'] = $user->level;
                 if($user->level == 1){
                     $_SESSION['nama'] = 'Administrator';
-                }else if($user->level == 4){
+                }else if($user->level == 5){
                     $_SESSION['nama'] = 'Scan QR-Code';
                     $url = 'dashboard2';
                 }else{

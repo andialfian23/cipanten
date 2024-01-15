@@ -33,9 +33,10 @@
                     </div>
                     <div class="text-right ml-auto pr-3">
                         <div class="input-group input-group-sm d-flex justify-content-end">
+                            <?php if($_SESSION['level'] != '3'){ ?>
                             <a href="<?= base_url('scan_qr') ?>" class="btn btn-sm bg-gradient-success mr-2 mt-1">
                                 <i class="fas fa-qrcode mr-1"></i> Scan QR-Code</a>
-
+                            <?php } ?>
                             <div class="input-group-prepend mt-1">
                                 <span class="input-group-text border-warning bg-dark">Bagian</span>
                             </div>
@@ -77,7 +78,9 @@
                                 <th>Telat Masuk</th>
                                 <th>Pulang</th>
                                 <th>Kerja</th>
+                                <?php if($_SESSION['level'] != '3'){ ?>
                                 <th>--</th>
+                                <?php } ?>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -87,6 +90,8 @@
         </div>
     </div>
 </div>
+
+<?php if($_SESSION['level'] != '3'){ ?>
 
 <div class="modal fade" id="modal-edit-absensi" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -144,6 +149,8 @@
     </div>
 </div>
 
+<?php } ?>
+
 <script>
 $(function() {
     let localStorage = window.localStorage;
@@ -178,10 +185,11 @@ $(function() {
         },
         serverSide: true,
         processing: true,
-        "columnDefs": [{
+        <?php if($_SESSION['level'] != '3'){ ?> "columnDefs": [{
             "orderable": false,
             "targets": [9]
         }],
+        <?php } ?>
         ajax: {
             url: "<?= base_url('absensi/get_data') ?>",
             type: "POST",
@@ -227,7 +235,7 @@ $(function() {
                 data: 'waktu_kerja',
                 className: 'text-center',
             },
-            {
+            <?php if($_SESSION['level'] != '3'){ ?> {
                 data: 'nik',
                 className: 'text-center nwrap',
                 render: function(data, type, row, meta) {
@@ -239,8 +247,11 @@ $(function() {
                                 class="fas fa-trash-alt"></i> Hapus</a>`;
                 }
             },
+            <?php } ?>
         ],
     });
+
+    <?php if($_SESSION['level'] != '3'){ ?>
 
     $(document).on('click', '#cari', function() {
         table.ajax.reload(null, false);
@@ -327,6 +338,8 @@ $(function() {
             }
         });
     });
+
+    <?php } ?>
 
 });
 </script>

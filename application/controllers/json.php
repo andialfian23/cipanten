@@ -71,11 +71,9 @@ class json extends CI_Controller {
         $xBegin = $this->input->post('xBegin',TRUE);
         $xEnd = $this->input->post('xEnd',TRUE);
         $id_dept = $this->input->post('dept',TRUE);
-
-        $timestamp1 = strtotime($xBegin);
-        $timestamp2 = strtotime($xEnd);
+        
         // Menghitung selisih waktu dalam detik
-        $selisih_detik = $timestamp2 - $timestamp1;
+        $selisih_detik = strtotime($xBegin) - strtotime($xEnd);
         // Menghitung jumlah hari dari selisih waktu
         $jumlah_hari = $selisih_detik / (60 * 60 * 24);
         
@@ -88,31 +86,22 @@ class json extends CI_Controller {
             $array_karyawan = [];
             if($total_row > 0){
                 foreach($data->result() as $key){
-                    if($key->hitungan_kerja =='Harian'){
-                        $total_gaji = ($key->gaji_pokok * $key->jml_hadir);
-                    }else{
-                        $total_gaji = $key->gaji_pokok;
-                    }
-    
+                    // TOTAL HADIR
+                    $total_gaji = ($key->hitungan_kerja =='Harian')? ($key->gaji_pokok * $key->jml_hadir):$key->gaji_pokok;
+                    // POTONGAN TIDAK HADIR
                     $tidak_hadir = $jumlah_hari - $key->jml_hadir;
-    
                     $pot_tidak_hadir = $tidak_hadir * $key->tidak_hadir;
-
+                    // POTONGAN TELAT MASUK
                     $jml_telat_masuk = ($key->jml_telat / 3600);
                     $jml_telat_masuk = ($jml_telat_masuk < 0)? 0:$jml_telat_masuk;
-                    
                     $pot_telat_masuk = $jml_telat_masuk * $key->telat_masuk; 
-    
+                    // TOTAL POTONGAN
                     $total_potongan = $pot_tidak_hadir + $pot_telat_masuk;
-
+                    // TOTAL GAJI
                     $terima_gaji = $total_gaji - $total_potongan;
-    
-                    //jika kehadiran 0  maka terima_gaji 0
-                    if($key->jml_hadir == 0){
-                        $terima_gaji = 0;
-                    }else{
-                        $terima_gaji = $terima_gaji;
-                    }
+                    //jika kehadiran 0  maka terima_gaji  = 0
+                    $terima_gaji = ($key->jml_hadir == 0) ? 0 : $terima_gaji;
+                    
     
                     
     

@@ -88,6 +88,30 @@ class menu_model extends CI_Model {
 			],
         ];
     }
+	
+    public function menu_ketua(){
+        return [
+            [
+				'has-sub' => FALSE,
+				'menu_link' => 'dashboard',
+				'menu_text' => 'Dashboard',
+				'menu_color' => '',
+				'menu_icon' => 'fas fa-tachometer-alt'
+			],[
+                'has-sub' => FALSE,
+                'menu_link' => 'absensi',
+                'menu_text' => 'Data Absensi',
+                'menu_color' => '',
+                'menu_icon' => 'fas fa-calendar-check'
+			],[
+                'has-sub' => FALSE,
+                'menu_link' => 'gaji_karyawan',
+				'menu_text' => 'Data Penggajian',
+                'menu_color' => '',
+                'menu_icon' => 'fas fa-calendar-check'
+			],
+        ];
+    }
 
     public function menu_user(){
 		return [

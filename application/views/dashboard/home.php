@@ -1,4 +1,4 @@
-<?php if($_SESSION['level']<2): ?>
+<?php if($_SESSION['level']<4): ?>
 
 <div class="row">
 

@@ -84,4 +84,14 @@ class dashboard extends CI_Controller {
             redirect(base_url('dashboard'));
         }
     }
+
+    public function print_gajiku($id=null){
+        if($id==null){
+            notifikasi(false,'Akses Di tolak!!!');
+            redirect(base_url('dashboard'));
+        }
+        $data['judul'] = 'Print Slip Gaji';
+        $data['id'] = $id;
+        $this->load->view('gaji/print_slip_gaji',$data);
+    }
 }

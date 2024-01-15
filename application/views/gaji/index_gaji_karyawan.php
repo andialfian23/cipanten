@@ -29,9 +29,10 @@
                     </div>
                     <div class="text-right ml-auto pr-3">
                         <div class="input-group input-group-sm">
+                            <?php if($_SESSION['level'] != '3'){ ?>
                             <a href="<?= base_url('gaji_karyawan/proses_penggajian') ?>"
                                 class="btn bg-gradient-primary mr-2 mt-1 btn-sm">Proses Penggajian Karyawan</a>
-
+                            <?php } ?>
                             <div class="input-group-prepend mt-1">
                                 <span class="input-group-text border-warning bg-dark">Bagian</span>
                             </div>
@@ -73,7 +74,9 @@
                                 <th class="font-weight-bolder">Gaji Pokok</th>
                                 <th class="font-weight-bolder">Jenis</th>
                                 <th class="font-weight-bolder">Gaji</th>
+                                <?php if($_SESSION['level'] != '3'){ ?>
                                 <th>--</th>
+                                <?php } ?>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -83,6 +86,169 @@
         </div>
     </div>
 </div>
+
+
+
+<script>
+$(function() {
+    let localStorage = window.localStorage;
+
+    let table = $('#tbl-gaji-karyawan').DataTable({
+        dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        lengthMenu: [
+            [5, 10, 25],
+            ['5', '10', '25']
+        ],
+        pageLength: 10,
+        buttons: [{
+                extend: 'pageLength',
+                text: 'Tampilkan Data',
+                className: 'btn btn-secondary btn-sm',
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-print"></i> Cetak Laporan',
+                className: 'btn bg-gradient-blue btn-sm',
+                action: function(e, dt, node, config) {
+                    setTimeout(function() {
+                        window.open("<?= base_url('gaji_karyawan/print') ?>",
+                            '_blank');
+                    }, 1000);
+                }
+            },
+        ],
+        language: {
+            url: "<?= base_url('extra-libs/ID.json') ?>",
+        },
+        serverSide: true,
+        processing: true,
+        <?php if($_SESSION['level'] != '3'){ ?> "columnDefs": [{
+            "orderable": false,
+            "targets": [8]
+        }],
+        <?php } ?>
+        ajax: {
+            url: "<?= base_url('gaji_karyawan/get_data') ?>",
+            type: "POST",
+            data: function(d) {
+                d.xBegin = $('#xBegin').val();
+                d.xEnd = $('#xEnd').val();
+                d.dept = $('#dept').val();
+
+                localStorage.setItem('xBegin', "" + d.xBegin + "");
+                localStorage.setItem('xEnd', "" + d.xEnd + "");
+                localStorage.setItem('dept', "" + d.dept + "");
+            }
+        },
+        columns: [{
+                data: 'nik',
+                className: 'text-center'
+            },
+            {
+                data: 'nama',
+                className: 'nwrap',
+                render: function(data, type, row, meta) {
+                    return `<a href="#preview" data-id="` + row.id + `" 
+                                class="btn-view"
+                                data-toggle="modal">
+                                <b>` + row.nama + `</b>
+                            </a>`;
+                }
+            },
+            {
+                data: 'nama_jabatan'
+            },
+            {
+                data: 'nama_dept'
+            },
+            {
+                data: 'tgl_gaji',
+                className: 'text-center',
+            },
+            {
+                data: 'gaji_pokok',
+                className: 'text-right',
+            },
+            {
+                data: 'hitungan_kerja',
+                className: 'text-right',
+            },
+            {
+                data: 'total_terima',
+                className: 'text-right',
+            },
+            <?php if($_SESSION['level'] != '3'){ ?> {
+                data: 'id_gk',
+                className: 'text-center nwrap',
+                render: function(data, type, row, meta) {
+                    // return `<a href="#modal-edit" data-toggle="modal" data-id="` + row.id + `"
+                    //             class="badge badge-info p-1"><i class="fas fa-edit"></i> Edit</a>
+                    return `<a href="<?= base_url('gaji_karyawan/delete/') ?>` + row.id + `"
+                            class="badge badge-danger p-1"
+                            onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
+                            class="fas fa-trash-alt"></i> Hapus</a>`;
+                }
+            },
+            <?php } ?>
+        ],
+    });
+
+    $(document).on('click', '#cari', function() {
+        table.ajax.reload(null, false);
+    });
+
+    $(document).on('click', '.btn-view', function() {
+        let id = $(this).data('id');
+        $.ajax({
+            url: '<?= base_url('json/get_slip_gaji') ?>',
+            type: 'POST',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function(res) {
+
+                $('#period_gj').html(res.data.period_gj);
+                $('#nama_gaji').html(res.data.nama_gaji);
+                $('#nik').html(res.data.nik);
+                $('#nama').html(res.data.nama);
+                $('#jabatan').html(res.data.nama_jabatan);
+                $('#bagian').html(res.data.nama_dept);
+
+                $('#gaji_pokok').html(res.data.gaji_pokok);
+                $('#telat_masuk').html(res.data.telat_masuk);
+                $('#tidak_hadir').html(res.data.tidak_hadir);
+
+                $('#jml_hadir').html(res.data.jml_hadir);
+                $('#jml_tidak_hadir').html(res.data.jml_tidak_hadir);
+                $('#jml_telat_masuk').html(res.data.jml_telat_masuk);
+
+                $('#ttl_gaji_pokok').html(res.data.ttl_gaji_pokok);
+                $('#ttl_bonus').html(res.data.ttl_bonus);
+                $('#ttl_gaji').html(res.data.ttl_gaji);
+                $('#ttl_tidak_hadir').html(res.data.ttl_tidak_hadir);
+                $('#ttl_telat_masuk').html(res.data.ttl_telat_masuk);
+                $('#ttl_potongan').html(res.data.ttl_potongan);
+                $('#ttl_terima').html(res.data.total_terima);
+
+                $('#tgl_gaji').html(res.data.tgl_gaji);
+
+                $('#btn-print').attr('href', '<?= base_url('dashboard/print_gajiku/') ?>' +
+                    id);
+            }
+        });
+    });
+
+    <?php if($_SESSION['level'] != '3'){ ?>
+    $(document).on('click', '.btn-edit', function() {
+        let id_gk = $(this).data('id');
+    });
+    <?php } ?>
+});
+</script>
+
 
 <div class="modal fade" id="preview" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -170,17 +336,19 @@
                             </tbody>
                         </table>
 
-                        Tanggal Penggajian : <b id="tgl_gaji">02 Des 2023</b>
+                        Tanggal Penggajian : <b id="tgl_gaji"></b>
                     </div>
                 </div>
             </div>
             <div class="modal-footer  bg-gradient-navy">
-                <button type="button" class="btn btn-sm bg-gradient-primary" data-dismiss="modal">Print</button>
+                <a target="_blank" class="btn btn-sm bg-gradient-primary" id="btn-print">Print</a>
                 <button type="button" class="btn btn-sm bg-gradient-danger" data-dismiss="modal">Keluar</button>
             </div>
         </div>
     </div>
 </div>
+
+<?php if($_SESSION['level'] != '3'){ ?>
 
 <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -279,154 +447,4 @@
     </div>
 </div>
 
-
-<script>
-$(function() {
-    let localStorage = window.localStorage;
-    let table = $('#tbl-gaji-karyawan').DataTable({
-        dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-        lengthMenu: [
-            [5, 10, 25],
-            ['5', '10', '25']
-        ],
-        pageLength: 10,
-        buttons: [{
-                extend: 'pageLength',
-                text: 'Tampilkan Data',
-                className: 'btn btn-secondary btn-sm',
-            },
-            {
-                extend: 'pdf',
-                text: '<i class="fas fa-print"></i> Cetak Laporan',
-                className: 'btn bg-gradient-blue btn-sm',
-                action: function(e, dt, node, config) {
-                    setTimeout(function() {
-                        window.open("<?= base_url('gaji_karyawan/print') ?>",
-                            '_blank');
-                    }, 1000);
-                }
-            },
-        ],
-        language: {
-            url: "<?= base_url('extra-libs/ID.json') ?>",
-        },
-        serverSide: true,
-        processing: true,
-        "columnDefs": [{
-            "orderable": false,
-            "targets": [8]
-        }],
-        ajax: {
-            url: "<?= base_url('gaji_karyawan/get_data') ?>",
-            type: "POST",
-            data: function(d) {
-                d.xBegin = $('#xBegin').val();
-                d.xEnd = $('#xEnd').val();
-                d.dept = $('#dept').val();
-
-                localStorage.setItem('xBegin', "" + d.xBegin + "");
-                localStorage.setItem('xEnd', "" + d.xEnd + "");
-                localStorage.setItem('dept', "" + d.dept + "");
-            }
-        },
-        columns: [{
-                data: 'nik',
-                className: 'text-center'
-            },
-            {
-                data: 'nama',
-                className: 'nwrap',
-                render: function(data, type, row, meta) {
-                    return `<a href="#preview" data-id="` + row.id + `" 
-                                class="btn-view"
-                                data-toggle="modal">
-                                <b>` + row.nama + `</b>
-                            </a>`;
-                }
-            },
-            {
-                data: 'nama_jabatan'
-            },
-            {
-                data: 'nama_dept'
-            },
-            {
-                data: 'tgl_gaji',
-                className: 'text-center',
-            },
-            {
-                data: 'gaji_pokok',
-                className: 'text-right',
-            },
-            {
-                data: 'hitungan_kerja',
-                className: 'text-right',
-            },
-            {
-                data: 'total_terima',
-                className: 'text-right',
-            },
-            {
-                data: 'id_gk',
-                className: 'text-center nwrap',
-                render: function(data, type, row, meta) {
-                    // return `<a href="#modal-edit" data-toggle="modal" data-id="` + row.id + `"
-                    //             class="badge badge-info p-1"><i class="fas fa-edit"></i> Edit</a>
-                    return `<a href="<?= base_url('gaji_karyawan/delete/') ?>` + row.id + `"
-                            class="badge badge-danger p-1"
-                            onclick="return confirm('Apakah anda yakin akan menghapus data ini?')"><i
-                            class="fas fa-trash-alt"></i> Hapus</a>`;
-                }
-            },
-        ],
-    });
-
-    $(document).on('click', '#cari', function() {
-        table.ajax.reload(null, false);
-    });
-
-    $(document).on('click', '.btn-view', function() {
-        $.ajax({
-            url: '<?= base_url('json/get_slip_gaji') ?>',
-            type: 'POST',
-            data: {
-                id: $(this).data('id')
-            },
-            dataType: 'json',
-            success: function(res) {
-
-                $('#period_gj').html(res.data.period_gj);
-                $('#nama_gaji').html(res.data.nama_gaji);
-                $('#nik').html(res.data.nik);
-                $('#nama').html(res.data.nama);
-                $('#jabatan').html(res.data.nama_jabatan);
-                $('#bagian').html(res.data.nama_dept);
-
-                $('#gaji_pokok').html(res.data.gaji_pokok);
-                $('#telat_masuk').html(res.data.telat_masuk);
-                $('#tidak_hadir').html(res.data.tidak_hadir);
-
-                $('#jml_hadir').html(res.data.jml_hadir);
-                $('#jml_tidak_hadir').html(res.data.jml_tidak_hadir);
-                $('#jml_telat_masuk').html(res.data.jml_telat_masuk);
-
-                $('#ttl_gaji_pokok').html(res.data.ttl_gaji_pokok);
-                $('#ttl_bonus').html(res.data.ttl_bonus);
-                $('#ttl_gaji').html(res.data.ttl_gaji);
-                $('#ttl_tidak_hadir').html(res.data.ttl_tidak_hadir);
-                $('#ttl_telat_masuk').html(res.data.ttl_telat_masuk);
-                $('#ttl_potongan').html(res.data.ttl_potongan);
-                $('#ttl_terima').html(res.data.total_terima);
-
-                $('#tgl_gaji').html(res.data.tgl_gaji);
-            }
-        });
-    });
-
-    $(document).on('click', '.btn-edit', function() {
-        let id_gk = $(this).data('id');
-    });
-});
-</script>
+<?php } ?>

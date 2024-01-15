@@ -8,7 +8,7 @@ class absensi extends CI_Controller {
         if(!isset($_SESSION['level'])){
             redirect(base_url('auth'));
         } 
-        if($_SESSION['level'] > 2){
+        if($_SESSION['level'] > 3){
             redirect(base_url('dashboard'));
         }
         $this->load->model('karyawan_model','karyawan');
